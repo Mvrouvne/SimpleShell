@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/06 11:58:36 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:59:32 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ typedef struct  token
 void	ft_lstadd_back(token_t **lst, token_t *new);
 token_t	*ft_lstlast(token_t *lst);
 token_t	*ft_lstnew(char *data);
+size_t	ft_strlen(const char *str);
 
 # endif
