@@ -6,13 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/06 23:01:40 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:21:34 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	lexing3(char *line, token_t **lst, int *x)
+int	lexing3(char *line, t_token **lst, int *x)
 {
 	char	*str;
 
@@ -27,7 +27,23 @@ int	lexing3(char *line, token_t **lst, int *x)
 	return (0);
 }
 
-int	lexing2(char *line, token_t **lst, int *x)
+// int gety_type(t_token *token)
+// {
+// 	t_token tmp;
+
+// 	while(tmp)
+// 	{
+// 		if(strcmp(tmp.data, "<"))
+// 			tmp.type = INPUT;
+// 		if(strcmp(tmp.data, ">"))
+// 			tmp.type = TRUNC;
+// 		if(strcmp(tmp.data, "<") && tmp.next)
+// 			tmp.next = INPUT;
+// 		tmp = tmp.next;
+// 	}
+// }
+
+int	lexing2(char *line, t_token **lst, int *x)
 {
 	char	*str;
 	int		y;
@@ -36,16 +52,16 @@ int	lexing2(char *line, token_t **lst, int *x)
 	while (line[y])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|') 
+			|| line[*x] == '|' || line[*x] == ' ')
 			break ;
 		y++;
 	}
-	str = malloc(sizeof(char) * (y + 1));
+	str = malloc(sizeof(char) * (y));
 	y = 0;
 	while (line[*x])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|') 
+			|| line[*x] == '|' || line[*x] == ' ') 
 			break ;
 		str[y] = line[*x];
 		y++;
@@ -56,14 +72,14 @@ int	lexing2(char *line, token_t **lst, int *x)
 	return (0);
 }
 
-int	lexing(char *line, token_t **lst, int *x)
+int	lexing(char *line, t_token **lst, int *x)
 {
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
 	if (line[*x] == '<' && line[*x + 1] == '<')
 	{
 		ft_lstadd_back(lst, ft_lstnew("<<"));
-		(*x)++;
+		(*x) += 2;
 	}
 	else if (line[*x] == '<')
 	{
@@ -80,10 +96,11 @@ int	lexing(char *line, token_t **lst, int *x)
 	return (0);
 }
 
+
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	token_t	*lst;
+	t_token	*lst;
 	int		x;
 	(void) env;
 	(void) av;

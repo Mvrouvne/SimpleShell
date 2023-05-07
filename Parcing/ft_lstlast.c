@@ -6,13 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 11:28:55 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/06 12:06:07 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:14:14 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-token_t	*ft_lstlast(token_t *lst)
+t_token	*ft_lstlast(t_token *lst)
 {
 	if (!lst)
 		return (lst);
