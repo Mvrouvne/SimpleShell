@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/07 16:17:39 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/07 23:13:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ enum e_definitions
 {
 	CMD = 0,
 	INPUT = 1,
-	OUTPUT = 3,
-	L_OP = 4,
-	R_OP = 5,
-	APPEND = 6,
-	HERDOC = 7,
-	PIPE = 8,
+	OUTPUT = 2,
+	L_OP = 3,
+	R_OP = 4,
+	APPEND = 5,
+	HERDOC = 6,
+	PIPE = 7,
+	ARG = 8,
 };
 
 typedef struct  s_token

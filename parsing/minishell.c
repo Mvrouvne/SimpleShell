@@ -6,45 +6,49 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/07 19:55:14 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/07 23:14:15 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	lexing4(t_token	**lst)
-// {
-// 	t_token	*temp;
+int	lexing4(t_token	**lst)
+{
+	t_token	*temp;
 
-// 	temp = *lst;
-// 	// while (temp)
-// 	// {
-// 			// printf("temp = %s\n", temp->data);
-// 		if (!(ft_strncmp(temp->data, "<", 1)))
-// 		{
-// 			while (*lst)
-// 			{
-// 			printf("HEEEREEE\n");
-// 				if (temp->data == (*lst)->data)
-// 					(*lst)->type = L_OP;
-// 				*lst = (*lst)->next;
-// 			}
-// 		}
-// 		// else if ()
-// 	// }
-// 	return (0);
-// }
+	temp = *lst;
+	while (temp)
+	{
+		if (!(ft_strncmp(temp->data, "<", 1)))
+			temp->type = L_OP;
+		if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
+			temp->next->type = INPUT;
+		if (!(ft_strncmp(temp->data, "|", 1)))
+			temp->type = PIPE;
+		// if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
+		// 	temp->next->type = CMD;
+		if (!(ft_strncmp(temp->data, "<<", 2)))
+			temp->type = HERDOC;
+		if (!(ft_strncmp(temp->data, ">>", 2)))
+			temp->type = APPEND;
+		temp = temp->next;
+		// else if ()
+	}
+	return (0);
+}
 
 int	lexing3(char *line, t_token **lst, int *x)
 {
 	char	*str;
 
-	while (line[*x] == ' ' || line[*x] == '\t')
-		(*x)++;
+	// while (line[*x] == ' ' || line[*x] == '\t')
+	// 	(*x)++;
 	if ((line[*x] == '<' && line[*x + 1] == '<')
 		|| (line[*x] == '>' && line[*x + 1] == '>'))
 	{
-		str = malloc(sizeof(char) + 2);
+		str = malloc(sizeof(char) * 3);
+		if (!str)
+			exit (1);
 		str[0] = line[*x];
 		str[1] = line[*x + 1];
 		str[2] = '\0';
@@ -54,6 +58,8 @@ int	lexing3(char *line, t_token **lst, int *x)
 	else if (line[*x] == '<' || line[*x] == '>' || line[*x] == '|')
 	{
 		str = malloc(sizeof(char) + 1);
+		if (!str)
+			exit (1);
 		str[0] = line[*x];
 		str[1] = '\0';
 		ft_lstadd_back(lst, ft_lstnew(str));
@@ -138,18 +144,18 @@ int	main(int ac, char **av, char **env)
 	lst = NULL;
 	while(1)
 	{
+		x = 0;
 		line = readline("minishell:$> ");
 		if (!line)
 			break ;
-		// printf("line = %s\n", line);
 		lexing(line, &lst, &x);
-		// lexing4(&lst);
+		lexing4(&lst);
 	}
 	write(1, "\n", 1);
-	// while (lst)
-	// {
+	while (lst)
+	{
 		printf("lst = %s\n", lst->data);
+		printf("type = %d\n", lst->type);
 		lst = lst->next;
-		// printf("type = %d\n", ls`t->type);
-	// }
+	}
 }
