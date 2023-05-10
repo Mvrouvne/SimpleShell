@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/08 19:03:19 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:24:37 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	lexing4(t_token	**lst)
 	temp = *lst;
 	while (temp)
 	{
-		if (!(ft_strncmp(temp->data, "<", 1)))
+		if (!(ft_strncmp(temp->data, "< ", 2)))
 			temp->type = L_OP;
-		if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
+		if (temp->next && (!(ft_strncmp(temp->data, "< ", 2))))
 			temp->next->type = INPUT;
 		if (!(ft_strncmp(temp->data, ">", 1)))
 			temp->type = R_OP;
-		if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
+		if (temp->next && (!(ft_strncmp(temp->data, "> ", 2))))
 			temp->next->type = OUTPUT;
 		if (!(ft_strncmp(temp->data, "|", 1)))
 			temp->type = PIPE;
@@ -35,8 +35,9 @@ int	lexing4(t_token	**lst)
 			temp->type = HERDOC;
 		if (!(ft_strncmp(temp->data, ">>", 2)))
 			temp->type = APPEND;
+		if (temp->next && (!(ft_strncmp(temp->next->data, "-", 1))))
+			temp->next->type = ARG;
 		temp = temp->next;
-		// else if ()
 	}
 	return (0);
 }
