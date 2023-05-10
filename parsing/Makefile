@@ -6,7 +6,7 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 21:04:40 by machaiba          #+#    #+#              #
-#    Updated: 2023/05/09 15:33:24 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/10 19:12:57 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ SRCS = minishell.c\
 		ft_lstnew.c\
 		ft_lstlast.c\
 		ft_strncmp.c\
+		ft_substr.c\
+		ft_strdup.c\
+		ft_strlen.c\
 
 OBJS = $(SRCS:.c=.o)
 

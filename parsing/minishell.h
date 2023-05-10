@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/09 16:10:35 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:04:13 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ enum e_definitions
 	L_OP = 3,
 	R_OP = 4,
 	APPEND = 5,
-	HERDOC = 6,
+	HEREDOC = 6,
 	PIPE = 7,
 	ARG = 8,
+	DELIMITER = 9,
 };
 
 typedef struct  s_token
@@ -53,5 +54,7 @@ t_token	*ft_lstlast(t_token *lst);
 t_token	*ft_lstnew(char *data);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_substr(char const *str, unsigned int start, size_t len);
+char	*ft_strdup(const char *s1);
 
 # endif

@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/09 18:24:37 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:07:28 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,28 @@ int	lexing4(t_token	**lst)
 	temp = *lst;
 	while (temp)
 	{
-		if (!(ft_strncmp(temp->data, "< ", 2)))
+		if (!(ft_strncmp(temp->data, "<", 1)))
 			temp->type = L_OP;
-		if (temp->next && (!(ft_strncmp(temp->data, "< ", 2))))
+		if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
 			temp->next->type = INPUT;
 		if (!(ft_strncmp(temp->data, ">", 1)))
 			temp->type = R_OP;
-		if (temp->next && (!(ft_strncmp(temp->data, "> ", 2))))
+		if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
 			temp->next->type = OUTPUT;
 		if (!(ft_strncmp(temp->data, "|", 1)))
 			temp->type = PIPE;
 		if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
 			temp->next->type = CMD;
 		if (!(ft_strncmp(temp->data, "<<", 2)))
-			temp->type = HERDOC;
+			temp->type = HEREDOC;
+		if (temp->next && (!(ft_strncmp(temp->data, "<<", 2))))
+			temp->next->type = DELIMITER;
 		if (!(ft_strncmp(temp->data, ">>", 2)))
 			temp->type = APPEND;
 		if (temp->next && (!(ft_strncmp(temp->next->data, "-", 1))))
 			temp->next->type = ARG;
+		// if (!(ft_strncmp(temp->data, '"', 1)))
+		// 	temp
 		temp = temp->next;
 	}
 	return (0);
@@ -46,8 +50,6 @@ int	lexing3(char *line, t_token **lst, int *x)
 {
 	char	*str;
 
-	// while (line[*x] == ' ' || line[*x] == '\t')
-	// 	(*x)++;
 	if ((line[*x] == '<' && line[*x + 1] == '<')
 		|| (line[*x] == '>' && line[*x + 1] == '>'))
 	{
@@ -82,7 +84,8 @@ int	lexing2(char *line, t_token **lst, int *x)
 	while (line[y])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|' || line[*x] == ' ')
+			|| line[*x] == '|' || line[*x] == ' '
+			|| line[*x] == '"' || line[*x] == '\'')
 			break ;
 		y++;
 	}
@@ -96,7 +99,8 @@ int	lexing2(char *line, t_token **lst, int *x)
 	while (line[*x])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|' || line[*x] == ' ')
+			|| line[*x] == '|' || line[*x] == ' '
+			|| line[*x] == '"' || line[*x] == '\'')
 			break ;
 		str[y] = line[*x];
 		y++;
@@ -112,6 +116,10 @@ int	lexing2(char *line, t_token **lst, int *x)
 
 int	lexing(char *line, t_token **lst, int *x)
 {
+	char	*str;
+	int		y;
+	int		tmp;
+
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
 	if (line[*x] == '<' && line[*x + 1] == '<')
@@ -128,9 +136,31 @@ int	lexing(char *line, t_token **lst, int *x)
 	{
 		while (line[*x] == ' ' || line[*x] == '\t')
 			(*x)++;
+		if (line[*x] == '"' || line[*x] == '\'')
+		{
+			(*x)++;
+			tmp = *x;
+			while (line[*x] != '"' && line[*x] != '\'')
+			{
+				y++;
+				(*x)++;
+			}
+			*x = tmp;
+			str = malloc(sizeof(char) * (y + 1));
+			y = 0;
+			while (line[*x] != '"' && line[*x] != '\'')
+			{
+				str[y] = line[*x];
+				y++;
+				(*x)++;
+			}
+			(*x)++;
+			ft_lstadd_back(lst, ft_lstnew(str));
+		}
 		lexing2(line, lst, x);
 		lexing3(line, lst, x);
 	}
+	lexing4(lst);
 	return (0);
 }
 
@@ -154,7 +184,6 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			break ;
 		lexing(line, &lst, &x);
-		lexing4(&lst);
 	}
 	write(1, "\n", 1);
 	while (lst)
