@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/11 15:26:42 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:10:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct  s_token
 
 typedef struct s_args
 {
+	char	*data;
     char	**args;
     int		infile;
     int		outfile;
@@ -52,10 +53,11 @@ typedef struct s_args
 
 void	ft_lstadd_back(t_token **lst, t_token *new);
 t_token	*ft_lstlast(t_token *lst);
-t_token	*ft_lstnew(char *data);
+void	*ft_lstnew(char *data);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_substr(char const *str, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
+void	ft_lstadd_back2(t_args **lst, t_args *new);
+t_args	*ft_lstlast2(t_args *lst);
 
 # endif
