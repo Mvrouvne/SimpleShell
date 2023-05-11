@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/05 11:28:58 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/11 07:16:35 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct  s_data
 
 char    *ft_strcpy(char *dest, char *src);
 t_list  *get_env(char **env);
+void ft_lstadd_front(t_list **lst, t_list *new);
 
 t_data g_data;
 

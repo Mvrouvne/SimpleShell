@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/07 12:51:00 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/11 08:40:40 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,48 +55,59 @@
 // 	if (flag == 0)
 // 		write(1, "\n", 1);
 // }
-// void	echo(char **p)
-// {
-// 	int	i;
-// 	int	x;
-// 	int	y;
-	
-// 	i = 1;
-// 	while(p[i]) //count how much args i have
-// 		i++;
-// 	y = i;
-// 	i = 1;
-// 	while (p[i])
-// 	{
-// 		printf("=== %s\n", p[i]);
-// 		x = 2;
-// 		while (!ft_strncmp(p[i], "-n", ft_strlen("-n")) && y > 2)
-// 		{
-// 			x = 2;
-// 			while (p[i][x])
-// 			{
-// 				if (p[i][x] != 'n')
-// 				{
-// 					printf("%s ", p[i]);
-// 					break ;
-// 				}
-// 				x++;
-// 			}
-// 			i++;
-// 		}
-// 		printf ("%s ", p[i]);
-// 		i++;
-// 	}
-// 	if (ft_strncmp(p[1], "-n", ft_strlen("-n"))) 
-// 		printf("\n");
-// }
 
-void	cd(char **p)
+int	check_n(char *str)
+{
+	int	i;
+
+	if (str[0] == '-' && str[1] == 'n')
+	{
+		i = 2;
+		while (str[i])
+		{
+			if (str[i] != 'n')
+				return (1);
+			i++;
+		}
+		return (0);
+	}
+	return (2);
+}
+
+void	echo(char **p)
+{
+	int	i;
+
+	i = 1;
+	if (p[i] == NULL)
+		return ;
+	while (p[i])
+	{
+		if (check_n(p[i]) == 0 && i > 1 && check_n(p[i - 1]) != 0)
+			printf("%s ", p[i]);
+		else if (check_n(p[i]) == 1)
+			printf("%s ", p[i]);
+		else if (check_n(p[i]) == 2)
+			printf("%s ", p[i]);
+		i++;
+	}
+	if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
+		printf("\n");
+}
+
+int	cd(char **p)
 {
 	if (!ft_strcmp(p[1], "~"))
+	{
 		chdir(getenv("HOME"));
+		return (1);
+	}
 	else if (chdir(p[1]))
+	{
 		perror("minishell: cd");
+		return (0);
+	}
+	return (1);
 }
 
 void	unset(t_list **head, char *key)
@@ -122,11 +133,26 @@ void	unset(t_list **head, char *key)
 	free (cur);
 }
 
+void	add_OldPwd(t_list **saving_env, char *old_pwd)
+{
+	t_list	*new;
+	(void) saving_env;
+	char	str[8] = "OLDPWD=";
+	int		i;
+	char	*new_str;
+	
+	i = ft_strlen(old_pwd) + ft_strlen(str) + 1;
+	new = (t_list *)malloc(sizeof(t_list));
+	new_str = ft_strjoin(str, old_pwd);
+	new->value = new_str;
+	new->next = NULL;
+	// ft_lstadd_front(saving_env, new);
+}
+
 int main(int ac, char **av, char **env)
 {
 	(void)	ac;
 	(void)	av;
-	(void)	env;
     char	*line;
     char	**p;
 	t_list	*saving_env;
@@ -139,11 +165,12 @@ int main(int ac, char **av, char **env)
     while (1)
     {
         line = readline("minishell$ ");
+		add_history(line);
 		if (!line)
 			exit (1);
 		p = ft_split(line, ' ');
-		// if (!ft_strcmp(p[0], "echo"))
-		// 	ft_echo(p);
+		if (!ft_strcmp(p[0], "echo"))
+			echo(p);
 		 if (!ft_strcmp(p[0], "pwd"))
 		{
 			char filename[256];
@@ -163,7 +190,12 @@ int main(int ac, char **av, char **env)
 			saving_env = tmp;
 		}
 		else if (!ft_strcmp(p[0], "cd"))
-			cd(p);
+		{
+			char old_pwd[256];
+			getcwd(old_pwd, 256);
+			if (cd(p) == 1)
+				add_OldPwd(&saving_env, old_pwd);
+		}
 		else if (!ft_strcmp(p[0], "unset"))
 		{
 			unset(&saving_env, p[1]);
