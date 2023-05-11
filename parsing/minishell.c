@@ -6,11 +6,93 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/10 23:07:28 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:08:08 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	split_args(t_token **lst, t_args *args)
+{
+	t_token	*temp;
+	// char	*str;
+	int		x;
+	int		y;
+	int		z;
+
+	x = 0;
+	y = 0;
+	z = 0;
+	temp = *lst;
+	printf("HEEEEREEE\n");
+	while (temp)
+	{
+		if (temp->type == INPUT)
+		{
+			args->infile = open(temp->next->data, O_RDWR);
+			if (args->infile == -1)
+			{
+				write(2, "Error\n", 7);
+				exit(1);
+			}
+			temp = temp->next;
+		}
+		else if (temp->type == OUTPUT)
+		{
+			args->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_TRUNC, 0777);
+			if (args->outfile == -1)
+			{
+				write(2, "Error\n", 7);
+				exit(1);
+			}
+			temp = temp->next;
+		}
+		else if (temp->type == APPEND)
+		{
+			args->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_APPEND, 0777);
+			if (args->outfile == -1)
+			{
+				write(2, "Error\n", 7);
+				exit(1);
+			}
+			temp = temp->next;
+		}
+		else if (temp->type == CMD)
+		{
+			printf("HEEEEREEE\n");
+			args->args[y] = malloc(sizeof(char) * ft_strlen(temp->data) + 1);
+			x = 0;
+			while (temp->data[x])
+			{
+				args->args[y][x] = temp->data[x];
+				x++;
+			}
+			args->args[y][x] = '\0';
+			y++;
+		}
+		temp = temp->next;
+	}
+	// while(line[x])
+	// {
+	// 	if (line[x] == '|')
+	// 	{
+	// 		str = malloc(sizeof(char) * (y + 1));
+	// 		x = 0;
+	// 		y = 0;
+	// 		while (line[x] != '|')
+	// 		{
+	// 			str[y] = line[x];
+	// 			y++;
+	// 			x++;
+	// 		}
+	// 		ft_lstadd_back(args, ft_lstnew((*args)->args[z]));
+	// 	}
+	// 	else if (line[x] == )
+	// 	x++;
+	// 	y++;
+	// }
+	return (0);
+}
 
 int	lexing4(t_token	**lst)
 {
@@ -20,27 +102,29 @@ int	lexing4(t_token	**lst)
 	while (temp)
 	{
 		if (!(ft_strncmp(temp->data, "<", 1)))
-			temp->type = L_OP;
-		if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
-			temp->next->type = INPUT;
+			temp->type = INPUT;
+		// if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
+		// 	temp->next->type = INPUT;
 		if (!(ft_strncmp(temp->data, ">", 1)))
-			temp->type = R_OP;
-		if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
-			temp->next->type = OUTPUT;
+			temp->type = OUTPUT;
+		// if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
+		// 	temp->next->type = OUTPUT;
 		if (!(ft_strncmp(temp->data, "|", 1)))
 			temp->type = PIPE;
 		if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
 			temp->next->type = CMD;
+		if (temp->next && (!(ft_strncmp(temp->next->data, "|", 1))))
+			temp->type = CMD;
 		if (!(ft_strncmp(temp->data, "<<", 2)))
 			temp->type = HEREDOC;
 		if (temp->next && (!(ft_strncmp(temp->data, "<<", 2))))
 			temp->next->type = DELIMITER;
-		if (!(ft_strncmp(temp->data, ">>", 2)))
-			temp->type = APPEND;
-		if (temp->next && (!(ft_strncmp(temp->next->data, "-", 1))))
-			temp->next->type = ARG;
-		// if (!(ft_strncmp(temp->data, '"', 1)))
-		// 	temp
+		// if (!(ft_strncmp(temp->data, ">>", 2)))
+		// 	temp->type = APPEND;
+		if (temp->next && (!(ft_strncmp(temp->data, ">>", 2))))
+			temp->next->type = APPEND;
+		// if (temp->next && (!(ft_strncmp(temp->next->data, "-", 1))))
+		// 	temp->next->type = ARG;
 		temp = temp->next;
 	}
 	return (0);
@@ -168,6 +252,7 @@ int	main(int ac, char **av, char **env)
 {
 	char	*line;
 	t_token	*lst;
+	t_args	*args;
 	int		x;
 	(void) env;
 	(void) av;
@@ -177,19 +262,30 @@ int	main(int ac, char **av, char **env)
 	// int	y = 0;
 	x = 0;
 	lst = NULL;
+	args = malloc(sizeof(t_token));
 	while(1)
 	{
 		x = 0;
 		line = readline("minishell:$> ");
+		add_history(line);
 		if (!line)
 			break ;
 		lexing(line, &lst, &x);
+		split_args(&lst, args);
 	}
 	write(1, "\n", 1);
-	while (lst)
-	{
-		printf("lst = %s\n", lst->data);
-		printf("type = %d\n", lst->type);
-		lst = lst->next;
-	}
+	// while (lst)
+	// {
+	// 	printf("lst = %s\n", lst->data);
+	// 	printf("type = %d\n", lst->type);
+	// 	lst = lst->next;
+	// }
+	// while (args)
+	// {
+	// 	printf("args = %s\n", args->data);
+	// 	args = args->next;
+	// }
+	int	t = 0;
+	while (args->args[t])
+		printf("args = %s\n", args->args[t++]);
 }

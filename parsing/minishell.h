@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/10 23:04:13 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:26:42 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -41,13 +42,13 @@ typedef struct  s_token
 	struct s_token	*next;
 }   t_token;
 
-// typedef struct s_data
-// {
-//     char **args;
-//     int in_file;
-//     int outfile;
-//     struct s_data *next;
-// }   t_data;
+typedef struct s_args
+{
+    char	**args;
+    int		infile;
+    int		outfile;
+    struct s_args *next;
+}   t_args;
 
 void	ft_lstadd_back(t_token **lst, t_token *new);
 t_token	*ft_lstlast(t_token *lst);
