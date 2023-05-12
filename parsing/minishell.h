@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/11 23:10:10 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:57:45 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ enum e_definitions
 typedef struct  s_token
 {
 	int				type;
-	char*			data;
+	char			*data;
 	struct s_token	*next;
 }   t_token;
 
 typedef struct s_args
 {
-	char	*data;
+	// char	*data;
     char	**args;
     int		infile;
     int		outfile;
@@ -52,12 +52,13 @@ typedef struct s_args
 }   t_args;
 
 void	ft_lstadd_back(t_token **lst, t_token *new);
+void	ft_lstadd_back2(t_args **lst, t_args *new);
 t_token	*ft_lstlast(t_token *lst);
-void	*ft_lstnew(char *data);
+t_token	*ft_lstnew(char *data);
+t_args	*ft_lstnew2(char *data);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
-void	ft_lstadd_back2(t_args **lst, t_args *new);
 t_args	*ft_lstlast2(t_args *lst);
 
 # endif

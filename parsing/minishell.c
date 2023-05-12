@@ -6,24 +6,28 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/11 23:10:30 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/12 18:50:09 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	split_list(t_token **lst, t_args **args)
+int	split_list(t_token **lst, t_args **args, int in, int out)
 {
 	t_token	*temp;
 	char 	*str;
 
 	temp = *lst;
+	if (!in)
+		(*args)->infile = 0;
+	if (!out)
+		(*args)->outfile = 0;
 	while (temp)
 	{
-		if (temp->data[0] != '|')
+		if (temp->data != PIPE)
 		{
 			str = ft_strdup(temp->data);
-			ft_lstadd_back2(args, ft_lstnew(str));
+			ft_lstadd_back2(args, ft_lstnew2(str));
 			free (str);
 		}
 		temp = temp->next;
@@ -34,20 +38,20 @@ int	split_list(t_token **lst, t_args **args)
 int	split_args(t_token **lst, t_args **args)
 {
 	t_token	*temp;
-	// char	*str;
-	int		x;
 	int		y;
-	int		z;
+	int		in;
+	int		out;
 
-	x = 0;
 	y = 0;
-	z = 0;
+	in = 0;
+	out = 0;
 	temp = *lst;
 	(*args)->args = malloc(sizeof(char *));
 	while (temp)
 	{
-		if (temp->type == INPUT)
+		if (temp->next && temp->type == INPUT)
 		{
+			in = 1;
 			(*args)->infile = open(temp->next->data, O_RDWR);
 			if ((*args)->infile == -1)
 			{
@@ -56,18 +60,20 @@ int	split_args(t_token **lst, t_args **args)
 			}
 			temp = temp->next;
 		}
-		else if (temp->type == OUTPUT)
+		else if (temp->next && temp->type == OUTPUT)
 		{
+			out = 1;
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_TRUNC, 0777);
 			if ((*args)->outfile == -1)
 			{
-				write(2, "Error\n", 7);
+				write(2, "Error1\n", 7);
 				exit(1);
 			}
 			temp = temp->next;
 		}
-		else if (temp->type == APPEND)
+		else if (temp->next && temp->type == APPEND)
 		{
+			out = 1;
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_APPEND, 0777);
 			if ((*args)->outfile == -1)
 			{
@@ -78,13 +84,16 @@ int	split_args(t_token **lst, t_args **args)
 		}
 		else if (temp->type == CMD)
 		{
-			(*args)->args[y] = ft_strdup(temp->data);
-			printf("args = %s\n", (*args)->args[y]);
+			while(temp->type != PIPE)
+			{
+				(*args)->args[y] = ft_strdup(temp->data);
+				printf("args = %s\n", (*args)->args[y]);
+			}
 			y++;
 		}
 		temp = temp->next;
 	}
-	// split_list(lst, args);
+	split_list(lst, args, in, out);
 	return (0);
 }
 
