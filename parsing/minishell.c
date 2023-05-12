@@ -6,38 +6,17 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/12 18:50:09 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/12 22:43:20 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	split_list(t_token **lst, t_args **args, int in, int out)
-{
-	t_token	*temp;
-	char 	*str;
-
-	temp = *lst;
-	if (!in)
-		(*args)->infile = 0;
-	if (!out)
-		(*args)->outfile = 0;
-	while (temp)
-	{
-		if (temp->data != PIPE)
-		{
-			str = ft_strdup(temp->data);
-			ft_lstadd_back2(args, ft_lstnew2(str));
-			free (str);
-		}
-		temp = temp->next;
-	}
-	return (0);
-}
 
 int	split_args(t_token **lst, t_args **args)
 {
 	t_token	*temp;
+	t_args	*temp2;
 	int		y;
 	int		in;
 	int		out;
@@ -46,6 +25,7 @@ int	split_args(t_token **lst, t_args **args)
 	in = 0;
 	out = 0;
 	temp = *lst;
+	temp2 = *args;
 	(*args)->args = malloc(sizeof(char *));
 	while (temp)
 	{
@@ -84,16 +64,15 @@ int	split_args(t_token **lst, t_args **args)
 		}
 		else if (temp->type == CMD)
 		{
-			while(temp->type != PIPE)
-			{
-				(*args)->args[y] = ft_strdup(temp->data);
-				printf("args = %s\n", (*args)->args[y]);
-			}
+			if (temp->type == PIPE)
+				temp2 = temp2->next;
+			temp2->args[y] = ft_strdup(temp->data);
+			// printf("args = %s\n", (temp2->args[y]));
 			y++;
 		}
+		temp2->args[y] = NULL;
 		temp = temp->next;
 	}
-	split_list(lst, args, in, out);
 	return (0);
 }
 
@@ -283,11 +262,15 @@ int	main(int ac, char **av, char **env)
 	// 	printf("type = %d\n", lst->type);
 	// 	lst = lst->next;
 	// }
+	int t = 0;
 	while (args)
 	{
-		printf("args = %s\n", args->data);
+		t = 0;
+		while (t < 3)
+			printf("args = %s\n", args->args[t++]);
+		printf("****************\n");
+		printf("infile = %d\n", args->infile);
+		printf("outfile = %d\n", args->outfile);
 		args = args->next;
 	}
-	printf("infile = %d\n", args->infile);
-	printf("outfile = %d\n", args->outfile);
 }

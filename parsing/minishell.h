@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/12 16:57:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:40:50 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstadd_back2(t_args **lst, t_args *new);
 t_token	*ft_lstlast(t_token *lst);
 t_token	*ft_lstnew(char *data);
-t_args	*ft_lstnew2(char *data);
+t_args	*ft_lstnew2(void);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
 t_args	*ft_lstlast2(t_args *lst);
+int	create_list(t_args **args, t_token **token);
 
 # endif
