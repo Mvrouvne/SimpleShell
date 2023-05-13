@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 11:26:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/11 23:07:53 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/13 13:12:05 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	ft_lstadd_back2(t_args **lst, t_args *new)
 	if (*lst == NULL)
 		*lst = new;
 	else
+	{
 		ft_lstlast2(*lst)->next = new;
+	}
 }
 
 void	ft_lstadd_back(t_token **lst, t_token *new)

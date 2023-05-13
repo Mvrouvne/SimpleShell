@@ -1,16 +1,19 @@
 #include "minishell.h"
 
-int	create_list(t_args **args, t_token **token)
+int	create_list(t_args **args, t_token *token)
 {
-	t_token *temp;
+	int	x;
 
-	temp = *token;
-	ft_lstadd_back2(args, ft_lstnew3());
-	while (temp)
+	x = 1;
+	ft_lstadd_back2(args, ft_lstnew2());
+	while (token)
 	{
-		if (temp->type == PIPE)
+		if (token->type == PIPE)
+		{
 			ft_lstadd_back2(args, ft_lstnew2());
-		temp = temp->next;
+			x++;
+		}
+		token = token->next;
 	}
-	return (0);
+	return (x);
 }

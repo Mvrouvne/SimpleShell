@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/12 22:43:20 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:33:17 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,45 @@ int	split_args(t_token **lst, t_args **args)
 {
 	t_token	*temp;
 	t_args	*temp2;
+	int		x;
 	int		y;
 	int		in;
 	int		out;
 
 	y = 0;
 	in = 0;
-	out = 0;
+	out = 1;
 	temp = *lst;
+	x = create_list(args, *lst);
 	temp2 = *args;
-	(*args)->args = malloc(sizeof(char *));
-	while (temp)
+	while (temp && *args)
 	{
+		// (*args)->args = malloc(sizeof(char *) * (x + 1));
 		if (temp->next && temp->type == INPUT)
 		{
 			in = 1;
 			(*args)->infile = open(temp->next->data, O_RDWR);
 			if ((*args)->infile == -1)
 			{
-				write(2, "Error\n", 7);
+				write(2, "Error1\n", 7);
 				exit(1);
 			}
 			temp = temp->next;
 		}
 		else if (temp->next && temp->type == OUTPUT)
 		{
-			out = 1;
+			out = 2;
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_TRUNC, 0777);
 			if ((*args)->outfile == -1)
 			{
-				write(2, "Error1\n", 7);
+				write(2, "Error2\n", 7);
 				exit(1);
 			}
 			temp = temp->next;
 		}
 		else if (temp->next && temp->type == APPEND)
 		{
-			out = 1;
+			out = 2;
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_APPEND, 0777);
 			if ((*args)->outfile == -1)
 			{
@@ -62,17 +64,28 @@ int	split_args(t_token **lst, t_args **args)
 			}
 			temp = temp->next;
 		}
-		else if (temp->type == CMD)
+		else if (temp->type == CMD || temp->type == PIPE)
 		{
 			if (temp->type == PIPE)
-				temp2 = temp2->next;
-			temp2->args[y] = ft_strdup(temp->data);
-			// printf("args = %s\n", (temp2->args[y]));
-			y++;
+			{
+				(*args)->arr[y] = NULL;
+				y = 0;
+				*args = (*args)->next;
+			}
+			else
+			{
+				(*args)->arr[y] = ft_strdup(temp->data);
+				// (*args)->args[y] = ft_strdup(temp->data);
+				y++;
+			}
 		}
-		temp2->args[y] = NULL;
+		(*args)->arr[y] = NULL;
+		// temp2->args[y] = NULL;
 		temp = temp->next;
 	}
+	
+	// (*args)->args[y] = NULL;
+	*args = temp2;
 	return (0);
 }
 
@@ -93,10 +106,10 @@ int	lexing4(t_token	**lst)
 		// 	temp->next->type = OUTPUT;
 		if (!(ft_strncmp(temp->data, "|", 1)))
 			temp->type = PIPE;
-		// if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
-		// 	temp->next->type = CMD;
-		// if (temp->next && (!(ft_strncmp(temp->next->data, "|", 1))))
-		// 	temp->type = CMD;
+		if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
+			temp->next->type = CMD;
+		if (temp->next && (!(ft_strncmp(temp->next->data, "|", 1))))
+			temp->type = CMD;
 		if (!(ft_strncmp(temp->data, "<<", 2)))
 			temp->type = HEREDOC;
 		if (temp->next && (!(ft_strncmp(temp->data, "<<", 2))))
@@ -244,7 +257,9 @@ int	main(int ac, char **av, char **env)
 	// int	y = 0;
 	x = 0;
 	lst = NULL;
-	args = malloc(sizeof(t_token));
+	args = NULL;
+	// args = malloc(sizeof(t_token));
+	// t_args = args;
 	while(1)
 	{
 		x = 0;
@@ -262,15 +277,30 @@ int	main(int ac, char **av, char **env)
 	// 	printf("type = %d\n", lst->type);
 	// 	lst = lst->next;
 	// }
-	int t = 0;
+	// int t = 0;
+	
+	// while (args)
+	// {
+	// 	if (args->args == NULL)
+	// 		printf("NULL");
+	// 	else
+	// 	{
+	// 		if (args->args[0])
+	// 			puts("NOT NULL");
+	// 	}
+	// printf("arr = %s\n", args->arr[1]);
+	// exit(1);
+	int	t = 0;
 	while (args)
 	{
-		t = 0;
-		while (t < 3)
-			printf("args = %s\n", args->args[t++]);
-		printf("****************\n");
-		printf("infile = %d\n", args->infile);
-		printf("outfile = %d\n", args->outfile);
+			// while (t < 2)
+			// 	printf("args = %s\n", args->args[t++]);
+			t = 0;
+			while (t < 2)
+				printf("arr = %s\n", args->arr[t++]);
+			printf("****************\n");
+			// printf("infile = %d\n", args->infile);
+			// printf("outfile = %d\n", args->outfile);
 		args = args->next;
 	}
 }
