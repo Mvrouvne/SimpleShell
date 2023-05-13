@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/11 08:40:40 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:27:19 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,34 @@ void	unset(t_list **head, char *key)
 	free (cur);
 }
 
+
+t_list	*search_OldPwd(t_list *saving_env)
+{
+	t_list	*tmp;
+	
+	tmp = saving_env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->value, "OLDPWD=", 7) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+t_list	*search_Pwd(t_list *saving_env)
+{
+	t_list	*tmp;
+	
+	tmp = saving_env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->value, "PWD=", 4) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
 void	add_OldPwd(t_list **saving_env, char *old_pwd)
 {
 	t_list	*new;
@@ -140,28 +168,54 @@ void	add_OldPwd(t_list **saving_env, char *old_pwd)
 	char	str[8] = "OLDPWD=";
 	int		i;
 	char	*new_str;
+	t_list	*oldpwd_found;
 	
-	i = ft_strlen(old_pwd) + ft_strlen(str) + 1;
-	new = (t_list *)malloc(sizeof(t_list));
-	new_str = ft_strjoin(str, old_pwd);
-	new->value = new_str;
-	new->next = NULL;
-	// ft_lstadd_front(saving_env, new);
+	oldpwd_found = search_OldPwd(*saving_env);
+	if (oldpwd_found != NULL)
+		oldpwd_found->value = ft_strjoin("OLDPWD=", old_pwd);
+	else
+	{
+		i = ft_strlen(old_pwd) + ft_strlen(str) + 1;
+		new = (t_list *)malloc(sizeof(t_list));
+		new_str = ft_strjoin(str, old_pwd);
+		new->value = new_str;
+		new->next = NULL;
+		ft_lstadd_front(saving_env, new);
+	}
 }
+void	modify_Pwd(t_list **saving_env, char *new_pwd)
+{
+	t_list	*pwd_found;
+	
+	pwd_found = search_Pwd(*saving_env);
+	pwd_found->value = ft_strjoin("PWD=", new_pwd);
+	
+}
+
+// void	export(char **p, )
+// {
+	
+// }
 
 int main(int ac, char **av, char **env)
 {
-	(void)	ac;
-	(void)	av;
+	(void)av;
+	(void)ac;
+	int		i;
     char	*line;
     char	**p;
 	t_list	*saving_env;
 	t_list	*data;
 	t_list	*tmp;
+	t_list	*tmp1;
+	t_list	*saving_expo;
+	t_list	*saving_expo1;
 
 	data = (t_list *)malloc(sizeof(t_list));
 	saving_env = get_env(env);
-	
+	saving_expo1 = get_env(env); ////////   <----- for export
+	saving_expo = sort_list(&saving_expo1);
+	// printf("im not in while(1)\n");
     while (1)
     {
         line = readline("minishell$ ");
@@ -171,7 +225,7 @@ int main(int ac, char **av, char **env)
 		p = ft_split(line, ' ');
 		if (!ft_strcmp(p[0], "echo"))
 			echo(p);
-		 if (!ft_strcmp(p[0], "pwd"))
+		if (!ft_strcmp(p[0], "pwd"))
 		{
 			char filename[256];
 			getcwd(filename, 256);
@@ -192,13 +246,38 @@ int main(int ac, char **av, char **env)
 		else if (!ft_strcmp(p[0], "cd"))
 		{
 			char old_pwd[256];
+			char new_pwd[256];
 			getcwd(old_pwd, 256);
 			if (cd(p) == 1)
-				add_OldPwd(&saving_env, old_pwd);
+			{
+				getcwd(new_pwd, 256);
+				add_OldPwd(&saving_env, old_pwd);							//////////////come back
+				modify_Pwd(&saving_env, new_pwd);
+			}
 		}
 		else if (!ft_strcmp(p[0], "unset"))
 		{
-			unset(&saving_env, p[1]);
+			i = 0;
+			while (p[i])
+			{
+				unset(&saving_env, p[i]);
+				i++;
+			}
+		}
+		else if (!ft_strcmp(p[0], "export"))
+		{
+			if (p[1])
+				saving_expo = export(p, &saving_expo);
+			else
+			{
+				tmp1 = saving_expo;
+				while (saving_expo)
+				{
+					printf("%s\n", saving_expo->value);
+					saving_expo = saving_expo->next;
+				}
+				saving_expo = tmp1;
+			}
 		}
 	}
 }

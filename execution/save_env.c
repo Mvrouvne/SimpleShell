@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:15:10 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/04 17:16:29 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/12 18:20:49 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ t_list *get_env(char **env)
 {
     t_list *head;
     t_list  *temp;
+    int     x;
 
-    head = create_node(*env++);
+    x = 0;
+    head = create_node(env[x]);
+    x = 1;
     temp = head;
-    while(*env)
+    while(env[x])
     {
-        add_node(&head, create_node(*env));
-        env++;
+        add_node(&head, create_node(env[x]));
+        x++;
     }
     head = temp;
     return (head);

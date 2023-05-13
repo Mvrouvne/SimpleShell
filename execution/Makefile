@@ -6,12 +6,13 @@
 #    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/03 12:35:18 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/11 08:08:49 by otitebah         ###   ########.fr        #
+#    Updated: 2023/05/12 15:28:34 by otitebah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c
+FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c
+		
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 INCLUDES = libft/libft.a
