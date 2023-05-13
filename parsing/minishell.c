@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/13 16:33:17 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/13 22:11:47 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ int	split_args(t_token **lst, t_args **args)
 	t_args	*temp2;
 	int		x;
 	int		y;
+	int		z;
 	int		in;
 	int		out;
 
 	y = 0;
+	z = 0;
 	in = 0;
 	out = 1;
 	temp = *lst;
-	x = create_list(args, *lst);
+	create_list(args, *lst);
 	temp2 = *args;
 	while (temp && *args)
 	{
@@ -68,18 +70,39 @@ int	split_args(t_token **lst, t_args **args)
 		{
 			if (temp->type == PIPE)
 			{
-				(*args)->arr[y] = NULL;
 				y = 0;
 				*args = (*args)->next;
+				if (!y)
+				{
+					x = 0;
+					x = args_count(*lst);
+					(*args)->args = malloc(sizeof(char *) * (x + 1));
+					(*args)->args[x] = NULL;
+				}
+				z++;
 			}
 			else
 			{
-				(*args)->arr[y] = ft_strdup(temp->data);
-				// (*args)->args[y] = ft_strdup(temp->data);
+				if (!z)
+				{
+					if (!y)
+					{
+						x = 0;
+						x = args_count(*lst);
+						(*args)->args = malloc(sizeof(char *) * (x + 1));
+						(*args)->args[x] = NULL;
+					}
+				}
+				// (*args)->arr[y] = ft_strdup(temp->data);
+				// printf("data = %s\n", temp->data);
+				// exit (9);
+				(*args)->args[y] = ft_strdup(temp->data);
+				// printf("args = %s\n", (*args)->args[y]);
+				// exit (0);
 				y++;
 			}
 		}
-		(*args)->arr[y] = NULL;
+		// (*args)->arr[y] = NULL;
 		// temp2->args[y] = NULL;
 		temp = temp->next;
 	}
@@ -98,26 +121,28 @@ int	lexing4(t_token	**lst)
 	{
 		if (!(ft_strncmp(temp->data, "<", 1)))
 			temp->type = INPUT;
-		// if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
-		// 	temp->next->type = INPUT;
-		if (!(ft_strncmp(temp->data, ">", 1)))
+		else if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
+			temp->next->type = INPUT;
+		else if (!(ft_strncmp(temp->data, ">", 1)))
 			temp->type = OUTPUT;
-		// if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
-		// 	temp->next->type = OUTPUT;
-		if (!(ft_strncmp(temp->data, "|", 1)))
+		else if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
+			temp->next->type = OUTPUT;
+		else if (!(ft_strncmp(temp->data, "|", 1)))
 			temp->type = PIPE;
-		if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
+		else if (temp->next && (!(ft_strncmp(temp->data, "|", 1))))
 			temp->next->type = CMD;
-		if (temp->next && (!(ft_strncmp(temp->next->data, "|", 1))))
+		else if (temp->next && (!(ft_strncmp(temp->next->data, "|", 1))))
 			temp->type = CMD;
-		if (!(ft_strncmp(temp->data, "<<", 2)))
+		else if (!(ft_strncmp(temp->data, "<<", 2)))
 			temp->type = HEREDOC;
-		if (temp->next && (!(ft_strncmp(temp->data, "<<", 2))))
+		else if (temp->next && (!(ft_strncmp(temp->data, "<<", 2))))
 			temp->next->type = DELIMITER;
-		// if (!(ft_strncmp(temp->data, ">>", 2)))
-		// 	temp->type = APPEND;
-		if (temp->next && (!(ft_strncmp(temp->data, ">>", 2))))
+		else if (!(ft_strncmp(temp->data, ">>", 2)))
+			temp->type = APPEND;
+		else if (temp->next && (!(ft_strncmp(temp->data, ">>", 2))))
 			temp->next->type = APPEND;
+		else
+			temp->type = CMD;
 		// if (temp->next && (!(ft_strncmp(temp->next->data, "-", 1))))
 		// 	temp->next->type = ARG;
 		temp = temp->next;
@@ -293,11 +318,11 @@ int	main(int ac, char **av, char **env)
 	int	t = 0;
 	while (args)
 	{
-			// while (t < 2)
-			// 	printf("args = %s\n", args->args[t++]);
+			while (args->args[t])
+				printf("args = %s\n", args->args[t++]);
 			t = 0;
-			while (t < 2)
-				printf("arr = %s\n", args->arr[t++]);
+			// while (t < 2)
+			// 	printf("arr = %s\n", args->arr[t++]);
 			printf("****************\n");
 			// printf("infile = %d\n", args->infile);
 			// printf("outfile = %d\n", args->outfile);

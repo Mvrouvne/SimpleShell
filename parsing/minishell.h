@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/13 15:42:57 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/13 20:28:59 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
 t_args	*ft_lstlast2(t_args *lst);
 int	create_list(t_args **args, t_token *token);
+int	args_count(t_token *lst);
 
 # endif
