@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   check_in_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 15:28:30 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 15:28:31 by machaiba         ###   ########.fr       */
+/*   Created: 2023/05/14 15:28:35 by machaiba          #+#    #+#             */
+/*   Updated: 2023/05/14 16:16:27 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_list(t_args **args, t_token *token)
+void	check_in_out(t_args *args, int in, int out)
 {
-	ft_lstadd_back2(args, ft_lstnew2());
-	while (token)
-	{
-		if (token->type == PIPE)
-			ft_lstadd_back2(args, ft_lstnew2());
-		token = token->next;
-	}
-	return (0);
+	if (!in)
+		args->infile = 0;
+	if (!out)
+		args->outfile = 1;
 }

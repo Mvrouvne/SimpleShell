@@ -6,7 +6,7 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 21:04:40 by machaiba          #+#    #+#              #
-#    Updated: 2023/05/13 20:28:40 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/14 15:32:45 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS = minishell.c\
 		ft_strlen.c\
 		create_list.c\
 		args_count.c\
+		check_in_out.c\
 
 OBJS = $(SRCS:.c=.o)
 

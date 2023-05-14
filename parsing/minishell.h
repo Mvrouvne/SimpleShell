@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/13 20:28:59 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/14 19:04:44 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct  s_token
 typedef struct s_args
 {
     char	**args;
-	char *arr[10];
     int		infile;
     int		outfile;
     struct s_args *next;
@@ -60,7 +59,10 @@ size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
 t_args	*ft_lstlast2(t_args *lst);
-int	create_list(t_args **args, t_token *token);
-int	args_count(t_token *lst);
+int		create_list(t_args **args, t_token *token);
+int		args_count(t_token *lst);
+void	check_in_out(t_args *args, int in, int out);
+int		heredoc(char *delimiter);
+char	*get_next_line(int fd);
 
 # endif

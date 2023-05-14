@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 15:28:30 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 15:28:31 by machaiba         ###   ########.fr       */
+/*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
+/*   Updated: 2023/05/14 19:02:55 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_list(t_args **args, t_token *token)
+int	heredoc(char *delimiter)
 {
-	ft_lstadd_back2(args, ft_lstnew2());
-	while (token)
-	{
-		if (token->type == PIPE)
-			ft_lstadd_back2(args, ft_lstnew2());
-		token = token->next;
-	}
-	return (0);
+	
 }
