@@ -6,7 +6,7 @@
 #    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/03 12:35:18 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/12 15:28:34 by otitebah         ###   ########.fr        #
+#    Updated: 2023/05/13 16:11:20 by otitebah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c
 		
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDES = libft/libft.a
 
 OBJ = $(FILES:.c=.o)

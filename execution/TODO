@@ -2,4 +2,5 @@
 ✅ cd    is done 
 ✅ env   is done
 ✅ daba endi mochkil f env fch kanrja3 b loor khass tbedel PWD --->     
-❌ unset is done baqi khass nsayb liha ch7al ma dekhelt d les arg 
+❌ mazal liya TERM_PROGRAM+=walid f export
+il dert chi haja bla value b export makatzadch f env wlkin illa dert b value katzad f env

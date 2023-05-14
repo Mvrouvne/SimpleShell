@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/13 14:31:35 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/14 08:17:47 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_list  *get_env(char **env);
 void ft_lstadd_front(t_list **lst, t_list *new);
 t_list  *sort_list(t_list **saving_expo);
 t_list   *create_node(char *value);
-t_list  *export(char **p, t_list **saving_expo);
+t_list  *export(char *p, t_list **saving_expo);
 
 t_data g_data;
 

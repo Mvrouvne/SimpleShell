@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/13 14:28:36 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/14 08:27:06 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,15 @@ t_list  *sort_list(t_list **saving_expo)
     return (*saving_expo);
 }
 
-t_list  *export(char **p, t_list **saving_expo)
+t_list  *export(char *p, t_list **saving_expo)
 {
-    int     i;
     t_list  *new;
     t_list  *res;
 
-    i = 1;
-    while (p[i])
-    {
-        new = create_node(p[i]);
-        ft_lstadd_front(saving_expo, new);
-        res = sort_list(saving_expo);
-        i++;
-    }
+    new = create_node(p);
+    ft_lstadd_front(saving_expo, new);
+    res = sort_list(saving_expo);
     return (res);
 }
+
+// int	check_plus()

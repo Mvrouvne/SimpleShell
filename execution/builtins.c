@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/13 15:27:19 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/14 08:27:03 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,23 +114,28 @@ void	unset(t_list **head, char *key)
 {
 	t_list	*cur;
 	t_list	*prev;
+	//int result;
 
 	cur = (*head);
 	prev = NULL;
 	
 	//search for the node in my lincked list
-	while(cur != NULL && cur->next != NULL && ft_strncmp(cur->value, key, ft_strlen(key)))
+	while(cur && cur->next != NULL && ft_strncmp(cur->value, key, ft_strlen(key)))
 	{
 		prev = cur;
 		cur = cur->next;
 	}
 	//if the node we re looking for is the first node///that means prev still have NULL value
-	if (prev == NULL)
+	if (prev == NULL && cur )
+	{
 		(*head) = cur->next;
+	}
 	//if the node we re locking for is in the middle or in the end///that means the prev node is before the cur node
-	else
+	else if (cur && prev && ft_strncmp(cur->value, key, ft_strlen(key)) == 0)
+	{
 		prev->next = cur->next;
-	free (cur);
+	}
+	// free (cur);
 }
 
 
@@ -233,16 +238,6 @@ int main(int ac, char **av, char **env)
 		}
 		else if (!ft_strcmp(p[0] , "exit"))
 			exit(0);
-		else if (!ft_strcmp(p[0], "env"))
-		{
-			tmp = saving_env;
-			while (saving_env)
-			{
-				printf("%s\n", saving_env->value);
-				saving_env = saving_env->next;
-			}
-			saving_env = tmp;
-		}
 		else if (!ft_strcmp(p[0], "cd"))
 		{
 			char old_pwd[256];
@@ -253,23 +248,58 @@ int main(int ac, char **av, char **env)
 				getcwd(new_pwd, 256);
 				add_OldPwd(&saving_env, old_pwd);							//////////////come back
 				modify_Pwd(&saving_env, new_pwd);
+				add_OldPwd(&saving_expo, old_pwd);							//////////////come back
+				modify_Pwd(&saving_expo, new_pwd);
 			}
+		}
+		else if (!ft_strcmp(p[0], "env"))
+		{
+			tmp = saving_env;
+			while (saving_env)
+			{
+				printf("%s\n", saving_env->value);
+				saving_env = saving_env->next;
+			}
+			saving_env = tmp;
 		}
 		else if (!ft_strcmp(p[0], "unset"))
 		{
-			i = 0;
+			i = 1;
 			while (p[i])
 			{
+				unset(&saving_expo, p[i]);
 				unset(&saving_env, p[i]);
 				i++;
 			}
 		}
 		else if (!ft_strcmp(p[0], "export"))
 		{
-			if (p[1])
-				saving_expo = export(p, &saving_expo);
+			int x = 0;
+			i = 1;
+			if (p[i])
+			{
+				puts("hani");
+				while (p[i])
+				{
+					x = 0;
+					saving_expo = export(p[i], &saving_expo);
+					while (p[i][x])
+					{
+						// check_plus(p[i], saving_expo);
+						if (p[i][x] == '=' && x > 0)
+						{
+							puts("west mn if");
+							saving_env = export(p[i], &saving_env);
+							break ;
+						}
+						x++;
+					}
+					i++;
+				}
+			}
 			else
 			{
+				puts("ta ach tgol");
 				tmp1 = saving_expo;
 				while (saving_expo)
 				{
