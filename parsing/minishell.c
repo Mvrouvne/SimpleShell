@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 19:01:12 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/14 22:50:06 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int	split_args(t_token **lst, t_args **args)
 			}
 			check_in_out(*args, in, out);
 		}
-		else if (temp->next && temp->type == HEREDOC)
-			
+		else if (temp->type == DELIMITER)
+			heredoc(temp->data);
 		temp = temp->next;
 	}
 	*args = temp2;

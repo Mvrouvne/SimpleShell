@@ -6,12 +6,17 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 19:04:44 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/14 22:26:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef	MINISHELL_H
 # define	MINISHELL_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+
+# endif
 
 # include <unistd.h>
 # include <string.h>
@@ -64,5 +69,8 @@ int		args_count(t_token *lst);
 void	check_in_out(t_args *args, int in, int out);
 int		heredoc(char *delimiter);
 char	*get_next_line(int fd);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(char *str, int c);
+int		ft_strcmp(const char *s1, const char *s2);
 
 # endif
