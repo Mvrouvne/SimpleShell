@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/15 20:00:46 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:11:27 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,6 +289,8 @@ int	main(int ac, char **av, char **env)
 		line = readline("minishell:$> ");
 		if (!line)
 			break ;
+		if (!(ft_strcmp(line, "exit")))
+			exit (0);
 		add_history(line);
 		lexing(line, &lst, &x);
 		split_args(&lst, &args);
