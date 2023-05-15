@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/15 12:52:03 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:00:46 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ int	lexing(char *line, t_token **lst, int *x)
 		{
 			(*x)++;
 			tmp = *x;
-			while (line[*x] != '"' && line[*x] != '\'')
+			while (line[*x] && line[*x] != '"' && line[*x] != '\'')
 			{
 				y++;
 				(*x)++;
@@ -247,7 +247,7 @@ int	lexing(char *line, t_token **lst, int *x)
 			*x = tmp;
 			str = malloc(sizeof(char) * (y + 1));
 			y = 0;
-			while (line[*x] != '"' && line[*x] != '\'')
+			while (line[*x] && line[*x] != '"' && line[*x] != '\'')
 			{
 				str[y] = line[*x];
 				y++;
@@ -255,7 +255,8 @@ int	lexing(char *line, t_token **lst, int *x)
 			}
 			str[y] = '\0';
 			(*x)++;
-			ft_lstadd_back(lst, ft_lstnew(str));
+			if (str[0])
+				ft_lstadd_back(lst, ft_lstnew(str));
 		}
 		lexing2(line, lst, x);
 		lexing3(line, lst, x);
