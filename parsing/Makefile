@@ -6,7 +6,7 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 21:04:40 by machaiba          #+#    #+#              #
-#    Updated: 2023/05/14 22:27:21 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/15 12:42:34 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS = $(SRCS:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-			cc $(CFLAGS) $(OBJS) -o $(NAME) -fsanitize=address -g -ledit
+			cc $(CFLAGS) $(OBJS) -o $(NAME) -ledit
 
 clean :
 		rm -rf $(OBJS)

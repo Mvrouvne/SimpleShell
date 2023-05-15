@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 22:50:06 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:52:03 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ int	split_args(t_token **lst, t_args **args)
 			check_in_out(*args, in, out);
 		}
 		else if (temp->type == DELIMITER)
+		{
 			heredoc(temp->data);
+		}
 		temp = temp->next;
 	}
 	*args = temp2;
@@ -281,6 +283,7 @@ int	main(int ac, char **av, char **env)
 	// t_args = args;
 	while(1)
 	{
+		lst = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
 		if (!line)
@@ -288,6 +291,14 @@ int	main(int ac, char **av, char **env)
 		add_history(line);
 		lexing(line, &lst, &x);
 		split_args(&lst, &args);
+		free (line);
+		// while (lst)
+		// {
+		// 	temp = lst;
+		// 	lst = lst->next;
+		// 	free(temp->data);
+		// 	free(temp);
+		// }
 	}
 	write(1, "\n", 1);
 	int	t = 0;
