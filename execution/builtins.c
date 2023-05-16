@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/16 15:14:48 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:55:17 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,8 @@ int main(int ac, char **av, char **env)
 	data = (t_list *)malloc(sizeof(t_list));
 	saving_env = get_env(env);
 	saving_expo = get_env(env);
-    while (1)
+	char	*find_path;
+	while (1)
     {
         line = readline("minishell$ ");
 		add_history(line);
@@ -289,6 +290,26 @@ int main(int ac, char **av, char **env)
 					saving_expo = tmp1;
 				}
 			}
+		}
+		else
+		{
+			char	**spl_path;
+			char	*command;
+			char	*cmd;
+
+			find_path = search_path(saving_expo, "PATH");
+			// printf("%s\n", find_path);
+			spl_path = ft_split(find_path, ':');
+			cmd = ft_strjoin("/", p[0]);
+			i = 0;
+			while (spl_path[i])
+			{
+				command = ft_strjoin(spl_path[i], cmd);
+				if (access(command, X_OK) != -1)
+					execve(command, &p[0], NULL);
+				i++;
+			}
+			exit(0);
 		}
 	}
 }

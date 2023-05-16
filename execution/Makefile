@@ -6,12 +6,13 @@
 #    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/03 12:35:18 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/16 16:06:05 by otitebah         ###   ########.fr        #
+#    Updated: 2023/05/16 18:15:19 by otitebah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c
+FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c\
+		commands.c
 		
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
