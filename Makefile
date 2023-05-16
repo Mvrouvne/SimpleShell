@@ -5,33 +5,30 @@
 #                                                     +:+ +:+         +:+      #
 #    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/03 12:35:18 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/16 16:06:05 by otitebah         ###   ########.fr        #
+#    Created: 2023/05/16 15:57:14 by otitebah          #+#    #+#              #
+#    Updated: 2023/05/16 16:06:11 by otitebah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c
-		
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-INCLUDES = libft/libft.a
 
-OBJ = $(FILES:.c=.o)
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+INCLUDES = execution/execution.a parsing/minishell.a
 
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	cd libft && $(MAKE)
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -lreadline -o $(NAME)
-	
+	cd execution && $(MAKE)
+	cd parsing && $(MAKE)
+
 clean :
-	rm -f $(OBJ)
-	rm -f libft/*.o
+	rm -f parsing/*.o
+	rm -f execution/*.o
 
 fclean : clean
-	rm -f $(NAME)
-	rm -f libft/*.a
+	rm -f parsing/minishell
+	rm -f execution/minishell
 
 re : fclean all
 
