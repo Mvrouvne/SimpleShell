@@ -6,11 +6,11 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 11:37:23 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/13 16:01:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:07:49 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 t_args	*ft_lstnew2(void)
 {

@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 12:56:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:20:20 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/24 12:03:12 by otitebah          #+#    #+#             */
+/*   Updated: 2022/11/03 22:12:41 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	x;
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+{
+	unsigned int	i;
 
-// 	x = 0;
-// 	while (str[x] != '\0')
-// 		x++;
-// 	return (x);
-// }
+	i = 0;
+	if (!s)
+		return ;
+	while (i < ft_strlen(s))
+	{
+		(*f)(i, &s[i]);
+		i++;
+	}
+}

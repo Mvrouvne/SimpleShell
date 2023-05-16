@@ -6,11 +6,11 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:28:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 15:28:26 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:07:24 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 int	args_count(t_token *lst)
 {

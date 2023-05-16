@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 12:56:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:20:20 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/05 16:22:49 by otitebah          #+#    #+#             */
+/*   Updated: 2022/10/17 14:53:38 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	x;
-
-// 	x = 0;
-// 	while (str[x] != '\0')
-// 		x++;
-// 	return (x);
-// }
+int	ft_isalpha(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+	{
+		return (1);
+	}
+	else
+		return (0);
+}

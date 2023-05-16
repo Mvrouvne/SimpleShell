@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/16 18:23:54 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/16 21:56:51 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include "libft/libft.h"
-#include <stdio.h>
-#include <readline/readline.h>
-
-
+# include <unistd.h>
+# include "../minishell.h"
+# include <stdlib.h>
+# include "../libft/libft.h"
+# include <stdio.h>
+# include <readline/readline.h>
+// # include "../parsing/parsing.h"
+// # include "../minishell.h"
 
 typedef struct s_list {
     char *value;
@@ -42,6 +43,8 @@ int		check_plus(char **p, t_list *saving_expo);
 t_list	*search_node(t_list *saving_env, char *node);
 int     search_home(t_list *saving_expo, char *node);
 char	*search_path(t_list *saving_expo, char *node);
+void	execution(t_args *p, char **env);
+int	ft_strcmp(const char *s1, const char *s2);
 
 t_data g_data;
 

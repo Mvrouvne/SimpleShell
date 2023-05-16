@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 12:56:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:20:20 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/17 21:04:56 by otitebah          #+#    #+#             */
+/*   Updated: 2022/10/27 12:16:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	x;
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	char	*m;
 
-// 	x = 0;
-// 	while (str[x] != '\0')
-// 		x++;
-// 	return (x);
-// }
+	i = 0;
+	m = malloc(sizeof(char) * (ft_strlen (s) + 1));
+	if (m == NULL)
+		return (0);
+	while (s[i])
+	{
+		m[i] = s[i];
+		i++;
+	}
+	m[i] = '\0';
+	return (m);
+}

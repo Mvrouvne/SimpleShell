@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 11:28:55 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:07:42 by machaiba         ###   ########.fr       */
+/*   Created: 2023/05/16 16:13:07 by machaiba          #+#    #+#             */
+/*   Updated: 2023/05/16 20:11:00 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+# ifndef	MINISHELL_H
+# define	MINISHELL_H
 
-t_args	*ft_lstlast2(t_args *lst)
-{
-	if (!lst)
-		return (lst);
-	while (lst)
-	{
-		if (lst->next == NULL)
-			return (lst);
-		lst = lst->next;
-	}
-	return (0);
-}
+#include "parsing/parsing.h"
+#include "execution/execution.h"
 
-t_token	*ft_lstlast(t_token *lst)
-{
-	if (!lst)
-		return (lst);
-	while (lst)
-	{
-		if (lst->next == NULL)
-			return (lst);
-		lst = lst->next;
-	}
-	return (0);
-}
+
+# endif

@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 15:28:30 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:07:36 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/13 14:02:44 by otitebah          #+#    #+#             */
+/*   Updated: 2022/11/05 15:44:11 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-int	create_list(t_args **args, t_token *token)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	ft_lstadd_back2(args, ft_lstnew2());
-	while (token)
+	size_t			i;
+	unsigned char	*a1;
+	unsigned char	*a2;
+
+	a1 = (unsigned char *)s1;
+	a2 = (unsigned char *)s2;
+	i = 0;
+	while (i < n)
 	{
-		if (token->type == PIPE)
-			ft_lstadd_back2(args, ft_lstnew2());
-		token = token->next;
+		if (a1[i] != a2[i])
+			return (a1[i] - a2[i]);
+		i++;
 	}
 	return (0);
 }

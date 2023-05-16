@@ -6,39 +6,38 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 21:04:40 by machaiba          #+#    #+#              #
-#    Updated: 2023/05/15 20:10:04 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/16 22:55:21 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = parsing.a
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 SRCS = minishell.c\
 		ft_lstadd_back.c\
 		ft_lstnew.c\
+		ft_strcmp.c\
 		ft_lstlast.c\
-		ft_strncmp.c\
-		ft_strlen.c\
 		create_list.c\
 		args_count.c\
 		check_in_out.c\
 		get_next_line.c\
-		get_next_line_utils.c\
 		heredoc.c\
-		ft_strcmp.c\
+		check_quotes.c\
 
-OBJS = $(SRCS:.c=.o)
+OBJ =$(SRCS:.c=.o)
+CC = cc
+# CFLAGS = -Wall -Wextra -Werror
 
-all : $(NAME)
+all: $(NAME)
 
-$(NAME) : $(OBJS)
-			cc $(CFLAGS) $(OBJS) -o $(NAME) -ledit
+$(NAME): $(OBJ)
+	ar -rc $(NAME)  $(OBJ)
 
-clean :
-		rm -rf $(OBJS)
-
-fclean : clean
-		rm -rf $(NAME)
+clean:
+	rm -f $(OBJ)
+fclean: clean
+	rm -f  $(NAME)
 
 re : fclean all

@@ -6,11 +6,11 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:03:53 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 19:04:17 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:08:37 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 int	check(char *b)
 {

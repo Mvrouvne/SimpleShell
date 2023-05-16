@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 12:56:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:20:20 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/14 12:26:39 by otitebah          #+#    #+#             */
+/*   Updated: 2022/11/04 17:46:35 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	x;
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*p;
 
-// 	x = 0;
-// 	while (str[x] != '\0')
-// 		x++;
-// 	return (x);
-// }
+	if (size && count > SIZE_MAX / size)
+		return (0);
+	p = malloc(count * size);
+	if (p)
+	{
+		ft_bzero(p, (count * size));
+		return (p);
+	}
+	return (0);
+}

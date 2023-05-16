@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 15:28:30 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:07:36 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/09 16:26:11 by otitebah          #+#    #+#             */
+/*   Updated: 2022/10/27 12:14:58 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-int	create_list(t_args **args, t_token *token)
+char	*ft_strchr(const char *s, int c)
 {
-	ft_lstadd_back2(args, ft_lstnew2());
-	while (token)
+	int		i;
+	char	*a;
+	char	o;
+	int		b;
+
+	o = (char )c;
+	a = (char *)s;
+	b = ft_strlen(a);
+	i = 0;
+	if (o == '\0')
+		return (&a[b]);
+	while (a[i])
 	{
-		if (token->type == PIPE)
-			ft_lstadd_back2(args, ft_lstnew2());
-		token = token->next;
+		if (a[i] == o)
+		{
+			return (a + i);
+		}
+		i++;
 	}
 	return (0);
 }

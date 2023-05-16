@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 15:28:30 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:07:36 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/07 15:29:18 by otitebah          #+#    #+#             */
+/*   Updated: 2022/10/27 12:26:05 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-int	create_list(t_args **args, t_token *token)
+size_t	ft_strlcpy(char *dest, const char *src, size_t n)
 {
-	ft_lstadd_back2(args, ft_lstnew2());
-	while (token)
+	size_t	i;
+	int		lensrc;
+
+	lensrc = ft_strlen(src);
+	i = 0;
+	if (n > 0)
 	{
-		if (token->type == PIPE)
-			ft_lstadd_back2(args, ft_lstnew2());
-		token = token->next;
+		while (src[i] && i < n - 1)
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
 	}
-	return (0);
+	return (lensrc);
 }

@@ -6,11 +6,11 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:28:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/14 16:16:27 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:07:30 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 void	check_in_out(t_args *args, int in, int out)
 {

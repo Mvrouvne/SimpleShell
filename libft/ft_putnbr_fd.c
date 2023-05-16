@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_list.c                                      :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 15:28:30 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:07:36 by machaiba         ###   ########.fr       */
+/*   Created: 2022/10/25 12:19:09 by otitebah          #+#    #+#             */
+/*   Updated: 2022/11/03 01:22:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "libft.h"
 
-int	create_list(t_args **args, t_token *token)
+void	ft_putnbr_fd(int n, int fd)
 {
-	ft_lstadd_back2(args, ft_lstnew2());
-	while (token)
+	long	a;
+
+	a = (long)n;
+	if (a < 0)
 	{
-		if (token->type == PIPE)
-			ft_lstadd_back2(args, ft_lstnew2());
-		token = token->next;
+		ft_putchar_fd('-', fd);
+		a = a * -1;
 	}
-	return (0);
+	if (a > 9)
+	{
+		ft_putnbr_fd(a / 10, fd);
+		ft_putchar_fd(a % 10 + '0', fd);
+	}
+	else
+		ft_putchar_fd(a + '0', fd);
 }

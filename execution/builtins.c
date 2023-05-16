@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/16 18:55:17 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:22:35 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 int	check_n(char *str)
 {
@@ -165,13 +165,11 @@ void	modify_Pwd(t_list **saving_env, char *new_pwd)
 	
 // }
 
-int main(int ac, char **av, char **env)
+void	execution(t_args *p, char **env)
 {
-	(void)av;
-	(void)ac;
 	int		i;
-    char	*line;
-    char	**p;
+    // char	*line;
+    // char	**p;
 	t_list	*saving_env;
 	t_list	*data;
 	t_list	*tmp;
@@ -183,27 +181,27 @@ int main(int ac, char **av, char **env)
 	saving_env = get_env(env);
 	saving_expo = get_env(env);
 	char	*find_path;
-	while (1)
-    {
-        line = readline("minishell$ ");
-		add_history(line);
-		if (!line)
-			exit (1);
-		p = ft_split(line, ' ');
-		if (!ft_strcmp(p[0], "echo"))
-			echo(p);
-		else if (!ft_strcmp(p[0], "pwd"))
+	// while (1)
+    // {
+    //     line = readline("minishell$ ");
+	// 	add_history(line);
+	// 	if (!line)
+	// 		exit (1);
+	// 	p = ft_split(line, ' ');
+		if (!ft_strcmp(p->args[0], "echo"))
+			echo(p->args);
+		else if (!ft_strcmp(p->args[0], "pwd"))
 		{
 			char filename[256];
 			getcwd(filename, 256);
 			printf("%s\n", filename);
 		}
-		else if (!ft_strcmp(p[0], "cd"))
+		else if (!ft_strcmp(p->args[0], "cd"))
 		{
 			char old_pwd[256];
 			char new_pwd[256];
 			getcwd(old_pwd, 256);
-			if (cd(p, saving_expo) == 1)
+			if (cd(p->args, saving_expo) == 1)
 			{
 				getcwd(new_pwd, 256);
 				add_OldPwd(&saving_env, old_pwd);							//////////////come back
@@ -212,7 +210,7 @@ int main(int ac, char **av, char **env)
 				modify_Pwd(&saving_expo, new_pwd);
 			}
 		}
-		else if (!ft_strcmp(p[0], "env"))
+		else if (!ft_strcmp(p->args[0], "env"))
 		{
 			tmp = saving_env;
 			while (saving_env)
@@ -222,57 +220,57 @@ int main(int ac, char **av, char **env)
 			}
 			saving_env = tmp;
 		}
-		else if (!ft_strcmp(p[0], "unset"))
+		else if (!ft_strcmp(p->args[0], "unset"))
 		{
 			i = 1;
-			while (p[i])
+			while (p->args[i])
 			{
-				unset(&saving_expo, p[i]);
-				unset(&saving_env, p[i]);
+				unset(&saving_expo, p->args[i]);
+				unset(&saving_env, p->args[i]);
 				i++;
 			}
 		}
-		else if (!ft_strcmp(p[0], "exit"))
+		else if (!ft_strcmp(p->args[0], "exit"))
 		{
 			i = 1;
-			if (p[i])
+			if (p->args[i])
 			{
 				int return_value;
-				return_value = ft_atoi(p[i]);
+				return_value = ft_atoi(p->args[i]);
 				exit(return_value);
 			}
 			else
 				exit (0);
 		}
-		else if (!ft_strcmp(p[0], "export"))
+		else if (!ft_strcmp(p->args[0], "export"))
 		{
 			t_list	*node;
 			int x = 0;
 			
 			i = 1;
-			if (p[i])
+			if (p->args[i])
 			{
-				while (p[i])
+				while (p->args[i])
 				{
 					x = 0;
-					while (p[i][x])
+					while (p->args[i][x])
 					{
-						if(p[i][x] == '+' && p[i][x + 1] == '=')
+						if(p->args[i][x] == '+' && p->args[i][x + 1] == '=')
 						{
 							char **spl_p;
-							spl_p = ft_split(p[i], '=');
+							spl_p = ft_split(p->args[i], '=');
 							node = search_node(saving_expo, spl_p[0]);
 							char *res;
 							res = ft_strjoin(node->value, spl_p[1]);
 						}
-						else if (p[i][x] == '=' && x > 0)
+						else if (p->args[i][x] == '=' && x > 0)
 						{
-							saving_env = export(p[i], &saving_env);
+							saving_env = export(p->args[i], &saving_env);
 							break ;
 						}
 						x++;
 					}
-					saving_expo = export(p[i], &saving_expo);
+					saving_expo = export(p->args[i], &saving_expo);
 					i++;
 				}
 			}
@@ -300,16 +298,15 @@ int main(int ac, char **av, char **env)
 			find_path = search_path(saving_expo, "PATH");
 			// printf("%s\n", find_path);
 			spl_path = ft_split(find_path, ':');
-			cmd = ft_strjoin("/", p[0]);
+			cmd = ft_strjoin("/", p->args[0]);
 			i = 0;
 			while (spl_path[i])
 			{
 				command = ft_strjoin(spl_path[i], cmd);
 				if (access(command, X_OK) != -1)
-					execve(command, &p[0], NULL);
+					execve(command, &p->args[0], NULL);
 				i++;
 			}
 			exit(0);
 		}
-	}
 }
