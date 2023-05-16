@@ -6,55 +6,11 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/16 08:54:14 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:14:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-	[]
-	echo "\n"
-	echo -n ""
-	function checkArgs(char **p, int *flag)
-	{
-		*flag = 1;
-		*flag = 0;
-		
-	}
-*/
-
-
-// int	parseArg(char **p)
-// {
-// 	int i = 0;
-// 	int count = 0;
-// 	while (p[i])
-// 	{
-// 		if (!strncmp(p[i], "-n", 2))
-// 			count++;
-// 		else if (count > 0 || i == 1)
-// 			break;
-// 		i++;
-// 	}
-// 	return count;
-// }
-
-// void ft_echo(char **p)
-// {
-// 	int count = parseArg(p);
-// 	int flag = count;
-// 	count++;
-// 	while (p[count])
-// 	{
-// 		write(1, p[count], strlen(p[count]));
-// 		if (p[count + 1])
-// 			write(1, " ", 1);
-// 		count++;
-// 	}
-// 	if (flag == 0)
-// 		write(1, "\n", 1);
-// }
 
 int	check_n(char *str)
 {
@@ -95,9 +51,20 @@ void	echo(char **p)
 		printf("\n");
 }
 
-int	cd(char **p)
+int	cd(char **p, t_list *saving_expo)
 {
-	if (!ft_strcmp(p[1], "~"))
+	/////////*****************
+	if (search_home(saving_expo, "HOME") == 0)
+	{
+		perror("minishell: cd");
+		return (0);
+	}
+	else if (p[1] == NULL && search_home(saving_expo, "HOME") == 1)
+	{
+		puts("samaykom");
+		chdir(getenv("HOME"));
+	}
+	else if ((!ft_strcmp(p[1], "~")) && search_home(saving_expo, "HOME") == 1)
 	{
 		chdir(getenv("HOME"));
 		return (1);
@@ -127,14 +94,10 @@ void	unset(t_list **head, char *key)
 	}
 	//if the node we re looking for is the first node///that means prev still have NULL value
 	if (prev == NULL && cur )
-	{
 		(*head) = cur->next;
-	}
 	//if the node we re locking for is in the middle or in the end///that means the prev node is before the cur node
 	else if (cur && prev && ft_strncmp(cur->value, key, ft_strlen(key)) == 0)
-	{
 		prev->next = cur->next;
-	}
 	// free (cur);
 }
 
@@ -218,9 +181,7 @@ int main(int ac, char **av, char **env)
 
 	data = (t_list *)malloc(sizeof(t_list));
 	saving_env = get_env(env);
-	saving_expo = get_env(env); ////////   <----- for export
-	// saving_expo = sort_list(&saving_expo1);
-	// printf("im not in while(1)\n");
+	saving_expo = get_env(env);
     while (1)
     {
         line = readline("minishell$ ");
@@ -241,7 +202,7 @@ int main(int ac, char **av, char **env)
 			char old_pwd[256];
 			char new_pwd[256];
 			getcwd(old_pwd, 256);
-			if (cd(p) == 1)
+			if (cd(p, saving_expo) == 1)
 			{
 				getcwd(new_pwd, 256);
 				add_OldPwd(&saving_env, old_pwd);							//////////////come back

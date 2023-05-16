@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/14 09:25:59 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:08:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_list   *create_node(char *value);
 t_list  *export(char *p, t_list **saving_expo);
 int		check_plus(char **p, t_list *saving_expo);
 t_list	*search_node(t_list *saving_env, char *node);
+int     search_home(t_list *saving_expo, char *node);
 
 t_data g_data;
 
