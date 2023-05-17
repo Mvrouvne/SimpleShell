@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 16:26:11 by otitebah          #+#    #+#             */
-/*   Updated: 2022/10/27 12:14:58 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:25:55 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strchr(const char *s, int c)
 	{
 		if (a[i] == o)
 		{
-			return (a + i);
+			return (a + (i + 1));
 		}
 		i++;
 	}

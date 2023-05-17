@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/17 13:12:43 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/17 23:17:20 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,19 +207,13 @@ int	lexing2(char *line, t_token **lst, int *x)
 	if (y)
 	{
 		str[y] = '\0';
-		ft_lstadd_back(lst, ft_lstnew(str));
+			ft_lstadd_back(lst, ft_lstnew(str));
 	}
 	return (0);
 }
 
 int	lexing(char *line, t_token **lst, int *x)
 {
-	char	*str;
-	char	*str2 = NULL;
-	int		y;
-	int		z;
-	int		tmp;
-
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
 	if (line[*x] == '<' && line[*x + 1] == '<')
@@ -236,63 +230,8 @@ int	lexing(char *line, t_token **lst, int *x)
 	{
 		while (line[*x] == ' ' || line[*x] == '\t')
 			(*x)++;
-		// check_quotes(lst, line, x);
 		if (line[*x] == '"')
-		{
-			(*x)++;
-			tmp = *x;
-			while (line[*x] && line[*x] != '"')
-			{
-				y++;
-				(*x)++;
-			}
-			*x = tmp;
-			str = malloc(sizeof(char) * (y + 1));
-			y = 0;
-			while (line[*x] && line[*x] != '"')
-			{
-				str[y] = line[*x];
-				y++;
-				(*x)++;
-			}
-			str[y] = '\0';
-			z = 0;
-			if (line[*x] != '\'')
-			{
-				str2 = ft_strjoin(str2, str);
-				z++;
-			}
-			if (str2[0] && !z)
-				ft_lstadd_back(lst, ft_lstnew(str2));
-		}
-		else if (line[*x] == '\'')
-		{
-			(*x)++;
-			tmp = *x;
-			while (line[*x] && line[*x] != '\'')
-			{
-				y++;
-				(*x)++;
-			}
-			*x = tmp;
-			str = malloc(sizeof(char) * (y + 1));
-			y = 0;
-			while (line[*x] && line[*x] != '\'')
-			{
-				str[y] = line[*x];
-				y++;
-				(*x)++;
-			}
-			str[y] = '\0';
-			z = 0;
-			if (line[*x] == '\'')
-			{
-				str2 = ft_strjoin(str2, str);
-				z++;
-			}
-			if (str2[0] && !z)
-				ft_lstadd_back(lst, ft_lstnew(str2));
-		}
+			check_quotes(lst, line, x);
 		lexing2(line, lst, x);
 		lexing3(line, lst, x);
 	}
@@ -300,58 +239,58 @@ int	lexing(char *line, t_token **lst, int *x)
 	return (0);
 }
 
-// int	main(int ac, char **av, char **env)
-// {
-// 	char	*line;
-// 	t_token	*lst;
-// 	t_args	*args;
-// 	int		x;
-// 	(void) env;
-// 	(void) av;
+int	main(int ac, char **av, char **env)
+{
+	char	*line;
+	t_token	*lst;
+	t_args	*args;
+	int		x;
+	(void) env;
+	(void) av;
 
-// 	ac = 0;
-// 	// int	x = 0;
-// 	// int	y = 0;
-// 	x = 0;
-// 	lst = NULL;
-// 	args = NULL;
-// 	// args = malloc(sizeof(t_token));
-// 	// t_args = args;
-// 	while(1)
-// 	{
-// 		lst = NULL;
-// 		x = 0;
-// 		line = readline("minishell:$> ");
-// 		if (!line)
-// 			break ;
-// 		add_history(line);
-// 		lexing(line, &lst, &x);
-// 		split_args(&lst, &args);
-// 		// execution(args, env);
-// 		free (line);
-// 		// while (lst)
-// 		// {
-// 		// 	temp = lst;
-// 		// 	lst = lst->next;
-// 		// 	free(temp->data);
-// 		// 	free(temp);
-// 		// }
-// 	}
-// 	write(1, "\n", 1);
-// 	int	t = 0;
-// 	while (args)
-// 	{
-// 			t = 0;
-// 			while (args->args[t])
-// 				printf("args = %s\n", args->args[t++]);
-// 			printf("infile = %d\n", args->infile);
-// 			printf("outfile = %d\n", args->outfile);
-// 			printf("****************\n");
-// 		args = args->next;
-// 	}
-// 	// while (lst)
-// 	// {
-// 	// 	printf("type = %d\n", lst->type);
-// 	// 	lst = lst->next;
-// 	// }
-// }
+	ac = 0;
+	// int	x = 0;
+	// int	y = 0;
+	x = 0;
+	lst = NULL;
+	args = NULL;
+	// args = malloc(sizeof(t_token));
+	// t_args = args;
+	while(1)
+	{
+		lst = NULL;
+		x = 0;
+		line = readline("minishell:$> ");
+		if (!line)
+			break ;
+		add_history(line);
+		lexing(line, &lst, &x);
+		split_args(&lst, &args);
+		// execution(args, env);
+		free (line);
+		// while (lst)
+		// {
+		// 	temp = lst;
+		// 	lst = lst->next;
+		// 	free(temp->data);
+		// 	free(temp);
+		// }
+	}
+	write(1, "\n", 1);
+	int	t = 0;
+	while (args)
+	{
+			t = 0;
+			while (args->args[t])
+				printf("args = %s\n", args->args[t++]);
+			printf("infile = %d\n", args->infile);
+			printf("outfile = %d\n", args->outfile);
+			printf("****************\n");
+		args = args->next;
+	}
+	// while (lst)
+	// {
+	// 	printf("type = %d\n", lst->type);
+	// 	lst = lst->next;
+	// }
+}

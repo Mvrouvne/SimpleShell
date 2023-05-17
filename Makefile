@@ -6,7 +6,7 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 15:57:14 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/17 13:12:19 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/17 22:22:20 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ FILES = main.c\
 		parsing/ft_strcmp.c\
 		parsing/get_next_line.c\
 		parsing/heredoc.c\
+		parsing/ft_chrjoin.c\
 		
 
 INCLUDES = libft/libft.a
