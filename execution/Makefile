@@ -6,31 +6,33 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/03 12:35:18 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/16 22:48:12 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/17 13:09:47 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell.a
+NAME = minishell
 FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c\
-		commands.c ft_strcmp.c
+		commands.c ../parsing/ft_strcmp.c
 		
-# CC = ar -rc
-# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDES = ../libft/libft.a
 
-OBJ =$(FILES:.c=.o)
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+OBJ = $(FILES:.c=.o)
 
-all: $(NAME)
+all : $(NAME)
 
-$(NAME): $(OBJ)
-	ar -rc $(NAME) $(OBJ)
-
-clean:
+$(NAME) : $(OBJ)
+	make -C ../libft
+	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -lreadline -o $(NAME)
+	
+clean :
 	rm -f $(OBJ)
-fclean: clean
-	rm -f  $(NAME)
+	rm -f ../libft/*.o
+
+fclean : clean
+	rm -f $(NAME)
+	rm -f ../libft/*.a
 
 re : fclean all
 

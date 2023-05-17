@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 21:11:17 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:12:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,7 @@ int	lexing(char *line, t_token **lst, int *x)
 // 		add_history(line);
 // 		lexing(line, &lst, &x);
 // 		split_args(&lst, &args);
-// 		execution(args, env);
+// 		// execution(args, env);
 // 		free (line);
 // 		// while (lst)
 // 		// {

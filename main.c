@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:28:21 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 22:59:01 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/17 12:31:59 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **env)
 		add_history(line);
 		lexing(line, &lst, &x);
 		split_args(&lst, &args);
-		execution(args, env);
+		execution(args, env);	
 		free (line);
 		// while (lst)
 		// {
