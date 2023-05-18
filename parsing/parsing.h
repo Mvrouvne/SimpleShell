@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/17 23:15:07 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/18 22:16:06 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_next_line(int fd);
 // char	*ft_strjoin(char *s1, char *s2);
 // char	*ft_strchr(char *str, int c);
 int		ft_strcmp(const char *s1, const char *s2);
-int		check_quotes(t_token **lst, char *line, int *x);
+int		check_quotes(t_token **lst, char *line, int *x, char *str2);
 int		lexing(char *line, t_token **lst, int *x);
 int		lexing2(char *line, t_token **lst, int *x);
 int		lexing3(char *line, t_token **lst, int *x);
