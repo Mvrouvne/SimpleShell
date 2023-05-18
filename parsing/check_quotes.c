@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/17 23:21:12 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/18 13:06:46 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	check_quotes(t_token **lst, char *line, int *x)
 				str = ft_chrjoin(str, line[*x]);
 			s_quote++;
 		}
-		else if (line[*x] == ' ' || line[*x] == '\t')
-			(*x)++;
 		else
 			str = ft_chrjoin(str, line[*x]);
 		(*x)++;

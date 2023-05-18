@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/17 23:17:20 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:43:44 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,8 +177,10 @@ int	lexing2(char *line, t_token **lst, int *x)
 {
 	char	*str;
 	int		y;
+	int		z;
 
 	y = *x;
+	z = 0;
 	while (line[y])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
@@ -197,9 +199,16 @@ int	lexing2(char *line, t_token **lst, int *x)
 	while (line[*x])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|' || line[*x] == ' '
-			|| line[*x] == '"' || line[*x] == '\'')
+			|| line[*x] == '|' || line[*x] == ' ' 
+			|| line[*x] == '\'' || line[*x] == '"')
 			break ;
+		// else if (line[*x] == '"')
+		// {
+		// 	z++;
+		// 	break ;
+		// }
+		// else if (line[*x] == '"')
+		// 	check_quotes(lst, line, x);
 		str[y] = line[*x];
 		y++;
 		(*x)++;
@@ -207,7 +216,7 @@ int	lexing2(char *line, t_token **lst, int *x)
 	if (y)
 	{
 		str[y] = '\0';
-			ft_lstadd_back(lst, ft_lstnew(str));
+		ft_lstadd_back(lst, ft_lstnew(str));
 	}
 	return (0);
 }
