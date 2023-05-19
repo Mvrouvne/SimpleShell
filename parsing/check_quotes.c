@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/18 23:38:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:41:24 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ int	check_quotes(t_token **lst, char *line, int *x, char *str2)
 	char *str;
 	int	d_quote;
 	int	s_quote;
-	int	count;
+	int	d_count;
+	int	s_count;
 	int	temp;
 
-	count = 0;
+	d_count = 0;
+	s_count = 0;
 	if (!str2)
 	{
 		str = malloc(sizeof(char));
@@ -37,29 +39,34 @@ int	check_quotes(t_token **lst, char *line, int *x, char *str2)
 	temp = *x;
 	while(line[*x])
 	{
-		if (line[*x] == '"' || line[*x] == '\'')
-			count++;
+		if (line[*x] == '"')
+			d_count++;
+		else if (line[*x] == '\'')
+			s_count++;
 		(*x)++;
 	}
 	*x = temp;
 	while (line[*x])
 	{
-		printf("line[*x] = %c\n", line[*x]);
 		if (line[*x] == '"')
 		{
-			d_quote++;
-			if (s_quote == 1)
+			(*x)++;
+			while (line[*x] != '"')
+			{
 				str = ft_chrjoin(str, line[*x]);
-			s_quote--;
+				(*x)++;
+			}
 		}
 		else if (line[*x] == '\'')
 		{
-			s_quote++;
-			if (d_quote == 1)
+			(*x)++;
+			while (line[*x] != '\'')
+			{
 				str = ft_chrjoin(str, line[*x]);
-			d_quote--;
+				(*x)++;
+			}
 		}
-		else
+		else 
 			str = ft_chrjoin(str, line[*x]);
 		(*x)++;
 	}
