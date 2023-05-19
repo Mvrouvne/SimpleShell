@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
+#    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 15:57:14 by otitebah          #+#    #+#              #
-#    Updated: 2023/05/17 13:12:19 by machaiba         ###   ########.fr        #
+#    Updated: 2023/05/18 18:24:55 by otitebah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,14 @@ NAME = minishell
 
 
 FILES = main.c\
-		execution/builtins.c\
+		execution/builtins/builtins.c\
+		execution/builtins/export_a.c\
 		execution/commands.c\
 		execution/ft_lstadd_front.c\
 		execution/ft_strcpy.c\
 		execution/save_env.c\
-		execution/save_export.c\
+		execution/builtins/cd.c\
+		execution/builtins/export.c\
 		parsing/minishell.c\
 		parsing/args_count.c\
 		parsing/check_in_out.c\
@@ -55,6 +57,7 @@ clean :
 	rm -f libft/*.o
 	rm -f parsing/*.o
 	rm -f execution/*.o
+	rm -f execution/builtins/*.o
 
 fclean : clean
 	rm -f libft/libft.a

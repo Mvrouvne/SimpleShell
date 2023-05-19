@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   save_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/16 20:14:23 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:18:27 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 t_list  *sort_list(t_list **saving_expo)
 {
@@ -45,23 +45,6 @@ t_list  *export(char *p, t_list **saving_expo)
     return (res);
 }
 
-t_list	*search_node(t_list *saving_expo, char *node)
-{
-	t_list	*tmp;
-
-	tmp = saving_expo;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 2)) == 0)
-		{
-			printf("tmp :%s\n", tmp->value);
-			return (tmp);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 int search_home(t_list *saving_expo, char *node)
 {
 	t_list	*tmp;
@@ -79,5 +62,20 @@ int search_home(t_list *saving_expo, char *node)
 	return (0);
 }
 
+
+
+int	search_egal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 /// home ila makantch makhasch tkhdem dik cd 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:28:21 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/17 12:31:59 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/18 08:53:01 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ int	main(int ac, char **av, char **env)
 	t_token	*lst;
 	t_args	*args;
 	int		x;
-	(void) env;
 	(void) av;
+	t_list	*saving_expo;
+	t_list	*saving_env;
+	
+	saving_env = get_env(env);
+	saving_expo = get_env(env);
 	ac = 0;
 	// int	x = 0;
 	// int	y = 0;
@@ -38,7 +42,7 @@ int	main(int ac, char **av, char **env)
 		add_history(line);
 		lexing(line, &lst, &x);
 		split_args(&lst, &args);
-		execution(args, env);	
+		execution(&args, &saving_env, &saving_expo);	
 		free (line);
 		// while (lst)
 		// {
