@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/18 22:22:08 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:51:01 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ int	split_args(t_token **lst, t_args **args)
 			check_in_out(*args, in, out);
 		}
 		else if (temp->type == DELIMITER)
-		{
 			heredoc(temp->data);
-		}
 		temp = temp->next;
 	}
 	*args = temp2;
@@ -206,8 +204,6 @@ int	lexing2(char *line, t_token **lst, int *x)
 			z++;
 			break ;
 		}
-		// else if (line[*x] == '"')
-		// 	check_quotes(lst, line, x);
 		str[y] = line[*x];
 		y++;
 		(*x)++;
@@ -243,6 +239,8 @@ int	lexing(char *line, t_token **lst, int *x)
 			(*x)++;
 		if (line[*x] == '"')
 			check_quotes(lst, line, x, NULL);
+		// else if(line[*x] == '$')
+		// 	expand(lst, line, x);
 		lexing2(line, lst, x);
 		lexing3(line, lst, x);
 	}
