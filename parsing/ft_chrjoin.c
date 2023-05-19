@@ -1,43 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_chrjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 10:37:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/17 15:56:59 by machaiba         ###   ########.fr       */
+/*   Created: 2023/05/17 22:14:32 by machaiba          #+#    #+#             */
+/*   Updated: 2023/05/17 22:48:55 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parsing.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_chrjoin(char *s1, char c2)
 {
-	char	*m;
-	int		i;
-	int		j;
-
+	int		x;
+	int		y;
+	char	*join;
 
 	if (!s1)
-		return (ft_strdup(s2));
-	// if (!s1 || !s2)
-	// 	return (NULL);
-	i = 0;
-	m = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!m)
+		return (ft_strdup(&c2));
+	join = malloc(sizeof(char) * (ft_strlen(s1) + 2));
+	if (!join)
 		return (NULL);
-	while (s1[i])
+	x = 0;
+	y = 0;
+	while (s1[x])
 	{
-		m[i] = s1[i];
-		i++;
+		join[x] = s1[x];
+		x++;
 	}
-	j = 0;
-	while (s2[j])
-	{
-		m[i + j] = s2[j];
-		j++;
-	}
-	m[i + j] = '\0';
-	return (m);
+    join[x] = c2;
+	join[x + 1] = '\0';
+	// free (s1);
+	return (join);
 }
+

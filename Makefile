@@ -6,7 +6,11 @@
 #    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 15:57:14 by otitebah          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2023/05/18 18:24:55 by otitebah         ###   ########.fr        #
+=======
+#    Updated: 2023/05/17 22:22:20 by machaiba         ###   ########.fr        #
+>>>>>>> d85b5be6e193fd60f915956e705531149106aeb3
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +37,7 @@ FILES = main.c\
 		parsing/ft_strcmp.c\
 		parsing/get_next_line.c\
 		parsing/heredoc.c\
+		parsing/ft_chrjoin.c\
 		
 
 INCLUDES = libft/libft.a
