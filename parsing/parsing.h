@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/19 19:50:53 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:21:34 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ typedef struct s_args
     struct s_args *next;
 }   t_args;
 
+typedef struct s_env
+{
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstadd_back2(t_args **lst, t_args *new);
 t_token	*ft_lstlast(t_token *lst);
@@ -74,11 +80,12 @@ char	*get_next_line(int fd);
 // char	*ft_strchr(char *str, int c);
 int		ft_strcmp(const char *s1, const char *s2);
 int		check_quotes(t_token **lst, char *line, int *x, char *str2);
-int		lexing(char *line, t_token **lst, int *x);
+int		lexing(char *line, t_token **lst, int *x, t_env *env_parse);
 int		lexing2(char *line, t_token **lst, int *x);
 int		lexing3(char *line, t_token **lst, int *x);
 int		lexing4(t_token	**lst);
 int		split_args(t_token **lst, t_args **args);
 char	*ft_chrjoin(char *s1, char c2);
+int	expand(t_token **lst, char *line, int *x, t_env *env);
 
 # endif

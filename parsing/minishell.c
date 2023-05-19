@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/19 19:51:01 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/19 23:21:51 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ int	lexing2(char *line, t_token **lst, int *x)
 	return (0);
 }
 
-int	lexing(char *line, t_token **lst, int *x)
+int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
@@ -237,10 +237,10 @@ int	lexing(char *line, t_token **lst, int *x)
 	{
 		while (line[*x] == ' ' || line[*x] == '\t')
 			(*x)++;
-		if (line[*x] == '"')
+		if(line[*x] == '"' && line[*x + 1] == '$')
+			expand(lst, line, x, env_parse);
+		else if (line[*x] == '"')
 			check_quotes(lst, line, x, NULL);
-		// else if(line[*x] == '$')
-		// 	expand(lst, line, x);
 		lexing2(line, lst, x);
 		lexing3(line, lst, x);
 	}

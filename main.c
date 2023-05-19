@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:28:21 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/19 19:50:31 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:16:12 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	main(int ac, char **av, char **env)
 	(void) av;
 	t_list	*saving_expo;
 	t_list	*saving_env;
+	t_env	*env_parse;
 	
 	saving_env = get_env(env);
 	saving_expo = get_env(env);
+	env_parse = (t_env *)get_env(env);
 	ac = 0;
 	// int	x = 0;
 	// int	y = 0;
@@ -40,7 +42,7 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			break ;
 		add_history(line);
-		lexing(line, &lst, &x);
+		lexing(line, &lst, &x, env_parse);
 		split_args(&lst, &args);
 		execution(&args, &saving_env, &saving_expo);
 		free (line);

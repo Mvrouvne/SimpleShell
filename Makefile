@@ -23,6 +23,7 @@ FILES = main.c\
 		parsing/get_next_line.c\
 		parsing/heredoc.c\
 		parsing/ft_chrjoin.c\
+		parsing/expand.c\
 		
 
 INCLUDES = libft/libft.a
