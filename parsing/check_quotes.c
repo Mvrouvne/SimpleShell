@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/20 17:07:00 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/21 00:26:47 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	check_quotes(t_token **lst, char *line, int *x, char *str2)
 	int	y;
 
 	y = *x;
+	printf("line[*x] = %c\n", line[*x]);
+	exit (0);
 	while (line[*x] == '"')
 		(*x)++;
 	if (line[*x] == '$')

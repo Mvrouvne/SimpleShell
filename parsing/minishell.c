@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/20 13:36:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/20 23:32:55 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,10 +241,26 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		// printf("line[*x] = %c§\n", line[*x]);
 		while (line[*x] == ' ' || line[*x] == '\t')
 			(*x)++;
-		if (line[*x] == '"' && line[*x + 1] == '$')
+		if ((line[*x] == '"'  || line[*x] == '\'')
+			&& line[*x + 1] == '$')
 			expand(lst, line, x, env_parse);
-		else if (line[*x] == '"')
+		else if (line[*x] == '"' || line[*x] == '\'')
+		{
+			z = *x;
+			while (line[z] && ((line[z] == '"'
+				|| line[z] == '\'' || line[z] == '$')))
+			{
+				if (line[z] == '$' && (line[z - 1] == '"'
+					|| line[z - 1] == '\''))
+				{
+					// *x = z;
+					expand(lst, line, x, env_parse);
+					break ;	
+				}
+				z++;
+			}
 			check_quotes(lst, line, x, NULL);
+		}
 		else if (line[*x] == '$')
 			expand(lst, line, x, env_parse);
 		lexing2(line, lst, x);

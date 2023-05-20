@@ -24,6 +24,7 @@ FILES = main.c\
 		parsing/heredoc.c\
 		parsing/ft_chrjoin.c\
 		parsing/expand.c\
+		parsing/expand_quotes.c\
 		
 
 INCLUDES = libft/libft.a
