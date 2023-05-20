@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/19 23:26:00 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:01:31 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,26 @@ int	expand(t_token **lst, char *line, int *x, t_env *env_parse)
 	char	*expanded;
 	int		y;
 
-	*x += 3;
+	(*x)++;
+	// while (line[*x] == '"')
+	// 	(*x)++;
+	if (line[*x - 1] == '"')
+	{
+		(*x)++;
+	}
 	y = *x;
-	while (line[y] && line[y] != ' ')
+	int j = 0;
+	while (line[y] && line[y] != ' ' && line[y] != '"' && line[y] != '\'')
+	{
 		y++;
-	to_expand = ft_substr(line, *x, y);
+		j++;
+	}
+	to_expand = ft_substr(line, *x, j);
+	// if (z)
+	// {
+		while (line[y] && (line[y] == '"' || line[y] == '\''))
+			y++;
+	// }
 	*x = y;
 	while (env_parse)
 	{

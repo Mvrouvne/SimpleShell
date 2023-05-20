@@ -6,34 +6,33 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 13:00:12 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/19 23:02:11 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:47:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *str, unsigned int start, size_t len)
 {
-	char			*m;
-	unsigned int	i;
+	char			*subs;
+	size_t			x;
 
-	if (!s)
+	if (!str)
 		return (NULL);
-	if (len > (ft_strlen(s) - start))
-		len = ft_strlen(s) - start;
-	if (ft_strlen(s) <= start)
+	if (start >= ft_strlen(str))
 		return (ft_strdup(""));
-	i = 0;
-	m = malloc(sizeof(char) * (len + 1));
-	if (!m)
+	if (len + start > ft_strlen(str))
+		len = ft_strlen(str) - start;
+	subs = (char *)malloc(sizeof(char) * (len + 1));
+	if (!subs)
 		return (NULL);
-	if (s[0] == '\0')
-		return (0);
-	while (i < len && s[i + start] && start < ft_strlen(s))
+	x = 0;
+	while (x < len)
 	{
-		m[i] = s[i + start];
-		i++;
+		subs[x] = str[start];
+		x++;
+		start++;
 	}
-	m[i] = '\0';
-	return (m);
+	subs[x] = '\0';
+	return (subs);
 }

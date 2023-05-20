@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/19 21:21:34 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/20 13:20:15 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int		lexing3(char *line, t_token **lst, int *x);
 int		lexing4(t_token	**lst);
 int		split_args(t_token **lst, t_args **args);
 char	*ft_chrjoin(char *s1, char c2);
-int	expand(t_token **lst, char *line, int *x, t_env *env);
+int		expand(t_token **lst, char *line, int *x, t_env *env_parse);
 
 # endif
