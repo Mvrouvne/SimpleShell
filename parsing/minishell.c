@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/20 23:32:55 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:10:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,8 @@ int	lexing2(char *line, t_token **lst, int *x)
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
 			|| line[*x] == '|' || line[*x] == ' '
-			|| line[*x] == '"' || line[*x] == '\'')
+			|| line[*x] == '"' || line[*x] == '\''
+			|| line[*x] == '$')
 			break ;
 		y++;
 	}
@@ -197,7 +198,8 @@ int	lexing2(char *line, t_token **lst, int *x)
 	while (line[*x])
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|' || line[*x] == ' ')
+			|| line[*x] == '|' || line[*x] == ' '
+			|| line[*x] == '$')
 			break ;
 		else if (line[*x] == '"' || line[*x] == '\'')
 		{
@@ -222,8 +224,10 @@ int	lexing2(char *line, t_token **lst, int *x)
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
 	int	z;
+	int	w;
 
 	z = 0;
+	w = 0;
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
 	if (line[*x] == '<' && line[*x + 1] == '<')
@@ -238,13 +242,13 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 	}
 	while (line[*x])
 	{
-		// printf("line[*x] = %c§\n", line[*x]);
+		// printf("line[*x] = %c\n", line[*x]);
 		while (line[*x] == ' ' || line[*x] == '\t')
 			(*x)++;
-		if ((line[*x] == '"'  || line[*x] == '\'')
-			&& line[*x + 1] == '$')
-			expand(lst, line, x, env_parse);
-		else if (line[*x] == '"' || line[*x] == '\'')
+		// if ((line[*x] == '"'  || line[*x] == '\'')
+		// 	&& line[*x + 1] == '$')
+		// 	expand(lst, line, x, env_parse);
+		if (line[*x] == '"' || line[*x] == '\'')
 		{
 			z = *x;
 			while (line[z] && ((line[z] == '"'
@@ -253,13 +257,16 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 				if (line[z] == '$' && (line[z - 1] == '"'
 					|| line[z - 1] == '\''))
 				{
-					// *x = z;
+					w++;
 					expand(lst, line, x, env_parse);
 					break ;	
 				}
 				z++;
 			}
-			check_quotes(lst, line, x, NULL);
+			if (!w)
+			{
+				check_quotes(lst, line, x, NULL);
+			}
 		}
 		else if (line[*x] == '$')
 			expand(lst, line, x, env_parse);

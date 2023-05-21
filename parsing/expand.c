@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/21 00:27:15 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:10:34 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,26 @@ int	expand(t_token **lst, char *line, int *x, t_env *env_parse)
 	int		z;
 	int		j;
 	char 	*str;
-	char 	*str2;
+	// char 	*str2;
 
 	z = 0;
 	y = 0;
 	str = malloc(sizeof(char));
 	str[0] = '\0';
-	str2 = malloc(sizeof(char));
-	str2[0] = '\0';
-	while (line[*x] && (line[*x] == '"' || line[*x] == '\''))
+	if (line[*x] != '$')
 	{
-		str = ft_chrjoin(str, line[*x]);
-		(*x)++;
+		z++;
+		while (line[*x] && (line[*x] == '"' || line[*x] == '\''))
+		{
+			str = ft_chrjoin(str, line[*x]);
+			(*x)++;
+		}
 	}
 	(*x)++;
 	y = *x;
 	j = 0;
-	while (line[y] && line[y] != ' ' && line[y] != '"' && line[y] != '\'')
+	while (line[y] && line[y] != ' ' && line[y] != '"'
+		&& line[y] != '\'' && line[*x] != '$')
 	{
 		y++;
 		j++;
@@ -60,6 +63,10 @@ int	expand(t_token **lst, char *line, int *x, t_env *env_parse)
 		(*x)++;
 	}
 	// printf("str = %s\n", str);
-	expanded_quotes(lst, str, line, x);
+	// exit (0);
+	if (z)
+		expanded_quotes(lst, str, line, x);
+	else if (!line[*x] || line[*x] == ' ')
+		ft_lstadd_back(lst, ft_lstnew(str));
 	return (0);
 }
