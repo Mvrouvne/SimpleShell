@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/21 17:10:43 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:05:02 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,11 @@ int	lexing3(char *line, t_token **lst, int *x)
 	return (0);
 }
 
-int	lexing2(char *line, t_token **lst, int *x)
+int	lexing2(char *line, t_token **lst, int *x, t_env *env_parse)
 {
+	(void) env_parse;
 	char	*str;
+	// char	*str2 = NULL;
 	int		y;
 	int		z;
 
@@ -199,13 +201,14 @@ int	lexing2(char *line, t_token **lst, int *x)
 	{
 		if  (line[*x] == '<' || line[*x] == '>'
 			|| line[*x] == '|' || line[*x] == ' '
-			|| line[*x] == '$')
+			|| line[*x] == '$' || line[*x] == '"'
+			|| line[*x] == '\'')
 			break ;
-		else if (line[*x] == '"' || line[*x] == '\'')
-		{
-			z++;
-			break ;
-		}
+		// else if (line[*x] == '"' || line[*x] == '\'')
+		// {
+		// 	z++;
+		// 	break ;
+		// }
 		str[y] = line[*x];
 		y++;
 		(*x)++;
@@ -213,9 +216,16 @@ int	lexing2(char *line, t_token **lst, int *x)
 	if (y)
 	{
 		str[y] = '\0';
-		if (z)
-			check_quotes(lst, line, x, str);
-		else
+		// if (z)
+		// {
+		// 	str = check_quotes(lst, line, x, env_parse);
+		// 	str2 = ft_strjoin(str2, str);
+			// printf("str = %s\n", str);
+		// 	exit (0);
+		// 	//join here str =
+		// }
+		// else
+		(*x)++;
 			ft_lstadd_back(lst, ft_lstnew(str));
 	}
 	return (0);
@@ -223,8 +233,10 @@ int	lexing2(char *line, t_token **lst, int *x)
 
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
-	int	z;
-	int	w;
+	char	*str;
+	char	*str2 = NULL;
+	int		z;
+	int		w;
 
 	z = 0;
 	w = 0;
@@ -248,29 +260,38 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		// if ((line[*x] == '"'  || line[*x] == '\'')
 		// 	&& line[*x + 1] == '$')
 		// 	expand(lst, line, x, env_parse);
-		if (line[*x] == '"' || line[*x] == '\'')
-		{
-			z = *x;
-			while (line[z] && ((line[z] == '"'
-				|| line[z] == '\'' || line[z] == '$')))
-			{
-				if (line[z] == '$' && (line[z - 1] == '"'
-					|| line[z - 1] == '\''))
+		// if (line[*x] == '"' || line[*x] == '\'' || line[*x] == '$')
+		// {
+			// z = *x;
+			// while (line[z] && ((line[z] == '"'
+			// 	|| line[z] == '\'' || line[z] == '$')))
+			// {
+			// 	if (line[z] == '$' && (line[z - 1] == '"'
+			// 		|| line[z - 1] == '\''))
+			// 	{
+			// 		w++;
+			// 		expand(lst, line, x, env_parse);
+			// 		break ;	
+			// 	}
+			// 	z++;
+			// }
+			// if (!w)
+			// {
+				lexing2(line, lst, x, env_parse);
+				// printf("line[*x] = %c\n", line[*x]);
+				str = check_quotes(lst, line, x, env_parse);
+				if(str)
 				{
-					w++;
-					expand(lst, line, x, env_parse);
-					break ;	
+					str2 = ft_strjoin(str2, str);
+					// printf("str2** = [%s]\n", str2);
+					if (str2[0])
+						ft_lstadd_back(lst, ft_lstnew(str2));
 				}
-				z++;
-			}
-			if (!w)
-			{
-				check_quotes(lst, line, x, NULL);
-			}
-		}
-		else if (line[*x] == '$')
-			expand(lst, line, x, env_parse);
-		lexing2(line, lst, x);
+				// exit (0);
+			// }
+		// }
+		// else if (line[*x] == '$')
+		// 	expand(lst, line, x, env_parse);
 		lexing3(line, lst, x);
 	}
 	lexing4(lst);
