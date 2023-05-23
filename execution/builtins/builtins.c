@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/23 15:17:26 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:21:26 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	echo(char **p)
 		i++;
 	}
 	if (check_n(p[1]) == 2)
-		printf("\n");
+		printf("ta sir\n");
 }
 
 void	unset(t_list **head, char *key)
