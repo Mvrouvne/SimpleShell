@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:28:21 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/22 22:15:42 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:42:51 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int ac, char **av, char **env)
 		add_history(line);
 		lexing(line, &lst, &x, env_parse);
 		split_args(&lst, &args);
-		execution(&args, &saving_env, &saving_expo);
+		execution(&args, &saving_env, &saving_expo, env);
 		free (line);
 		// while (lst)
 		// {

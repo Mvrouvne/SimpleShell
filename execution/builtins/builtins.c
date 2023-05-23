@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/23 15:21:26 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:43:25 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	unset(t_list **head, char *key)
 	
 // }
 
-void	execution(t_args **p, t_list **saving_env, t_list **saving_expo)
+void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env)
 {
 	int		i;
 	t_list	*data;
@@ -155,6 +155,6 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo)
 		else
 		{
 			puts("----");
-			Implement_Cmnd((*saving_expo), *p);
+			Implement_Cmnd((*saving_expo), *p, env);
 		}
 }

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/18 18:23:55 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:43:47 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		cd(char **p, t_list *saving_expo);
 t_list	*get_env(char **env);
 
 t_list	*export(char *p, t_list **saving_expo);
-void	execution(t_args **p, t_list **saving_env, t_list **saving_expo);
+void	execution(t_args **p, t_list **saving_env, t_list **saving_expo,char **env);
 void    export_a(t_list **saving_expo, t_list **saving_env, t_args **p);
 
 t_list	*sort_list(t_list **saving_expo);
@@ -54,7 +54,7 @@ char	*search_path(t_list *saving_expo, char *node);
 int		search_plus(char *str);
 int		search_egal(char *str);
 
-void	Implement_Cmnd(t_list *saving_expo, t_args *p);
+void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env);
 void	big_cd(t_list **saving_env, t_list **saving_expo, t_args **p);
 void	modify_Pwd(t_list **saving_env, char *new_pwd);
 void	add_OldPwd(t_list **saving_env, char *old_pwd);

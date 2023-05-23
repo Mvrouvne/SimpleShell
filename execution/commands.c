@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/23 14:59:04 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:05:00 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*search_path(t_list *saving_expo, char *node)
 	return (NULL);
 }
 
-void	Implement_Cmnd(t_list *saving_expo, t_args *p)
+void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 {
 	char	**spl_path;
 	char	*command;
@@ -39,6 +39,7 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p)
 	char	*find_path;
 	int		i;
 	int		fd;
+	(void)env;
 
 	find_path = search_path(saving_expo, "PATH");
 	// printf("%s\n", find_path);
@@ -52,9 +53,10 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p)
 		{
 			command = ft_strjoin(spl_path[i], cmd);
 			if (access(command, X_OK) != -1)
-				execve(command, &p->args[0], NULL);
+				execve(command, &p->args[0], env);
 			i++;
 		}
-		// close (fd);
+		close (fd);
 	}
+	wait(NULL);
 }
