@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/22 22:22:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:56:56 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,16 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			s_count++;
 		temp++;
 	}
-	if (d_count % 2 != 0 || s_count % 2 != 0)
-	{
-		write (2, "unclosed quote!\n", 17);
-		exit (1);
-	}
+	// if (d_count % 2 != 0 && d_count >= s_count)
+	// {
+	// 	write (2, "unclosed quote!\n", 17);
+	// 	exit (1);
+	// }
+	// if (s_count % 2 != 0 && s_count >= d_count)
+	// {
+	// 	write (2, "unclosed quote!\n", 17);
+	// 	exit (1);
+	// }
 	while (line[*x] && line[*x] != ' ')
 	{
 		if (line[*x] == '"')
@@ -78,6 +83,11 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		else 
 			str = ft_chrjoin(str, line[*x]);
 		(*x)++;
+	}
+	if (line[*x] && line[*x] == ' ')
+	{
+		ft_lstadd_back(lst, ft_lstnew(str));
+		return (NULL);
 	}
 	return (str);
 }
