@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/21 15:37:40 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:59:04 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,23 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p)
 	char	*cmd;
 	char	*find_path;
 	int		i;
+	int		fd;
 
 	find_path = search_path(saving_expo, "PATH");
 	// printf("%s\n", find_path);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
 	i = 0;
-	while (spl_path[i])
+	fd = fork();
+	if (fd == 0)
 	{
-		command = ft_strjoin(spl_path[i], cmd);
-		if (access(command, X_OK) != -1)
-			execve(command, &p->args[0], NULL);
-		i++;
+		while (spl_path[i])
+		{
+			command = ft_strjoin(spl_path[i], cmd);
+			if (access(command, X_OK) != -1)
+				execve(command, &p->args[0], NULL);
+			i++;
+		}
+		// close (fd);
 	}
-	exit(0);
 }

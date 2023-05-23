@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/18 18:30:43 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:17:26 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_n(char *str)
 
 void	echo(char **p)
 {
-	int	i;
+		int	i;
 
 	i = 1;
 	if (p[i] == NULL)
@@ -46,12 +46,15 @@ void	echo(char **p)
 		{
 			while (p[i])
 				printf("%s ", p[i++]);
+			if (check_n(p[1]) == 1)
+				printf("\n");
 			return ;
 		}
 		else if (check_n(p[i]) == 2)
 		{
 			while (p[i])
 				printf("%s ", p[i++]);
+			printf("\n");
 			return;
 		}
 		else if (check_n(p[i]) == 2)
@@ -150,5 +153,8 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo)
 		else if (!ft_strcmp((*p)->args[0], "export"))			//<----- {  export  }
 			export_a(saving_expo, saving_env, p);
 		else
+		{
+			puts("----");
 			Implement_Cmnd((*saving_expo), *p);
+		}
 }
