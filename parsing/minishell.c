@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/24 16:29:57 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:18:44 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,8 +252,6 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		}
 		lexing3(line, lst, x);
 	}
-	if (!(errors_check(*lst)))
-		return (1);
 	lexing4(lst);
 	return (0);
 }
