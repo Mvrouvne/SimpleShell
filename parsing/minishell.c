@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/23 23:19:57 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:29:57 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	split_args(t_token **lst, t_args **args)
 			(*args)->infile = open(temp->next->data, O_RDWR);
 			if ((*args)->infile == -1)
 			{
-				write(2, "Error1\n", 7);
-				exit(1);
+				perror(temp->next->data);
+				return (1);
 			}
 			temp = temp->next;
 		}
@@ -48,8 +48,8 @@ int	split_args(t_token **lst, t_args **args)
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_TRUNC, 0777);
 			if ((*args)->outfile == -1)
 			{
-				write(2, "Error2\n", 7);
-				exit(1);
+				perror(temp->next->data);
+				return (1);
 			}
 			temp = temp->next;
 		}
@@ -252,7 +252,8 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		}
 		lexing3(line, lst, x);
 	}
-	errors_check(*lst);
+	if (!(errors_check(*lst)))
+		return (1);
 	lexing4(lst);
 	return (0);
 }

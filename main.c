@@ -32,8 +32,8 @@ int	main(int ac, char **av, char **env)
 			break ;
 		add_history(line);
 		lexing(line, &lst, &x, env_parse);
-		split_args(&lst, &args);
-		execution(&args, &saving_env, &saving_expo, env);
+		if (!(split_args(&lst, &args)))
+			execution(&args, &saving_env, &saving_expo, env);
 		free (line);
 		// while (lst)
 		// {
