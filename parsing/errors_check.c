@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/24 23:31:00 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:11:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	errors_check(t_token *lst)
 		{
 			if (filenames_check(lst->next->data))
 			{
-				write (2, "syntax error near unexpected token `|'\n", 40);
+				write (2, "syntax error near unexpected token `", 37);
+				// write (2, lst->next->data, 1);
+				ft_putstr_fd(lst->next->data, 2);
+				write (2, "\'\n", 2);
 				return (1);
 			}
 		}
