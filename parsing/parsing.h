@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/23 21:44:28 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:57:58 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_args	*ft_lstlast2(t_args *lst);
 int		create_list(t_args **args, t_token *token);
 int		args_count(t_token *lst);
 void	check_in_out(t_args *args, int in, int out);
-int		heredoc(char *delimiter);
+int		heredoc(char *delimiter, t_env *env_parse);
 char	*get_next_line(int fd);
 // char	*ft_strjoin(char *s1, char *s2);
 // char	*ft_strchr(char *str, int c);
@@ -84,9 +84,9 @@ int		lexing(char *line, t_token **lst, int *x, t_env *env_parse);
 int		lexing2(char *line, t_token **lst, int *x, t_env *env_parse);
 int		lexing3(char *line, t_token **lst, int *x);
 int		lexing4(t_token	**lst);
-int		split_args(t_token **lst, t_args **args);
+int		split_args(t_token **lst, t_args **args, t_env *env_parse);
 char	*ft_chrjoin(char *s1, char c2);
-char	*expand(t_token **lst, char *line, int *x, t_env *env_parse);
+char	*expand(char *line, int *x, t_env *env_parse);
 int		errors_check(t_token *lst);
 
 # endif

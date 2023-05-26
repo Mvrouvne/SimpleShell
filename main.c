@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 			break ;
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
-			&& (!(errors_check(lst)) && (!(split_args(&lst, &args)))))
+			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 			execution(&args, &saving_env, &saving_expo, env);
 		free (line);
 		// while (lst)

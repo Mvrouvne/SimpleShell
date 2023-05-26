@@ -6,13 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/26 16:45:20 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:58:03 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	split_args(t_token **lst, t_args **args)
+int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 {
 	t_token	*temp;
 	t_args	*temp2;
@@ -94,7 +94,7 @@ int	split_args(t_token **lst, t_args **args)
 			check_in_out(*args, in, out);
 		}
 		else if (temp->type == DELIMITER)
-			heredoc(temp->data);
+			heredoc(temp->data, env_parse);
 		temp = temp->next;
 	}
 	*args = temp2;
