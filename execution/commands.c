@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/23 17:05:00 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/05/26 21:42:50 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 	(void)env;
 
 	find_path = search_path(saving_expo, "PATH");
+	if (!find_path)
+		perror(p->args[0]);
 	// printf("%s\n", find_path);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
@@ -53,10 +55,10 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 		{
 			command = ft_strjoin(spl_path[i], cmd);
 			if (access(command, X_OK) != -1)
-				execve(command, &p->args[0], env);
+				execve(command, p->args, env);
 			i++;
 		}
-		close (fd);
+		// close (fd);
 	}
 	wait(NULL);
 }

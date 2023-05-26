@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/26 17:48:57 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/26 21:16:36 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			{
 				if (line[*x] == '$')
 				{
-					str2 = expand(lst, line, x, env_parse);
+					str2 = expand(line, x, env_parse);
 					if (str2)
 						str = ft_strjoin(str, str2);
 				}
@@ -74,7 +74,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		}
 		else if (line[*x] == '$')
 		{
-			str2 = expand(lst, line, x, env_parse);
+			str2 = expand(line, x, env_parse);
 			if (str2)
 				str = ft_strjoin(str, str2);
 			(*x)--;
