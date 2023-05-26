@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/25 14:45:06 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:45:20 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,50 +172,50 @@ int	lexing3(char *line, t_token **lst, int *x)
 	return (0);
 }
 
-int	lexing2(char *line, t_token **lst, int *x, t_env *env_parse)
-{
-	(void) env_parse;
-	char	*str;
-	int		y;
-	int		z;
+// int	lexing2(char *line, t_token **lst, int *x, t_env *env_parse)
+// {
+// 	(void) env_parse;
+// 	char	*str;
+// 	int		y;
+// 	int		z;
 
-	y = *x;
-	z = 0;
-	while (line[y])
-	{
-		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|' || line[*x] == ' '
-			|| line[*x] == '"' || line[*x] == '\''
-			|| line[*x] == '$')
-			break ;
-		y++;
-	}
-	if (y)
-	{
-		str = malloc(sizeof(char) * y + 1);
-		if (!str)
-			exit (1);
-	}
-	y = 0;
-	while (line[*x])
-	{
-		if  (line[*x] == '<' || line[*x] == '>'
-			|| line[*x] == '|' || line[*x] == ' '
-			|| line[*x] == '$' || line[*x] == '"'
-			|| line[*x] == '\'')
-			break ;
-		str[y] = line[*x];
-		y++;
-		(*x)++;
-	}
-	if (y)
-	{
-		str[y] = '\0';
-		(*x)++;
-		ft_lstadd_back(lst, ft_lstnew(str));
-	}
-	return (0);
-}
+// 	y = *x;
+// 	z = 0;
+// 	while (line[y])
+// 	{
+// 		if  (line[*x] == '<' || line[*x] == '>'
+// 			|| line[*x] == '|' || line[*x] == ' '
+// 			|| line[*x] == '"' || line[*x] == '\''
+// 			|| line[*x] == '$')
+// 			break ;
+// 		y++;
+// 	}
+// 	if (y)
+// 	{
+// 		str = malloc(sizeof(char) * y + 1);
+// 		if (!str)
+// 			exit (1);
+// 	}
+// 	y = 0;
+// 	while (line[*x])
+// 	{
+// 		if  (line[*x] == '<' || line[*x] == '>'
+// 			|| line[*x] == '|' || line[*x] == ' '
+// 			|| line[*x] == '$' || line[*x] == '"'
+// 			|| line[*x] == '\'')
+// 			break ;
+// 		str[y] = line[*x];
+// 		y++;
+// 		(*x)++;
+// 	}
+// 	if (y)
+// 	{
+// 		str[y] = '\0';
+// 		(*x)++;
+// 		ft_lstadd_back(lst, ft_lstnew(str));
+// 	}
+// 	return (0);
+// }
 
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
@@ -242,7 +242,7 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 	{
 		while (line[*x] == ' ' || line[*x] == '\t')
 			(*x)++;
-		lexing2(line, lst, x, env_parse);
+		// lexing2(line, lst, x, env_parse);
 		str = check_quotes(lst, line, x, env_parse);
 		if(str)
 		{
