@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/27 23:18:30 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:25:32 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@ int	errors_check(t_token *lst)
 	int	x;
 
 	x = 0;
+	if ((lst->next) && (!(ft_strcmp(lst->data, "|"))))
+	{
+		write(2, "syntax error near unexpected token `|'\n", 40);
+		return (1);
+	}
 	while (lst)
 	{
-		if ((!(lst->next)) && ((!(ft_strcmp(lst->data, "<"))) || (!(ft_strcmp(lst->data, "<<")))
-			|| (!(ft_strcmp(lst->data, ">")) || (!(ft_strcmp(lst->data, ">>"))))))
+		if ((!(lst->next)) && ((!(ft_strcmp(lst->data, "<")))
+			|| (!(ft_strcmp(lst->data, "<<"))) || (!(ft_strcmp(lst->data, ">"))
+			|| (!(ft_strcmp(lst->data, ">>")))) || (!(ft_strcmp(lst->data, "|")))))
 		{
 			write (2, "syntax error near unexpected token `newline'\n", 46);
 			return (1);

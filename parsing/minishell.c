@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/26 21:23:30 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:06:40 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 				}
 				if ((*args)->args[y])
 					(*args)->args[y] = ft_strdup(temp->data);
+				// puts((*args)->args[y]);
 				y++;
 			}
 			check_in_out(*args, in, out);

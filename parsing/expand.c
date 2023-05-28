@@ -6,13 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/27 23:31:24 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:10:51 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*expand(char *line, int *x, t_env *env_parse)
+char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 {
 	char	*to_expand;
 	char	*expanded = NULL;
@@ -22,6 +22,16 @@ char	*expand(char *line, int *x, t_env *env_parse)
 	char 	*str;
 	z = 0;
 	y = 0;
+	while (lst)
+	{
+		if ((!(ft_strcmp(lst->data, ">")) || (!(ft_strcmp(lst->data, ">>"))
+			|| (!(ft_strcmp(lst->data, "<"))))))
+		{
+			z++;
+			break ;
+		}
+		lst = lst->next;
+	}
 	str = malloc(sizeof(char));
 	str[0] = '\0';
 	(*x)++;
@@ -41,10 +51,18 @@ char	*expand(char *line, int *x, t_env *env_parse)
 		{
 			expanded = ft_substr(env_parse->value, ft_strlen(to_expand) + 1,
 				ft_strlen(env_parse->value));
-			break ;
+			*x = y;
+			return (expanded);
 		}
 		env_parse = env_parse->next;
 	}
+	if (z)
+	{
+		write (2, "$", 1);
+		write (2, to_expand, ft_strlen(to_expand));
+		write (2, ": ambiguous redirect\n", 22);
+		exit (1);
+	}
 	*x = y;
-	return (expanded);
+	return (NULL);
 }
