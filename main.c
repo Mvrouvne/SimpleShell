@@ -14,7 +14,7 @@ int	main(int ac, char **av, char **env)
 	
 	saving_env = get_env(env);
 	saving_expo = get_env(env);
-	env_parse = (t_env *)get_env(env);
+	env_parse = (t_env *)saving_expo;
 	ac = 0;
 	// int	x = 0;
 	// int	y = 0;
@@ -26,6 +26,7 @@ int	main(int ac, char **av, char **env)
 	while(1)
 	{
 		lst = NULL;
+		args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
 		if (!line)
