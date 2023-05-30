@@ -29,6 +29,7 @@ int	main(int ac, char **av, char **env)
 		// args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
+		signal(SIGINT, NULL);
 		if (!line)
 			break ;
 		add_history(line);
