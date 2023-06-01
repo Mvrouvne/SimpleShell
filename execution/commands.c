@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/31 14:27:34 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:10:33 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void execute_cmd(t_args *p, t_list *saving_expo, char **env)
 				execve(command, (p)->args, env);
 			i++;
 		}
-		// close (fd);
+		close (fd);
 	}
 	wait(NULL);
 }
@@ -66,8 +66,8 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 {
 	t_args *tmp;
 	int pipeIndex = 0;
-	int **fd;
-	int		i;
+	// int **fd;
+	// int		i;
 	
 	tmp = p;
 	while (tmp->next)   // this while for getting the number of pipes
@@ -83,9 +83,11 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 		only_out = fork();
 		if (only_out == 0)
 		{
-			dup2(p->outfile, 1);
+			int stdout = dup(1);
+			dup2(p->outfile, stdout);
 			execute_cmd(p, saving_expo, env);
 			close (p->outfile);
+			dup2(1, stdout);
 		}
 		wait (NULL);
 	}
@@ -103,7 +105,7 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 		wait (NULL);
 	}
 	//👇finissiio khadma kat7annnn
-	if (pipeIndex == 0 && tmp->infile > 2 && tmp->outfile > 2)
+	else if (pipeIndex == 0 && tmp->infile > 2 && tmp->outfile > 2)
 	{
 		puts("-----------");
 		printf("you have %d pipes\n", pipeIndex);
@@ -129,7 +131,7 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 		}
 		wait (NULL);
 	}
-	else if(pipeIndex == 0 && tmp->infile < 2 && tmp->outfile < 2)
+	 if(pipeIndex == 0 && tmp->infile < 2 && tmp->outfile < 2)
 	{
 		puts("------------");
 		puts("pipeIndex == 0 && tmp->infile < 2 && tmp->outfile < 2");
@@ -137,18 +139,20 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 		execute_cmd(p, saving_expo, env);	
 	}
 		
-	// else
+	//  if (pipeIndex > 0)
 	// {
 	// 	fd = (int **)malloc(sizeof(int *) * pipeIndex);
-	// 	i = 1;
+	// 	i = 0;
 	// 	while (pipeIndex > i)
 	// 	{
 	// 		fd[i] = (int *)malloc(sizeof(int) * 2);
 	// 		i++;
 	// 	}
-	// 	i = 1;
+	// 	int fd[pipeIndex][2];   //////////////////////////
+	// 	i = 0;
 	// 	while (i < pipeIndex)
 	// 	{
+	// 		puts("pipe ()");
 	// 		if (pipe(fd[i]) == -1)  // set up pipes
 	// 		{
 	// 			perror("failed creation pipe");
@@ -158,55 +162,46 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 	// 	}
 	// 	tmp = p;
 	// 	i = 0;
-	// 	while (tmp->next)
+	// 	while (tmp)
 	// 	{
 	// 		int f;
 	// 		f = fork();
 	// 		if (f == 0)
 	// 		{
-	// 			if (tmp->infile > 2) //hna kayn infile
+	// 			printf("%d\n", i);
+	// 			if (tmp->infile > 2 && tmp->next && i == 0)
 	// 			{
-	// 				puts("tmp->infile > 2");
-	// 				dup2(tmp->infile ,0);
+	// 				dup2(tmp->infile, 0); // ayqra lia mn infile
 	// 				close(tmp->infile);
 	// 			}
-	// 			else if (tmp->infile <= 2 && i > 1) //hna
+	// 			else if (tmp->infile < 2 && i > 0 && tmp->next)
 	// 			{
-	// 				puts("tmp->infile <= 2 && tmp->next");
-	// 				dup2(fd[i][0], fd[i - 1][0]);
+	// 				puts("hana");
+	// 				dup2(fd[i][0], 0);
 	// 				close(fd[i][0]);
-	// 			}
-	// 			printf("\ntmp->outfile == %d\n\n", tmp->outfile);
-	// 			if (tmp->outfile > 2)
-	// 			{
-	// 				puts("tmp->outfile > 2");
-	// 				dup2(tmp->outfile, 1);
-	// 				close(tmp->outfile);
-	// 			}
-	// 			else if(tmp->outfile < 3 && i > 1)
-	// 			{
-	// 				puts("tmp->outfile < 3 && tmp->next");
-	// 				dup2(fd[i][1], fd[i - 1][1]);
-	// 				close(fd[i][1]);
-	// 			}
-	// 			else if (tmp->outfile == 1 && i == 0)
-	// 			{
-	// 				dup2(tmp->outfile, 1);
-	// 				close(tmp->outfile);
+	// 				exit(0);
 	// 			}
 	// 			execute_cmd(p, saving_expo, env);
-	// 			wait (NULL);
 	// 		}
 	// 		i++;
 	// 		tmp = tmp->next;
 	// 	}
-	// }
+	// 	i = 0;
+	// 	while (i < pipeIndex)
+	// 	{
+	// 		puts("aww");
+	// 		wait(NULL);
+	// 		i++;
+	// 	}
+	// 	tmp = p;
+	// 	exit(0);
+	// // }
 	
 	
 	
-	// puts("\n");
-	// puts("\n");
-	// puts("\n");
+	// // puts("\n");
+	// puts("");
+	// puts("");
 	// while (p)
 	// {
 	// 		int t = 0;
