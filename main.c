@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **env)
 	while(1)
 	{
 		lst = NULL;
-		// args = NULL;
+		args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
 		signal(SIGINT, NULL);
