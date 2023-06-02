@@ -3,7 +3,11 @@
 
 void	handler(int num)
 {
-	num = NULL;
+	num = 0;
+
+	write(1, "", 0);
+	// printf("");
+	return ;
 	// exit (0);
 }
 
@@ -31,18 +35,19 @@ int	main(int ac, char **av, char **env)
 	// t_args = args;
 	while(1)
 	{
+		// signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
-		signal(SIGINT, handler);
 		if (!line)
-			break ;
+			exit (1);
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
-			// execution(&args, &saving_env, &saving_expo, env);
-			continue;
+			execution(&args, &saving_env, &saving_expo, env);
+			// continue;
 		free (line);
 		// while (lst)
 		// {
