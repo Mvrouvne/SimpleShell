@@ -3,11 +3,13 @@
 
 void	handler(int num)
 {
-	num = 0;
+	(void) num;
+	// num = 0;
 
-	write(1, "", 0);
-	// printf("");
-	return ;
+	// printf("\n");
+	write(1, "\n", 1);
+	// readline("minishell:$> ");
+	// return ;
 	// exit (0);
 }
 
