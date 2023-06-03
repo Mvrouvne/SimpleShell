@@ -4,12 +4,10 @@
 void	handler(int num)
 {
 	(void) num;
-	// num = 0;
-
 	printf("\n");
-	readline("minishell:$> ");
-	// return ;
-	// exit (0);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int	main(int ac, char **av, char **env)
