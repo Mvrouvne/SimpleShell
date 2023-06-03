@@ -37,6 +37,8 @@ int	main(int ac, char **av, char **env)
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 			execution(&args, &saving_env, &saving_expo, env);
 			// continue;
+			while (wait(NULL) != -1)
+				continue ;
 		free (line);
 		// while (lst)
 		// {
@@ -45,6 +47,7 @@ int	main(int ac, char **av, char **env)
 		// 	free(temp->data);
 		// 	free(temp);
 		// }
+		// while (1);
 	}
 	write(1, "\n", 1);
 	int	t = 0;
