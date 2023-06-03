@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/28 12:39:04 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/03 13:22:45 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
         if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
         {
             free (line);
+			close (fd[1]);
             return (1);
         }
 		// printf("line = %s\n", line);

@@ -6,9 +6,8 @@ void	handler(int num)
 	(void) num;
 	// num = 0;
 
-	// printf("\n");
-	write(1, "\n", 1);
-	// readline("minishell:$> ");
+	printf("\n");
+	readline("minishell:$> ");
 	// return ;
 	// exit (0);
 }
@@ -23,33 +22,36 @@ int	main(int ac, char **av, char **env)
 	t_list	*saving_expo;
 	t_list	*saving_env;
 	t_env	*env_parse;
-	
+
 	saving_env = get_env(env);
 	saving_expo = get_env(env);
 	env_parse = (t_env *)saving_expo;
 	ac = 0;
-	// int	x = 0;
-	// int	y = 0;
 	x = 0;
 	lst = NULL;
 	args = NULL;
-	// args = malloc(sizeof(t_token));
-	// t_args = args;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
 	while(1)
 	{
-		// signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
 		if (!line)
-			exit (1);
+		{
+			printf("exit\n");
+			exit (0);
+		}
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
+		{
 			execution(&args, &saving_env, &saving_expo, env);
 			// continue;
+			while (wait(NULL) != -1)
+				continue ;
+		}
 		free (line);
 		// while (lst)
 		// {
@@ -58,6 +60,7 @@ int	main(int ac, char **av, char **env)
 		// 	free(temp->data);
 		// 	free(temp);
 		// }
+		// while (1);
 	}
 	write(1, "\n", 1);
 	int	t = 0;
