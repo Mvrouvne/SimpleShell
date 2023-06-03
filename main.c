@@ -1,6 +1,16 @@
 
 #include "minishell.h"
 
+void	handler(int num)
+{
+	num = 0;
+
+	write(1, "", 0);
+	// printf("");
+	return ;
+	// exit (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
@@ -25,13 +35,14 @@ int	main(int ac, char **av, char **env)
 	// t_args = args;
 	while(1)
 	{
+		// signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
-		signal(SIGINT, NULL);
 		if (!line)
-			break ;
+			exit (1);
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
