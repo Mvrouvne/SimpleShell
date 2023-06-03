@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/03 13:06:48 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/03 14:44:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ void execute_cmd(t_args *p, t_list *saving_expo, char **env)
 				execve(command, (p)->args, env);
 			i++;
 		}
-		close (fd);
-		exit (0);
+		ft_putstr_fd(*p->args, 2);
+		write (2, ": command not found\n", 21);
+		// close(p->infile);
+		// close(p->outfile);
+		// exit (0);
 	}
 }
 
@@ -87,6 +90,10 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 		execute_cmd(p, saving_expo, env);
 	else if (pipeIndex == 0 && tmp->infile > 2 && tmp->outfile > 2)
 		execute_cmd(p, saving_expo, env);
+	// else if (pipeIndex > 1)
+	// {
+		
+	// }
 	
 }
 

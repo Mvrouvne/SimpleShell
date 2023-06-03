@@ -14,35 +14,3 @@ hadik li kant o safi
 
 
 ****************************************************************************************************
-
-
-1- haja export tele3 lia env mretbin
-2- haja export chi haja atzid lia dik haja
-
-
-****************************************************************************************************
-
-
-
-echo meaha chi haja makadirch liya \n
-echo -nnnnn-nnnn khasha dir lia \n
-
-
-****************************************************************************************************
-
-
-
-multiple pipes  :
------------------
-
-input = 0; hna mnin kat9ra
-output = 1; hna mnin katkteb
-
-ila kan infile > 2  rah kayn
-ila kan outfile =  
-
-
-
-
-
-daba yallah kan7sseb ch7al endi mn pipe

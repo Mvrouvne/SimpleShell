@@ -41,8 +41,11 @@ int	main(int ac, char **av, char **env)
 		args = NULL;
 		x = 0;
 		line = readline("minishell:$> ");
-		if (!line)
-			exit (1);
+		// if (ft_strcmp(line, "\0") == 0)
+		// {
+		// 	puts("***********");
+		// 	break ;
+		// }
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
