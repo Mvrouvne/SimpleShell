@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/03 13:22:45 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:56:02 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
     char    *str;
     int     fd[2];
 	int		x;
+	int		max;
 	int		check;
     
     x = 0;
+	max = 0;
 	check = 0;
     // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
     pipe(fd);
@@ -81,6 +83,11 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
 	args->outfile = 1;
     while (1)
     {
+		if (max >= 16)
+		{
+			write (2, "maximum here-document count exceeded\n", 38);
+			exit (2);
+		}
         write(1, "> ", 2);
 	    line = get_next_line(0);
         if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
@@ -93,6 +100,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
     	str = heredoc_expand(line, env_parse);
 		printf("str = %s\n", str);
         write(fd[1], str, ft_strlen(line));
+		max++;
         free (line);
     }
     return (0);
