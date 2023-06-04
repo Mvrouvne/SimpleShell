@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/04 17:22:20 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/04 22:23:00 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 	int		z;
 	int		in;
 	int		out;
+	int		max;
 
 	y = 0;
 	z = 0;
 	in = 0;
 	out = 0;
+	max = 0;
 	temp = *lst;
 	create_list(args, *lst);
 	temp2 = *args;
@@ -93,7 +95,16 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 			check_in_out(*args, in, out);
 		}
 		else if (temp->type == DELIMITER)
+		{
+			printf("max = %d\n", max);
+			if (max >= 16)
+			{
+				write (2, "maximum here-document count exceeded\n", 38);
+				exit (2);
+			}
+			max++;
 			heredoc(*args, temp->data, env_parse);
+		}
 		temp = temp->next;
 	}
 	*args = temp2;
