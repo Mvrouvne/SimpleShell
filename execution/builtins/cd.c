@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 17:58:03 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/18 18:10:35 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/04 16:50:00 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 t_list	*search_OldPwd(t_list *saving_env)
 {
-	t_list	*tmp;
+	t_list	*tmp = NULL;
 	
 	tmp = saving_env;
 	while (tmp)
@@ -29,7 +29,7 @@ t_list	*search_OldPwd(t_list *saving_env)
 
 t_list	*search_Pwd(t_list *saving_env)
 {
-	t_list	*tmp;
+	t_list	*tmp = NULL;
 	
 	tmp = saving_env;
 	while (tmp)
@@ -52,12 +52,12 @@ void	modify_Pwd(t_list **saving_env, char *new_pwd)
 
 void	add_OldPwd(t_list **saving_env, char *old_pwd)
 {
-	t_list	*new;
+	t_list	*new = NULL;
 	(void) saving_env;
 	char	str[8] = "OLDPWD=";
 	int		i;
-	char	*new_str;
-	t_list	*oldpwd_found;
+	char	*new_str = NULL;
+	t_list	*oldpwd_found = NULL;
 	
 	oldpwd_found = search_OldPwd(*saving_env);
 	if (oldpwd_found != NULL)

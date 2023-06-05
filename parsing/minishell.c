@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/03 14:55:38 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/04 22:23:00 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 	int		z;
 	int		in;
 	int		out;
+	int		max;
 
 	y = 0;
 	z = 0;
 	in = 0;
 	out = 0;
+	max = 0;
 	temp = *lst;
 	create_list(args, *lst);
 	temp2 = *args;
@@ -87,15 +89,22 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 					(*args)->args = malloc(sizeof(char *) * (x + 1));
 					(*args)->args[x] = NULL;
 				}
-				if ((*args)->args[y])
-					(*args)->args[y] = ft_strdup(temp->data);
-				// puts((*args)->args[y]);
+				(*args)->args[y] = ft_strdup(temp->data);
 				y++;
 			}
 			check_in_out(*args, in, out);
 		}
 		else if (temp->type == DELIMITER)
+		{
+			printf("max = %d\n", max);
+			if (max >= 16)
+			{
+				write (2, "maximum here-document count exceeded\n", 38);
+				exit (2);
+			}
+			max++;
 			heredoc(*args, temp->data, env_parse);
+		}
 		temp = temp->next;
 	}
 	*args = temp2;

@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/03 15:16:54 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/04 17:22:57 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 	t_list	*tmp;
 
 	data = (t_list *)malloc(sizeof(t_list));
-	
 	if (!ft_strcmp((*p)->args[0], "echo"))					//<----- {  echo  }
 		echo((*p)->args);
 	else if (!ft_strcmp((*p)->args[0], "pwd"))				//<----- {  pwd  }
