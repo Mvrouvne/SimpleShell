@@ -1,14 +1,14 @@
 
 #include "minishell.h"
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **env)
 	lst = NULL;
 	args = NULL;
 	signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, handler);
+	signal(SIGINT, handler);
 	while(1)
 	{
 		lst = NULL;
@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **env)
 			while (wait(NULL) != -1)
 				continue ;
 		}
-		system("leaks minishell");
+		// system("leaks minishell");÷
 		free (line);
 		// while (lst)
 		// {

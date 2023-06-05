@@ -32,7 +32,7 @@ INCLUDES = libft/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 # INCLUDES = execution/execution.a parsing/minishell.a libft/libft.a
-
+READLINE = -lreadline -L /Users/machaiba/.brew/cellar/readline/8.2.1/lib -I /Users/machaiba/.brew/cellar/readline/8.2.1/include
 # PARSING = 
 # LIBFT = 
 
@@ -42,7 +42,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ)
 	make -C libft
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -lreadline -o $(NAME)	
+	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) $(READLINE) -o $(NAME)	
 
 clean :
 	rm -f main.o
