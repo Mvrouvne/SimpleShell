@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/30 13:40:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:23:46 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	{
 		if (line[*x] == '"')
 		{
+			(*lst)->av_quotes++;
 			(*x)++;
 			while (line[*x] && line[*x] != '"')
 			{
@@ -65,6 +66,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		}
 		else if (line[*x] == '\'')
 		{
+			(*lst)->av_quotes++;
 			(*x)++;
 			while (line[*x] && line[*x] != '\'')
 			{

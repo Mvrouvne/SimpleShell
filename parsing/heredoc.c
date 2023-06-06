@@ -6,26 +6,31 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/04 22:20:40 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:11:18 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*heredoc_expand(char *line, t_env *env_parse)
+char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 {
+	(void) lst;
 	char	*to_expand;
     int     x;
 	int		y;
 	int		z;
 	int		j;
+	int		i;
 	char 	*str;
     x = 0;
 	z = 0;
 	y = 0;
+	i = 0;
 	str = malloc(sizeof(char));
 	str[0] = '\0';
 	j = 0;
+	if (lst && (lst->av_quotes))
+		return (line);
 	while (line[x])
 	{
 		if (line[x] == '$')
@@ -41,14 +46,14 @@ char	*heredoc_expand(char *line, t_env *env_parse)
 			to_expand = ft_substr(line, x, j);
 			while (env_parse)
 			{
-				if (!(ft_strncmp(to_expand, env_parse->value, ft_strlen(to_expand) - 1)))
+				i = 0;
+				while (env_parse->value && env_parse->value[i] != '=')
+					i++;
+				if (!(ft_strncmp(to_expand, env_parse->value, i)))
 				{
-					str = ft_strjoin(str, ft_substr(env_parse->value, ft_strlen(to_expand),
-						ft_strlen(env_parse->value)));
-					break ;
+					str = ft_substr(env_parse->value, i + 1,
+						ft_strlen(env_parse->value));
 				}
-				else
-					return (line);
 				env_parse = env_parse->next;
 			}
 			x = j;
@@ -60,7 +65,7 @@ char	*heredoc_expand(char *line, t_env *env_parse)
 	return (str);
 }
 
-int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
+int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 {
     char    *line;
     char    *str;
@@ -89,10 +94,10 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
 			close (fd[1]);
             return (1);
         }
-		// printf("line = %s\n", line);
-    	str = heredoc_expand(line, env_parse);
-		printf("str = %s\n", str);
-        write(fd[1], str, ft_strlen(line));
+    	str = heredoc_expand(line, env_parse, lst);
+		// printf("str = %s\n", str);
+        write(fd[1], str, ft_strlen(str));
+		write (fd[1], "\n", 1);
         free (line);
     }
     return (0);

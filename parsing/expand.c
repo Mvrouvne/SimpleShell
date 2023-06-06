@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/05 19:31:22 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:20:13 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		j++;
 	}
 	to_expand = ft_substr(line, *x, j);
+	printf("to_expand = %s\n", to_expand);
 	while (env_parse)
 	{
 		i = 0;
@@ -56,6 +57,7 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		{
 			expanded = ft_substr(env_parse->value, i + 1,
 				ft_strlen(env_parse->value));
+			printf("expanded = %s\n", expanded);
 			*x = y;
 			return (expanded);
 		}
