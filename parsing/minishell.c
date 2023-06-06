@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/04 22:23:00 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:57:57 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_APPEND, 0777);
 			if ((*args)->outfile == -1)
 			{
-				write(2, "Error\n", 7);
-				exit(1);
+				perror(temp->next->data);
+				return (1);
 			}
 			temp = temp->next;
 		}
@@ -103,7 +103,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 				exit (2);
 			}
 			max++;
-			heredoc(*args, temp->data, env_parse);
+			heredoc(*args, temp->data, env_parse, *lst);
 		}
 		temp = temp->next;
 	}

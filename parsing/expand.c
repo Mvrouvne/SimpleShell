@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/05 19:31:22 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/06 21:53:24 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	int		j;
 	int		i;
 	char 	*str;
+	char 	*env_split;
+
+	env_split = malloc(sizeof(char));
+	env_split[0] = '\0';
 	z = 0;
 	y = 0;
 	i = 0;
@@ -47,12 +51,17 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		j++;
 	}
 	to_expand = ft_substr(line, *x, j);
+	// printf("to_expand = %s\n", to_expand);
 	while (env_parse)
 	{
 		i = 0;
+		env_split = NULL;
 		while (env_parse->value && env_parse->value[i] != '=')
-				i++;
-		if (!(ft_strncmp(to_expand, env_parse->value, i)))
+		{
+			env_split = ft_chrjoin(env_split, env_parse->value[i]);
+			i++;
+		}
+		if (!(ft_strcmp(to_expand, env_split)))
 		{
 			expanded = ft_substr(env_parse->value, i + 1,
 				ft_strlen(env_parse->value));

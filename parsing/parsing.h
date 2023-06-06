@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/05 13:23:58 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/06 22:52:54 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ enum e_definitions
 typedef struct  s_token
 {
 	int				type;
+	int				av_quotes;
 	char			*data;
 	struct s_token	*next;
 }   t_token;
@@ -75,7 +76,7 @@ t_args	*ft_lstlast2(t_args *lst);
 int		create_list(t_args **args, t_token *token);
 int		args_count(t_token *lst);
 void	check_in_out(t_args *args, int in, int out);
-int	heredoc(t_args *args, char *delimiter, t_env *env_parse);
+int		heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst);
 char	*get_next_line(int fd);
 // char	*ft_strjoin(char *s1, char *s2);
 // char	*ft_strchr(char *str, int c);
@@ -90,5 +91,6 @@ char	*ft_chrjoin(char *s1, char c2);
 char	*expand(t_token *lst, char *line, int *x, t_env *env_parse);
 int		errors_check(t_token *lst);
 void	rl_replace_line (const char *text, int clear_undo);
+char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst);
 
 # endif
