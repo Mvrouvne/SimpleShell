@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/01 22:32:54 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/05 21:46:08 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ int	errors_check(t_token *lst)
 		write(2, "syntax error near unexpected token `|'\n", 40);
 		return (1);
 	}
+	// while (lst)
+	// {
+	// 	printf("lst = %s\n", lst->data);
+	// 	lst = lst->next;
+	// }
+	// exit (0);
 	while (lst)
 	{
 		if ((!(lst->next)) && ((!(ft_strcmp(lst->data, "<")))
