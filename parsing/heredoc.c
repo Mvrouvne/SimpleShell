@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/06 22:56:56 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:50:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 	int		j;
 	int		i;
 	char 	*str;
+	char 	*env_split;
+
+	env_split = malloc(sizeof(char));
+	env_split[0] = '\0';
     x = 0;
 	z = 0;
 	y = 0;
@@ -31,6 +35,7 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 	j = 0;
 	// if (lst && (lst->av_quotes))
 	// 	return (line);
+	// printf("line = %s\n", line);
 	while (line[x])
 	{
 		if (line[x] == '$')
@@ -47,22 +52,27 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 			while (env_parse)
 			{
 				i = 0;
+				env_split = NULL;
+				env_split = malloc(sizeof(char));
+				env_split[0] = '\0';
 				while (env_parse->value && env_parse->value[i] != '=')
+				{
+					env_split = ft_chrjoin(env_split, env_parse->value[i]);
 					i++;
-				if (!(ft_strncmp(to_expand, env_parse->value, i)))
+				}
+				if (!(ft_strcmp(to_expand, env_split)))
 				{
 					str = ft_substr(env_parse->value, i + 1,
 						ft_strlen(env_parse->value));
 				}
 				env_parse = env_parse->next;
 			}
-			x = j;
+			x = j - 1;
 		}
 		else
 			str = ft_chrjoin(str, line[x]);
 		x++;
 	}
-	printf("str = %s\n", str);
 	return (str);
 }
 
@@ -94,7 +104,9 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
             free (line);
 			close (fd[1]);
             return (1);
-        }
+        }	
+		if (lst && (lst->av_quotes))
+			return (line);
     	str = heredoc_expand(line, env_parse, lst);
 		// printf("str = %s\n", str);
         write(fd[1], str, ft_strlen(str));

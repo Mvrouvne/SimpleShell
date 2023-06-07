@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/06 21:53:24 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:41:56 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	char 	*str;
 	char 	*env_split;
 
+	// while (env_parse)
+	// {
+	// 	puts(env_parse->value);
+	// 	env_parse = env_parse->next;
+	// }
 	env_split = malloc(sizeof(char));
 	env_split[0] = '\0';
 	z = 0;
@@ -56,6 +61,8 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	{
 		i = 0;
 		env_split = NULL;
+		env_split = malloc(sizeof(char));
+		env_split[0] = '\0';
 		while (env_parse->value && env_parse->value[i] != '=')
 		{
 			env_split = ft_chrjoin(env_split, env_parse->value[i]);
