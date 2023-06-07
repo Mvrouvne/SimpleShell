@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/07 19:50:43 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:33:02 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,28 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     {
         write(1, "> ", 2);
 	    line = get_next_line(0);
-        if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
+		if (line && line[0] == '\n')
+			continue;
+        else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
         {
             free (line);
 			close (fd[1]);
             return (1);
-        }	
-		if (lst && (lst->av_quotes))
-			return (line);
-    	str = heredoc_expand(line, env_parse, lst);
+        }
+		else if (lst && (lst->av_quotes))
+		{
+    		str = heredoc_expand(line, env_parse, lst);
+			if (!str)
+				return (1);
+        	write(fd[1], str, ft_strlen(str));
+			// write (fd[1], "\n", 1);	
+		}
 		// printf("str = %s\n", str);
-        write(fd[1], str, ft_strlen(str));
-		write (fd[1], "\n", 1);
+		else
+		{
+       		write(fd[1], line, ft_strlen(str));
+			// write (fd[1], "\n", 1);
+		}
         free (line);
     }
     return (0);
