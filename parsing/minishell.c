@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/07 16:11:05 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/08 23:55:44 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,20 @@ int	lexing3(char *line, t_token **lst, int *x)
 		str[2] = '\0';
 		ft_lstadd_back(lst, ft_lstnew(str));
 		(*x) += 2;
+		str = NULL;
+		str = malloc(sizeof(char));
+		str[0] = '\0';
+		while (line[*x] && (!(ft_isalpha(line[*x])) || line[*x] == '"' || line[*x] == '\''))
+		{
+			str = ft_chrjoin(str, line[*x]);
+			(*x)++;
+		}
+		if (str[0])
+		{
+			printf("str = [%s]\n", str);
+			ft_lstadd_back(lst, ft_lstnew(str));
+		}
+		free (str);
 	}
 	else if (line[*x] == '<' || line[*x] == '>' || line[*x] == '|')
 	{
@@ -177,6 +191,7 @@ int	lexing3(char *line, t_token **lst, int *x)
 		str[0] = line[*x];
 		str[1] = '\0';
 		ft_lstadd_back(lst, ft_lstnew(str));
+		free (str);
 		(*x)++;
 	}
 	return (0);
@@ -240,16 +255,16 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		return (1);
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
-	if (line[*x] == '<' && line[*x + 1] == '<')
-	{
-		ft_lstadd_back(lst, ft_lstnew("<<"));
-		(*x) += 2;
-	}
-	else if (line[*x] == '<')
-	{
-		ft_lstadd_back(lst, ft_lstnew("<"));
-		(*x)++;
-	}
+	// if (line[*x] == '<' && line[*x + 1] == '<')
+	// {
+	// 	ft_lstadd_back(lst, ft_lstnew("<<"));
+	// 	(*x) += 2;
+	// }
+	// else if (line[*x] == '<')
+	// {
+	// 	ft_lstadd_back(lst, ft_lstnew("<"));
+	// 	(*x)++;
+	// }
 	while (line[*x])
 	{
 		while (line[*x] && (line[*x] == ' ' || line[*x] == '\t'))

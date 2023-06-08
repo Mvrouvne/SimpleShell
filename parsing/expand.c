@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/07 18:41:56 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:01:59 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 			expanded = ft_substr(env_parse->value, i + 1,
 				ft_strlen(env_parse->value));
 			*x = y;
+			free (env_split);
 			return (expanded);
 		}
+		free (env_split);
 		env_parse = env_parse->next;
 	}
 	if (z)

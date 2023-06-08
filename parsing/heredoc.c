@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/07 23:33:02 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/08 23:46:34 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 {
 	(void) lst;
-	char	*to_expand;
+	char	*to_expand = NULL;
     int     x;
 	int		y;
 	int		z;
 	int		j;
 	int		i;
-	char 	*str;
+	char 	*str = NULL;
 	char 	*env_split;
 
+	env_split = NULL;
 	env_split = malloc(sizeof(char));
 	env_split[0] = '\0';
     x = 0;
@@ -48,7 +49,7 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 			{
 					j++;
 			}
-			to_expand = ft_substr(line, x, j);
+			to_expand = ft_substr(line, x, j - 1);
 			while (env_parse)
 			{
 				i = 0;
@@ -65,6 +66,7 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 					str = ft_substr(env_parse->value, i + 1,
 						ft_strlen(env_parse->value));
 				}
+				free (env_split);
 				env_parse = env_parse->next;
 			}
 			x = j - 1;
@@ -78,8 +80,8 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 
 int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 {
-    char    *line;
-    char    *str;
+    char    *line = NULL;
+    char    *str = NULL;
     int     fd[2];
 	int		x;
 	int		check;
@@ -93,6 +95,20 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     //     write(2, "heredoc file failed\n", 21);
     //     exit (1);
     // }
+	while (lst)
+	{
+		printf("lst = %s\n", lst->data);
+		lst = lst->next;
+	}
+	while (lst)
+	{
+		if (lst->type == DELIMITER && lst->av_quotes)
+		{
+			check++;
+			break ;
+		}
+		lst = lst->next;
+	}
 	args->infile = fd[0];
 	args->outfile = 1;
     while (1)
@@ -107,18 +123,19 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			close (fd[1]);
             return (1);
         }
-		else if (lst && (lst->av_quotes))
+		else if (lst && (!(lst->av_quotes)))
 		{
+			puts("HEEEREE");
     		str = heredoc_expand(line, env_parse, lst);
-			if (!str)
-				return (1);
+			// if (!str)
+			// 	return (1);
         	write(fd[1], str, ft_strlen(str));
 			// write (fd[1], "\n", 1);	
 		}
 		// printf("str = %s\n", str);
 		else
 		{
-       		write(fd[1], line, ft_strlen(str));
+       		write(fd[1], line, ft_strlen(line));
 			// write (fd[1], "\n", 1);
 		}
         free (line);
