@@ -48,6 +48,15 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 		{
+			while (lst)
+			{
+				printf("lst = %s\n", lst->data);
+				lst = lst->next;
+			}
+			// printf("args = %s\n", args->args[0]);
+			// printf("args = %s\n", args->args[1]);
+			// printf("args = %s\n", args->args[2]);
+			exit (1);
 			execution(&args, &saving_env, &saving_expo, env);
 			while (args->next)
 			{
@@ -63,11 +72,6 @@ int	main(int ac, char **av, char **env)
 	
 	}
 
-	// while (lst)
-	// {
-	// 	printf("type = %d\n", lst->type);
-	// 	lst = lst->next;
-	// }
 
 
 

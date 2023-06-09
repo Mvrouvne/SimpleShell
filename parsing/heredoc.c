@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 20:41:34 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 21:19:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,8 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     char    *str = NULL;
     int     fd[2];
 	int		x;
-	int		check;
     
     x = 0;
-	check = 0;
     // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
     pipe(fd);
     // if (fd == -1)
@@ -104,21 +102,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     //     write(2, "heredoc file failed\n", 21);
     //     exit (1);
     // }
-	// while (lst)
-	// {
-	// 	printf("lst = %d\n", lst->av_quotes);
-	// 	lst = lst->next;
-	// }
-	
-	// while (lst)
-	// {
-	// 	if (lst->type == DELIMITER && lst->av_quotes)
-	// 	{
-	// 		check++;
-	// 		break ;
-	// 	}
-	// 	lst = lst->next;
-	// }
 	args->infile = fd[0];
 	args->outfile = 1;
     while (1)
@@ -145,7 +128,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 		// printf("str = %s\n", str);
 		else
 		{
-			puts("HEEREE");
        		write(fd[1], line, ft_strlen(line));
 			// write (fd[1], "\n", 1);
 		}

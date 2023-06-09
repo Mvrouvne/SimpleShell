@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 16:57:54 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 22:15:13 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			return (NULL);
 		}
 		else if (line[*x] == '"')
-		{ 
-			// (*lst)->av_quotes = 1;
+		{
 			(*x)++;
 			while (line[*x] && line[*x] != '"')
 			{
@@ -88,7 +87,6 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		}
 		else if (line[*x] == '\'')
 		{
-			// (*lst)->av_quotes = 1;
 			(*x)++;
 			while (line[*x] && line[*x] != '\'')
 			{
@@ -110,17 +108,10 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	if (line[*x] && str[0] && (line[*x] == ' ' || line[*x] == '|'
 		|| line[*x] == '<' || line[*x] == '>'))
 	{
+		
 		ft_lstadd_back(lst, ft_lstnew(str));
-		// if (d_count || s_count)
-		// {
-		// 	puts("iciiii");
-		// 	(*lst)->av_quotes = 1;
-		// 	printf("(*lst)->av_quotes = %d\n", (*lst)->av_quotes);
-		// }
-		// else
-		// { 
-		// 	(*lst)->av_quotes = 0;
-		// }
+		// printf("line[*x] = %c\n", line[*x]);
+		// (*x) += 2;
 		return (NULL);
 	}
 	return (str);
