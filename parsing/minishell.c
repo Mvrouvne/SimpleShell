@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 22:13:17 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:57:12 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,7 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 	// }
 	while (line[*x])
 	{
+		// printf("line[*x] = [%c]\n", line[*x]);
 		while (line[*x] && (line[*x] == ' ' || line[*x] == '\t'))
 			(*x)++;
 		// lexing2(line, lst, x, env_parse);
@@ -289,13 +290,12 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 			str2 = ft_strjoin(str2, str);
 			if (str2[0])
 			{
-				printf("str2 = [%s]\n", str2);
 				ft_lstadd_back(lst, ft_lstnew(str2));
 			}
 		}
 		lexing3(line, lst, x);
-		printf("line[*x] = [%c]\n", line[*x]);
-		exit (1);
+		// printf("line[*x] = [%c]\n", line[*x]);
+		// exit (1);
 	}
 	lexing4(lst);
 	return (0);

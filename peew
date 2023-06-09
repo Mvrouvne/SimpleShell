@@ -1,0 +1,3 @@
+cat | cat | ls
+katfot joj katleff : cat | cat | cat
+cat TODO | grep echo

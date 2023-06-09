@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/08 12:01:59 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/10 00:43:37 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	char	*to_expand;
 	char	*expanded = NULL;
 	int		y;
-	int		z;
+	int		check1;
+	int		check2;
 	int		j;
 	int		i;
 	char 	*str;
@@ -30,7 +31,8 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	// }
 	env_split = malloc(sizeof(char));
 	env_split[0] = '\0';
-	z = 0;
+	check1 = 0;
+	check2 = 0;
 	y = 0;
 	i = 0;
 	while (lst)
@@ -38,7 +40,7 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		if ((!(ft_strcmp(lst->data, ">")) || (!(ft_strcmp(lst->data, ">>"))
 			|| (!(ft_strcmp(lst->data, "<"))))))
 		{
-			z++;
+			check1++;
 			break ;
 		}
 		lst = lst->next;
@@ -72,14 +74,24 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		{
 			expanded = ft_substr(env_parse->value, i + 1,
 				ft_strlen(env_parse->value));
-			*x = y;
-			free (env_split);
-			return (expanded);
+			// *x = y;
+			// free (env_split);
+			// return (expanded);
 		}
 		free (env_split);
 		env_parse = env_parse->next;
 	}
-	if (z)
+	i = 0;
+	while (expanded && expanded[i])
+	{
+		if (expanded[i] == ' ')
+		{
+			check2++;
+			break ;
+		}
+		i++;
+	}
+	if (check1 || (check1 && check2))
 	{
 		write (2, "$", 1);
 		write (2, to_expand, ft_strlen(to_expand));
@@ -87,5 +99,5 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		exit (1);
 	}
 	*x = y;
-	return (NULL);
+	return (expanded);
 }

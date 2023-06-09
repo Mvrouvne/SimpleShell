@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 22:15:13 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:58:18 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	{
 		write (2, "unclosed quote!\n", 17);
 		exit (1);
+	}
+	if (line[*x] == '|')
+	{
+		ft_lstadd_back(lst, ft_lstnew("|"));
+		(*x)++;
 	}
 	while (line[*x] && line[*x] != ' ' && line[*x] != '|'
 		&& line[*x] != '<' && line[*x] != '>')
@@ -108,10 +113,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	if (line[*x] && str[0] && (line[*x] == ' ' || line[*x] == '|'
 		|| line[*x] == '<' || line[*x] == '>'))
 	{
-		
 		ft_lstadd_back(lst, ft_lstnew(str));
-		// printf("line[*x] = %c\n", line[*x]);
-		// (*x) += 2;
 		return (NULL);
 	}
 	return (str);
