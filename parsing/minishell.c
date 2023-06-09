@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/04 22:23:00 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:18:53 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 	in = 0;
 	out = 0;
 	max = 0;
+	t_token *tmp = *lst;
+	while (tmp)
+	{
+		if (tmp->av_quotes != 1)
+			tmp->av_quotes = 0;
+		tmp = tmp->next;
+	}
 	temp = *lst;
 	create_list(args, *lst);
 	temp2 = *args;
@@ -61,8 +68,8 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 			(*args)->outfile = open(temp->next->data, O_RDWR | O_CREAT | O_APPEND, 0777);
 			if ((*args)->outfile == -1)
 			{
-				write(2, "Error\n", 7);
-				exit(1);
+				perror(temp->next->data);
+				return (1);
 			}
 			temp = temp->next;
 		}
@@ -103,7 +110,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 				exit (2);
 			}
 			max++;
-			heredoc(*args, temp->data, env_parse);
+			heredoc(*args, temp->data, env_parse, *lst);
 		}
 		temp = temp->next;
 	}
@@ -156,10 +163,27 @@ int	lexing4(t_token	**lst)
 int	lexing3(char *line, t_token **lst, int *x)
 {
 	char	*str;
+	int		check;
+	int		y;
 
+	check = 0;
+	y = 0;
 	if ((line[*x] == '<' && line[*x + 1] == '<')
 		|| (line[*x] == '>' && line[*x + 1] == '>'))
 	{
+		y = *x;
+		y += 2;
+		while (line[y] == ' ' || line[y] == '\t')
+			y++;
+		while (line[y] && line[y] != '>' && line[y] != '<' && line[y] != '|')
+		{
+			if (line[y] == '"' || line[y] == '\'')
+			{
+				check = 1;
+				break ;
+			}
+			y++;
+		}
 		str = malloc(sizeof(char) * 3);
 		if (!str)
 			exit (1);
@@ -167,7 +191,10 @@ int	lexing3(char *line, t_token **lst, int *x)
 		str[1] = line[*x + 1];
 		str[2] = '\0';
 		ft_lstadd_back(lst, ft_lstnew(str));
+		if (check)
+			(*lst)->av_quotes = 1;
 		(*x) += 2;
+		// free (str);
 	}
 	else if (line[*x] == '<' || line[*x] == '>' || line[*x] == '|')
 	{
@@ -177,6 +204,7 @@ int	lexing3(char *line, t_token **lst, int *x)
 		str[0] = line[*x];
 		str[1] = '\0';
 		ft_lstadd_back(lst, ft_lstnew(str));
+		free (str);
 		(*x)++;
 	}
 	return (0);
@@ -240,16 +268,16 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		return (1);
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
-	if (line[*x] == '<' && line[*x + 1] == '<')
-	{
-		ft_lstadd_back(lst, ft_lstnew("<<"));
-		(*x) += 2;
-	}
-	else if (line[*x] == '<')
-	{
-		ft_lstadd_back(lst, ft_lstnew("<"));
-		(*x)++;
-	}
+	// if (line[*x] == '<' && line[*x + 1] == '<')
+	// {
+	// 	ft_lstadd_back(lst, ft_lstnew("<<"));
+	// 	(*x) += 2;
+	// }
+	// else if (line[*x] == '<')
+	// {
+	// 	ft_lstadd_back(lst, ft_lstnew("<"));
+	// 	(*x)++;
+	// }
 	while (line[*x])
 	{
 		while (line[*x] && (line[*x] == ' ' || line[*x] == '\t'))

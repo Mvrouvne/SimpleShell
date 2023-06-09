@@ -6,26 +6,46 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/04 22:20:40 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:41:34 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*heredoc_expand(char *line, t_env *env_parse)
+void	handler2(int num)
 {
-	char	*to_expand;
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
+{
+	(void) lst;
+	char	*to_expand = NULL;
     int     x;
 	int		y;
 	int		z;
 	int		j;
-	char 	*str;
+	int		i;
+	char 	*str = NULL;
+	char 	*env_split;
+
+	env_split = NULL;
+	env_split = malloc(sizeof(char));
+	env_split[0] = '\0';
     x = 0;
 	z = 0;
 	y = 0;
+	i = 0;
 	str = malloc(sizeof(char));
 	str[0] = '\0';
 	j = 0;
+	// if (lst && (lst->av_quotes))
+	// 	return (line);
+	// printf("line = %s\n", line);
 	while (line[x])
 	{
 		if (line[x] == '$')
@@ -38,20 +58,27 @@ char	*heredoc_expand(char *line, t_env *env_parse)
 			{
 					j++;
 			}
-			to_expand = ft_substr(line, x, j);
+			to_expand = ft_substr(line, x, j - 1);
 			while (env_parse)
 			{
-				if (!(ft_strncmp(to_expand, env_parse->value, ft_strlen(to_expand) - 1)))
+				i = 0;
+				env_split = NULL;
+				env_split = malloc(sizeof(char));
+				env_split[0] = '\0';
+				while (env_parse->value && env_parse->value[i] != '=')
 				{
-					str = ft_strjoin(str, ft_substr(env_parse->value, ft_strlen(to_expand),
-						ft_strlen(env_parse->value)));
-					break ;
+					env_split = ft_chrjoin(env_split, env_parse->value[i]);
+					i++;
 				}
-				else
-					return (line);
+				if (!(ft_strcmp(to_expand, env_split)))
+				{
+					str = ft_substr(env_parse->value, i + 1,
+						ft_strlen(env_parse->value));
+				}
+				free (env_split);
 				env_parse = env_parse->next;
 			}
-			x = j;
+			x = j - 1;
 		}
 		else
 			str = ft_chrjoin(str, line[x]);
@@ -60,10 +87,10 @@ char	*heredoc_expand(char *line, t_env *env_parse)
 	return (str);
 }
 
-int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
+int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 {
-    char    *line;
-    char    *str;
+    char    *line = NULL;
+    char    *str = NULL;
     int     fd[2];
 	int		x;
 	int		check;
@@ -77,22 +104,51 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse)
     //     write(2, "heredoc file failed\n", 21);
     //     exit (1);
     // }
+	// while (lst)
+	// {
+	// 	printf("lst = %d\n", lst->av_quotes);
+	// 	lst = lst->next;
+	// }
+	
+	// while (lst)
+	// {
+	// 	if (lst->type == DELIMITER && lst->av_quotes)
+	// 	{
+	// 		check++;
+	// 		break ;
+	// 	}
+	// 	lst = lst->next;
+	// }
 	args->infile = fd[0];
 	args->outfile = 1;
     while (1)
     {
+		signal(SIGINT, handler2);
         write(1, "> ", 2);
 	    line = get_next_line(0);
-        if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
+		if (line && line[0] == '\n')
+			continue;
+        else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
         {
             free (line);
 			close (fd[1]);
             return (1);
         }
-		// printf("line = %s\n", line);
-    	str = heredoc_expand(line, env_parse);
-		printf("str = %s\n", str);
-        write(fd[1], str, ft_strlen(line));
+		else if (lst && (!(lst->av_quotes)))
+		{
+    		str = heredoc_expand(line, env_parse, lst);
+			// if (!str)
+			// 	return (1);
+        	write(fd[1], str, ft_strlen(str));
+			// write (fd[1], "\n", 1);	
+		}
+		// printf("str = %s\n", str);
+		else
+		{
+			puts("HEEREE");
+       		write(fd[1], line, ft_strlen(line));
+			// write (fd[1], "\n", 1);
+		}
         free (line);
     }
     return (0);

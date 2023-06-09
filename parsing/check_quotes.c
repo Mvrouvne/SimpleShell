@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/30 13:40:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:57:54 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,33 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		write (2, "unclosed quote!\n", 17);
 		exit (1);
 	}
-	while (line[*x] && line[*x] != ' ' && line[*x] != '|')
+	while (line[*x] && line[*x] != ' ' && line[*x] != '|'
+		&& line[*x] != '<' && line[*x] != '>')
 	{
-		if (line[*x] == '"')
+		if (line[0] == '~' && line[1] == '\0')
 		{
+			str2 = heredoc_expand(ft_strdup("$HOME"), env_parse, *lst);
+			write(2, str2, ft_strlen(str2));
+			write (2, ": is a directory\n", 18);
+			exit (1);
+		}
+		else if (line[0] == '/' && line[1] == '\0')
+		{
+			write (2, "/: is a directory\n", 18);
+			exit (1);
+		}
+		else if (line[*x] == '~' && (line[*x - 1] == ' ' || line[0] == '~')
+			&& (line[*x + 1] == ' ' || line[*x + 1] == '\0'))
+		{
+			str2 = heredoc_expand(ft_strdup("$HOME"), env_parse, *lst);
+			// printf("str2 = %s\n", str2);
+			ft_lstadd_back(lst, ft_lstnew(str2));
+			(*x)++;
+			return (NULL);
+		}
+		else if (line[*x] == '"')
+		{ 
+			// (*lst)->av_quotes = 1;
 			(*x)++;
 			while (line[*x] && line[*x] != '"')
 			{
@@ -65,6 +88,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		}
 		else if (line[*x] == '\'')
 		{
+			// (*lst)->av_quotes = 1;
 			(*x)++;
 			while (line[*x] && line[*x] != '\'')
 			{
@@ -83,9 +107,20 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			str = ft_chrjoin(str, line[*x]);
 		(*x)++;
 	}
-	if (line[*x] && str[0] && (line[*x] == ' ' || line[*x] == '|'))
+	if (line[*x] && str[0] && (line[*x] == ' ' || line[*x] == '|'
+		|| line[*x] == '<' || line[*x] == '>'))
 	{
 		ft_lstadd_back(lst, ft_lstnew(str));
+		// if (d_count || s_count)
+		// {
+		// 	puts("iciiii");
+		// 	(*lst)->av_quotes = 1;
+		// 	printf("(*lst)->av_quotes = %d\n", (*lst)->av_quotes);
+		// }
+		// else
+		// { 
+		// 	(*lst)->av_quotes = 0;
+		// }
 		return (NULL);
 	}
 	return (str);
