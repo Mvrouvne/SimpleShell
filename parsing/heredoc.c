@@ -6,11 +6,20 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/08 23:46:34 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:41:34 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+void	handler2(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 {
@@ -95,24 +104,26 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     //     write(2, "heredoc file failed\n", 21);
     //     exit (1);
     // }
-	while (lst)
-	{
-		printf("lst = %s\n", lst->data);
-		lst = lst->next;
-	}
-	while (lst)
-	{
-		if (lst->type == DELIMITER && lst->av_quotes)
-		{
-			check++;
-			break ;
-		}
-		lst = lst->next;
-	}
+	// while (lst)
+	// {
+	// 	printf("lst = %d\n", lst->av_quotes);
+	// 	lst = lst->next;
+	// }
+	
+	// while (lst)
+	// {
+	// 	if (lst->type == DELIMITER && lst->av_quotes)
+	// 	{
+	// 		check++;
+	// 		break ;
+	// 	}
+	// 	lst = lst->next;
+	// }
 	args->infile = fd[0];
 	args->outfile = 1;
     while (1)
     {
+		signal(SIGINT, handler2);
         write(1, "> ", 2);
 	    line = get_next_line(0);
 		if (line && line[0] == '\n')
@@ -125,7 +136,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
         }
 		else if (lst && (!(lst->av_quotes)))
 		{
-			puts("HEEEREE");
     		str = heredoc_expand(line, env_parse, lst);
 			// if (!str)
 			// 	return (1);
@@ -135,6 +145,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 		// printf("str = %s\n", str);
 		else
 		{
+			puts("HEEREE");
        		write(fd[1], line, ft_strlen(line));
 			// write (fd[1], "\n", 1);
 		}
