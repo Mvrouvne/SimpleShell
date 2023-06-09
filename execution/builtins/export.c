@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/04 17:08:49 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:37:14 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args **p)
                 }
                 else if (search_egal((*p)->args[i]) == 1)
                 {
-                    (*saving_env) = export((*p)->args[i], &(*saving_env));
-                    (*saving_env) = export((*p)->args[i], &(*saving_expo));
+                    env_if_egal((*p)->args[i], &(*saving_env));
+                    (*saving_expo) = export((*p)->args[i], &(*saving_expo));
                     return ;
                 }
                 else

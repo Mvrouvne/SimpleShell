@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/04 17:22:57 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:40:47 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,41 @@ void	echo(char **p)
 		if (check_n(p[i]) == 1)
 		{
 			while (p[i])
-				printf("%s ", p[i++]);
-			if (check_n(p[1]) == 1)
+			{
+				printf("%s", p[i++]);
+				if (p[i])
+					printf(" ");
+			};
+			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
 				printf("\n");
 			return ;
 		}
 		else if (check_n(p[i]) == 2)
 		{
 			while (p[i])
-				printf("%s ", p[i++]);
-			printf("\n");
+			{
+				printf("%s", p[i++]);
+				if (p[i])
+					printf(" ");
+			}
+			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
+				printf("\n");
 			return;
 		}
 		else if (check_n(p[i]) == 2)
 		{
 			while (p[i])
 			{
-				printf("%s ", p[i++]);
+				printf("%s", p[i++]);
+				if (p[i])
+					printf(" ");	
 			}
+			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
+				printf("\n");
 			return ;
 		}
 		i++;
 	}
-	if (check_n(p[1]) == 2)
-		printf("ta sir\n");
 }
 
 void	unset(t_list **head, char *key)
@@ -106,6 +117,8 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 	int		i;
 	t_list	*data;
 	t_list	*tmp;
+	(void)saving_expo;
+	(void)env;
 
 	data = (t_list *)malloc(sizeof(t_list));
 	if (!ft_strcmp((*p)->args[0], "echo"))					//<----- {  echo  }
@@ -154,6 +167,7 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 		export_a(saving_expo, saving_env, p);
 	else
 	{
+		// puts("\n-----Implement_Cmnd-----");
 		Implement_Cmnd((*saving_expo), *p, env);
 	}
 }

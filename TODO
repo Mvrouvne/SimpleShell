@@ -1,6 +1,5 @@
-1- echo bo7dha ✅
-2- echo -n ila kano bzaaf d -n bohdhom ✅
-3- echo -ndd -n w wraha tkharbiq khasha tktkb mn tharbiq l qodam
+
+q l qodam
 4- echo -n o chi haja khasha thayd new line
 5- echo chi haja khasha tktbha +o meaha new line
 
@@ -14,3 +13,28 @@ hadik li kant o safi
 
 
 ****************************************************************************************************
+
+TO TEST
+
+cat | cat | ls
+
+katfot joj katleff : cat | cat | cat
+
+cat TODO | grep echo
+
+
+
+****************************************************************************************************
+endi li m7lolin daba homa
+fd[0][0] **
+fd[0][1] **
+fd[1][0]
+fd[1][1]
+
+
+
+closA lia fd[0][0]
+kteb lia f fd[0][1] o closah 
+------>pipe
+ayqra lia mn fd[0][0] li hia ipe li qbel
+o kteb lia f fd[1][1]

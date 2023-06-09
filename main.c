@@ -24,11 +24,14 @@ int	main(int ac, char **av, char **env)
 	saving_env = get_env(env);
 	saving_expo = get_env(env);
 	env_parse = (t_env *)saving_expo;
+	saving_expo->cmds = 0;
+	saving_expo->tmp = dup(0);
+	int stdin_main = dup(0);
 	ac = 0;
 	x = 0;
 	lst = NULL;
 	args = NULL;
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	// signal(SIGINT, handler);
 	while(1)
 	{
@@ -38,7 +41,7 @@ int	main(int ac, char **av, char **env)
 		line = readline("minishell:$> ");
 		if (!line)
 		{
-			printf("exit\n");
+			printf("exit ohibok\n");
 			exit (0);
 		}
 		add_history(line);
@@ -46,35 +49,37 @@ int	main(int ac, char **av, char **env)
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 		{
 			execution(&args, &saving_env, &saving_expo, env);
-			// continue;
-			while (wait(NULL) != -1)
-				continue ;
+			while (args->next)
+			{
+				close(saving_expo->fd[0]);			////////////// ana hna
+				close(saving_expo->fd[1]);
+				args = args->next;
+			}
+			while (wait(NULL) != -1);
+			dup2(saving_expo->tmp, stdin_main);
 		}
 		free (line);
-		// while (lst)
-		// {
-		// 	temp = lst;
-		// 	lst = lst->next;
-		// 	free(temp->data);
-		// 	free(temp);
-		// }
-		// while (1);
+	
 	}
-	write(1, "\n", 1);
-	int	t = 0;
-	while (args)
-	{
-			t = 0;
-			while (args->args[t])
-				printf("args = %s\n", args->args[t++]);
-			printf("infile = %d\n", args->infile);
-			printf("outfile = %d\n", args->outfile);
-			printf("****************\n");
-		args = args->next;
-	}
+
 	// while (lst)
 	// {
 	// 	printf("type = %d\n", lst->type);
 	// 	lst = lst->next;
+	// }
+
+
+
+	// write(1, "\n", 1);
+	// int	t = 0;
+	// while (args)
+	// {
+	// 		t = 0;
+	// 		while (args->args[t])
+	// 			printf("args = %s\n", args->args[t++]);
+	// 		printf("infile = %d\n", args->infile);
+	// 		printf("outfile = %d\n", args->outfile);
+	// 		printf("****************\n");
+	// 	args = args->next;
 	// }
 }

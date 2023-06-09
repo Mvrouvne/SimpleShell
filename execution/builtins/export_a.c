@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_a.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/04 17:08:44 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:36:31 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ t_list  *export(char *p, t_list **saving_expo)
     ft_lstadd_front(saving_expo, new);
     res = sort_list(saving_expo);
     return (res);
+}
+
+void  *env_if_egal(char *p, t_list **saving_env)
+{
+    t_list  *new;
+
+    new = create_node(p);
+    ft_lstadd_front(saving_env, new);
+    return (0);
 }
 
 int search_home(t_list *saving_expo, char *node)

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/05/31 11:12:57 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/09 10:13:45 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@
 // # include "../minishell.h"
 
 typedef struct s_list {
-    char *value;
+    char    *value;
     struct s_list *next;
+    t_args  *args;
+    int     cmds;
+    int		fd[2];
+    int     tmp;
 }   t_list;
 
 typedef struct  s_data
@@ -46,6 +50,7 @@ t_list	*get_env(char **env);
 t_list	*export(char *p, t_list **saving_expo);
 void	execution(t_args **p, t_list **saving_env, t_list **saving_expo,char **env);
 void    export_a(t_list **saving_expo, t_list **saving_env, t_args **p);
+void  *env_if_egal(char *p, t_list **saving_env);
 
 t_list	*sort_list(t_list **saving_expo);
 t_list	*search_node(t_list *saving_env, char *node);
