@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:59:57 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 20:41:34 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 20:49:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	handler2(int num)
-{
-	(void) num;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void	handler2(int num)
+// {
+// 	(void) num;
+// 	printf("\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 {
@@ -123,7 +123,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	args->outfile = 1;
     while (1)
     {
-		signal(SIGINT, handler2);
+		// signal(SIGINT, handler2);
         write(1, "> ", 2);
 	    line = get_next_line(0);
 		if (line && line[0] == '\n')
