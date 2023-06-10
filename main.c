@@ -48,6 +48,15 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 		{
+			// while (lst)
+			// {
+			// 	printf("lst = %s\n", lst->data);
+			// 	lst = lst->next;
+			// }
+			// exit (1);
+			// printf("args = %s\n", args->args[0]);
+			// printf("args = %s\n", args->args[1]);
+			// printf("args = %s\n", args->args[2]);
 			execution(&args, &saving_env, &saving_expo, env);
 			while (args->next)
 			{
@@ -58,19 +67,14 @@ int	main(int ac, char **av, char **env)
 			while (wait(NULL) != -1);
 			dup2(saving_expo->tmp, stdin_main);
 		}
-		// system("leaks minishell");÷
+		// system("leaks minishell");
 		free (line);
-	
 	}
-
-	// while (lst)
-	// {
-	// 	printf("type = %d\n", lst->type);
-	// 	lst = lst->next;
-	// }
-
-
-
+	while (lst)
+	{
+		printf("lst = %s\n", lst->data);
+		lst = lst->next;
+	}
 	// write(1, "\n", 1);
 	// int	t = 0;
 	// while (args)

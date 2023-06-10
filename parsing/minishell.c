@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 19:18:53 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:57:12 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int	lexing3(char *line, t_token **lst, int *x)
 		(*x) += 2;
 		// free (str);
 	}
-	else if (line[*x] == '<' || line[*x] == '>' || line[*x] == '|')
+	else if (line[*x] == '<' || line[*x] == '>')
 	{
 		str = malloc(sizeof(char) + 1);
 		if (!str)
@@ -204,7 +204,7 @@ int	lexing3(char *line, t_token **lst, int *x)
 		str[0] = line[*x];
 		str[1] = '\0';
 		ft_lstadd_back(lst, ft_lstnew(str));
-		free (str);
+		// free (str);
 		(*x)++;
 	}
 	return (0);
@@ -280,6 +280,7 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 	// }
 	while (line[*x])
 	{
+		// printf("line[*x] = [%c]\n", line[*x]);
 		while (line[*x] && (line[*x] == ' ' || line[*x] == '\t'))
 			(*x)++;
 		// lexing2(line, lst, x, env_parse);
@@ -288,9 +289,13 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		{
 			str2 = ft_strjoin(str2, str);
 			if (str2[0])
+			{
 				ft_lstadd_back(lst, ft_lstnew(str2));
+			}
 		}
 		lexing3(line, lst, x);
+		// printf("line[*x] = [%c]\n", line[*x]);
+		// exit (1);
 	}
 	lexing4(lst);
 	return (0);
