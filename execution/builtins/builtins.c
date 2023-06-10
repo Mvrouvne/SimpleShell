@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/09 15:40:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:56:26 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,7 @@ void	echo(char **p)
 	}
 	while (p[i])
 	{
-		if (check_n(p[i]) == 1)
-		{
-			while (p[i])
-			{
-				printf("%s", p[i++]);
-				if (p[i])
-					printf(" ");
-			};
-			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
-				printf("\n");
-			return ;
-		}
-		else if (check_n(p[i]) == 2)
+		if (check_n(p[i]) == 1 && p[i])
 		{
 			while (p[i])
 			{
@@ -62,11 +50,26 @@ void	echo(char **p)
 				if (p[i])
 					printf(" ");
 			}
-			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
+			if ((check_n(p[1]) == 1 || check_n(p[1]) == 2) && p[i])
+				printf("\n");
+			return ;
+		}
+		else if (p[i] && check_n(p[i]) == 2)
+		{
+			printf("p[i] = %s\n", p[i]);
+			exit (0);
+			while (p[i])
+			{
+				exit(0);
+				printf("%s ", p[i++]);
+				// if (p[i])
+				// 	printf(" ");
+			}
+			if (p[i] && (check_n(p[1]) == 1 || check_n(p[1]) == 2))
 				printf("\n");
 			return;
 		}
-		else if (check_n(p[i]) == 2)
+		else if (p[i] && check_n(p[i]) == 2)
 		{
 			while (p[i])
 			{
@@ -74,7 +77,7 @@ void	echo(char **p)
 				if (p[i])
 					printf(" ");	
 			}
-			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
+			if (p[i] && (check_n(p[1]) == 1 || check_n(p[1]) == 2))
 				printf("\n");
 			return ;
 		}
