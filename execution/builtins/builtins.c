@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/10 15:56:26 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/10 21:38:07 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ void	echo(char **p)
 		}
 		else if (p[i] && check_n(p[i]) == 2)
 		{
-			printf("p[i] = %s\n", p[i]);
-			exit (0);
 			while (p[i])
 			{
-				exit(0);
+				// exit(0);
 				printf("%s ", p[i++]);
-				// if (p[i])
-				// 	printf(" ");
+				if (p[i])
+					printf(" ");
 			}
 			if (p[i] && (check_n(p[1]) == 1 || check_n(p[1]) == 2))
 				printf("\n");

@@ -30,7 +30,7 @@ FILES = main.c\
 INCLUDES = libft/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # INCLUDES = execution/execution.a parsing/minishell.a libft/libft.a
 READLINE = -lreadline -L /Users/machaiba/.brew/cellar/readline/8.2.1/lib -I /Users/machaiba/.brew/cellar/readline/8.2.1/include
 # PARSING = 
