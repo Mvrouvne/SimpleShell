@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/11 14:58:28 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/11 16:45:10 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	}
 	ft_putstr_fd(*p->args, 2);
 	write (2, ": command not found\n", 21);
-	return (0);
+	exit (1);
 }
 
 //*******************************************************************************************
