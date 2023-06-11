@@ -99,15 +99,14 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 		while (1)
 		{
 			signal(SIGINT, handler2);
-			write(1, "> ", 2);
-			line = get_next_line(0);
+			line = readline("> ");
 			if (line && line[0] == '\n')
 				continue;
-			else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
+			else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line)))))
 			{
 				free (line);
 				close (fd[1]);
-				return (1);
+				exit (1);
 			}
 			else if (lst && (!(lst->av_quotes)))
 			{
@@ -126,6 +125,8 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			free (line);
 		}
 	}
-	waitpid(id, 0, 0);
+	// waitpid(id, 0, 0);
+	while(wait(NULL) != -1)
+		continue;
     return (0);
 }
