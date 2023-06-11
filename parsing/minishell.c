@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 23:57:12 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:28:34 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 					(*args)->args[x] = NULL;
 				}
 				(*args)->args[y] = ft_strdup(temp->data);
+				// printf("(*args)->args[y] = %d\n", y);
+				// printf("(*args)->args[y] = %s\n", (*args)->args[1]);
+				// printf("(*args)->args[y] = %s\n", (*args)->args[2]);
 				y++;
 			}
 			check_in_out(*args, in, out);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:15:10 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/04 17:09:02 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/10 13:11:42 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ t_list *get_env(char **env)
     t_list *head;
     t_list  *temp;
     int     x;
-
+    
+    x = 0 ;
+    if (env == NULL || *env == NULL)
+        return (env_i(&head));
     x = 0;
     head = create_node(env[x]);
     x = 1;

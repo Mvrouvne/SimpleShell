@@ -3,6 +3,7 @@ NAME = minishell
 
 
 FILES = main.c\
+		execution/builtins/env_i.c\
 		execution/builtins/builtins.c\
 		execution/builtins/export_a.c\
 		execution/commands.c\
@@ -30,11 +31,8 @@ FILES = main.c\
 INCLUDES = libft/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
-# INCLUDES = execution/execution.a parsing/minishell.a libft/libft.a
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 READLINE = -lreadline -L /Users/machaiba/.brew/cellar/readline/8.2.1/lib -I /Users/machaiba/.brew/cellar/readline/8.2.1/include
-# PARSING = 
-# LIBFT = 
 
 OBJ = $(FILES:.c=.o)
 
@@ -53,7 +51,7 @@ clean :
 
 fclean : clean
 	rm -f libft/libft.a
-	rm -f parsing/parsing.a
+	rm -f parsing/minishell
 	rm -f execution/minishell.a
 	rm -f minishell
 

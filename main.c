@@ -19,18 +19,21 @@ int	main(int ac, char **av, char **env)
 	(void) av;
 	t_list	*saving_expo;
 	t_list	*saving_env;
+	t_pipe	*pipes;
 	t_env	*env_parse;
 
+	pipes = malloc(sizeof(t_pipe));
 	saving_env = get_env(env);
-	saving_expo = get_env(env);
+	saving_expo = saving_env;
+	pipes->cmds = 0;
+	pipes->tmp = dup(0);
 	env_parse = (t_env *)saving_expo;
-	saving_expo->cmds = 0;
-	saving_expo->tmp = dup(0);
 	int stdin_main = dup(0);
 	ac = 0;
 	x = 0;
 	lst = NULL;
 	args = NULL;
+	
 	// signal(SIGQUIT, SIG_IGN);
 	// signal(SIGINT, handler);
 	while(1)
@@ -48,33 +51,28 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 		{
-			// while (lst)
-			// {
-			// 	printf("lst = %s\n", lst->data);
-			// 	lst = lst->next;
-			// }
-			// exit (1);
-			// printf("args = %s\n", args->args[0]);
-			// printf("args = %s\n", args->args[1]);
-			// printf("args = %s\n", args->args[2]);
-			execution(&args, &saving_env, &saving_expo, env);
+			// printf("p->args = %s\n", args->args[0]);
+			// printf("p->args = %s\n", args->args[1]);
+			// printf("p->args = %s\n", args->args[2]);
+			exit(0);
+			execution(&args, &saving_env, &saving_expo, env, pipes);
 			while (args->next)
 			{
-				close(saving_expo->fd[0]);			////////////// ana hna
-				close(saving_expo->fd[1]);
+				close(pipes->fd[0]);			////////////// ana hna
+				close(pipes->fd[1]);
 				args = args->next;
 			}
 			while (wait(NULL) != -1);
-			dup2(saving_expo->tmp, stdin_main);
+			dup2(pipes->tmp, stdin_main);
 		}
 		// system("leaks minishell");
 		free (line);
 	}
-	while (lst)
-	{
-		printf("lst = %s\n", lst->data);
-		lst = lst->next;
-	}
+	// while (lst)
+	// {
+	// 	printf("lst = %s\n", lst->data);
+	// 	lst = lst->next;
+	// }
 	// write(1, "\n", 1);
 	// int	t = 0;
 	// while (args)

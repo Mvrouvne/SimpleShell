@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/09 15:40:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:08:23 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	echo(char **p)
 		int	i;
 
 	i = 1;
+	// printf("p == %s\n", p[0]);
+	// printf("p == %s\n", p[1]);
+	// printf("p == %s\n", p[2]);
 	if (p[i] == NULL)
 	{
 		printf("\n");
@@ -112,7 +115,7 @@ void	unset(t_list **head, char *key)
 	
 // }
 
-void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env)
+void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env, t_pipe *pipes)
 {
 	int		i;
 	t_list	*data;
@@ -168,6 +171,6 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 	else
 	{
 		// puts("\n-----Implement_Cmnd-----");
-		Implement_Cmnd((*saving_expo), *p, env);
+		Implement_Cmnd((*saving_expo), *p, env, pipes);
 	}
 }

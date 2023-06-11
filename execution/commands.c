@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/09 15:23:36 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:12:15 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ void execute_cmd(t_args *p, t_list *saving_expo, char **env)
 		}
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not found\n", 21);
-		// close(p->infile);
-		// close(p->outfile);
-		// exit (0);
 	}
 }
 
@@ -104,47 +101,9 @@ void	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 
 //*******************************************************************************************
 
-// void	ft_child_process(t_args *p, t_list *saving_expo, int pid, int *fd, char **env)
-// {
-// 	if (pid == 0)
-// 	{
-// 		if (p->outfile != 1)
-// 			dup2(p->outfile, 1);
-// 		else if (p->next)
-// 		{
-// 			dup2(fd[1], 1);
-// 			close (fd[1]);
-// 		}
-// 		close(fd[1]);
-// 		execute_cmd_pipe(saving_expo, env);
-// 	}
-// }
 
-// void	multiplePipes(t_list *saving_expo, t_args *p, int *fd, int *pid, int *stdin, char **env)
-// {
-// 	puts("----in multiplePipe function----");
-// 	if (p->infile < 2)
-// 	{
-// 		puts("there is no infile");
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 	}
-// 	if (p->infile != 0)
-// 	{
-// 		puts("there is infile");		
-// 		dup2(p->infile, 0);
-// 	}
-// 	if (pipe(fd) == -1)
-// 	{
-// 		perror("pipe");
-// 		exit(1);
-// 	}
-// 	*pid = fork();
-// 	ft_child_process(p, saving_expo, *pid, fd, env);
-// 	close (fd[1]);
-// }
 
-void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
+void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env, t_pipe *pipes)
 {
 	t_args	*tmp;
 	int		i;
@@ -152,55 +111,56 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env)
 	(void)env;
 	
 	tmp = p;
-	saving_expo->cmds = 0;
-	
+	pipes->cmds = 0;
+	// printf("p->args = %s\n", tmp->args[0]);
+	// printf("p->args = %s\n", tmp->args[1]);
+	// printf("p->args = %s\n", tmp->args[2]);
 	while (tmp)
 	{
 		tmp = tmp->next;
-		saving_expo->cmds++;
+		pipes->cmds++;
 	}
 	tmp = p;
 	
 	i = 0;
-	if (saving_expo->cmds == 1)
+	if (pipes->cmds == 1)
 		execute_cmd(p, saving_expo, env);
 	else
 	{
 		i = 0;
-		while (i < saving_expo->cmds)
+		while (i < pipes->cmds)
 		{
 			if (tmp->infile != 0)
 				dup2(tmp->infile, 0);
-			if (pipe(saving_expo->fd) == -1)
+			if (pipe(pipes->fd) == -1)
 			{
-				perror("pipe failed");
+				perror("pipes failed");
 				exit(0);
 			}
 			int id = fork();
-			printf("id == %d\n", id);
 			if (id == 0)
 			{
 				if (tmp->infile == 1)
 				{
-					dup2(saving_expo->tmp, STDIN_FILENO);
-					close (saving_expo->tmp);
+					dup2(pipes->tmp, STDIN_FILENO);
+					close (pipes->tmp);
 				}
 				if (tmp->outfile != 1)
 					dup2(tmp->outfile, 1);
 				else if(tmp->next)
-					dup2(saving_expo->fd[1], 1);
-				close (saving_expo->fd[0]);
-				close(saving_expo->fd[1]);
+					dup2(pipes->fd[1], 1);
+				close (pipes->fd[0]);
+				close(pipes->fd[1]);
 				execute_cmd_pipe(tmp, saving_expo, env);
 			}
-			dup2(saving_expo->fd[0], 0);
-			close(saving_expo->fd[1]);
-			close(saving_expo->fd[0]);
+			dup2(pipes->fd[0], 0);
+			close(pipes->fd[1]);
+			close(pipes->fd[0]);
 			tmp = tmp->next;
 			i++;
 		}
 		close(0);
-		dup2(saving_expo->tmp, 0);
+		dup2(pipes->tmp, 0);
 	}
 	
 }
