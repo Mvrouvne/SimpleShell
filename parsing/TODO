@@ -3,3 +3,5 @@ export hl="hello woorld"   ls > $hl
 
 TODO cat | cat | cat | cat | cat > outfile
 export hh=
+
+< ""

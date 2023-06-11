@@ -88,9 +88,6 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 					(*args)->args[x] = NULL;
 				}
 				(*args)->args[y] = ft_strdup(temp->data);
-				// printf("(*args)->args[y] = %d\n", y);
-				// printf("(*args)->args[y] = %s\n", (*args)->args[1]);
-				// printf("(*args)->args[y] = %s\n", (*args)->args[2]);
 				y++;
 			}
 			check_in_out(*args, in, out);
@@ -251,8 +248,8 @@ int	lexing3(char *line, t_token **lst, int *x)
 
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
-	char	*str;
-	char	*str2 = NULL;
+	// char	*str;
+	// char	*str2 = NULL;
 	int		z;
 	int		w;
 
@@ -278,13 +275,14 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		while (line[*x] && (line[*x] == ' ' || line[*x] == '\t'))
 			(*x)++;
 		// lexing2(line, lst, x, env_parse);
-		str = check_quotes(lst, line, x, env_parse);
-		if(str)
-		{
-			str2 = ft_strjoin(str2, str);
-			if (str2[0])
-				ft_lstadd_back(lst, ft_lstnew(str2));
-		}
+		if (check_quotes(lst, line, x, env_parse))
+			return (1);
+		// if(str)
+		// {
+		// 	str2 = ft_strjoin(str2, str);
+		// 	if (str2[0])
+		// 		ft_lstadd_back(lst, ft_lstnew(str2));
+		// }
 		lexing3(line, lst, x);
 		// exit (1);
 	}
