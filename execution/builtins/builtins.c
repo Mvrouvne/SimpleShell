@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 13:23:27 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/10 15:08:23 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/11 15:54:11 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../execution.h"
 
@@ -22,12 +23,12 @@ int	check_n(char *str)
 		while (str[i])
 		{
 			if (str[i] != 'n')
-				return (1);    //hai ila lqa dik -n olqa mlassqa meaha chi haja mn ghir n
+				return (1);
 			i++;
 		}
-		return (0);// hadi ila dak arg fih gha "-nnnnn"
+		return (0);
 	}
-	return (2);// hadi ila aslan makinach -n yaeni khasso ykteb dakchi kaml li bead mnha
+	return (2);
 }
 
 void	echo(char **p)
@@ -35,9 +36,6 @@ void	echo(char **p)
 		int	i;
 
 	i = 1;
-	// printf("p == %s\n", p[0]);
-	// printf("p == %s\n", p[1]);
-	// printf("p == %s\n", p[2]);
 	if (p[i] == NULL)
 	{
 		printf("\n");
@@ -52,7 +50,7 @@ void	echo(char **p)
 				printf("%s", p[i++]);
 				if (p[i])
 					printf(" ");
-			};
+			}
 			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
 				printf("\n");
 			return ;
@@ -69,18 +67,6 @@ void	echo(char **p)
 				printf("\n");
 			return;
 		}
-		else if (check_n(p[i]) == 2)
-		{
-			while (p[i])
-			{
-				printf("%s", p[i++]);
-				if (p[i])
-					printf(" ");	
-			}
-			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
-				printf("\n");
-			return ;
-		}
 		i++;
 	}
 }
@@ -89,52 +75,42 @@ void	unset(t_list **head, char *key)
 {
 	t_list	*cur;
 	t_list	*prev;
-	//int result;
 
 	cur = (*head);
 	prev = NULL;
-	
-	//search for the node in my lincked list
 	while(cur && cur->next != NULL && ft_strncmp(cur->value, key, ft_strlen(key)))
 	{
 		prev = cur;
 		cur = cur->next;
 	}
-	//if the node we re looking for is the first node///that means prev still have NULL value
 	if (prev == NULL && cur )
 		(*head) = cur->next;
-	//if the node we re locking for is in the middle or in the end///that means the prev node is before the cur node
 	else if (cur && prev && ft_strncmp(cur->value, key, ft_strlen(key)) == 0)
 		prev->next = cur->next;
-	// free (cur);
 }
 
-
-// void	export(char **p, )
-// {
-	
-// }
-
-void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env, t_pipe *pipes)
+int	echo_pwd_cd(t_args **p, t_list** saving_env, t_list **saving_expo)
 {
-	int		i;
-	t_list	*data;
 	t_list	*tmp;
-	(void)saving_expo;
-	(void)env;
 
-	data = (t_list *)malloc(sizeof(t_list));
-	if (!ft_strcmp((*p)->args[0], "echo"))					//<----- {  echo  }
+	if (!ft_strcmp((*p)->args[0], "echo"))
+	{
 		echo((*p)->args);
-	else if (!ft_strcmp((*p)->args[0], "pwd"))				//<----- {  pwd  }
+		return (1);
+	}
+	else if (!ft_strcmp((*p)->args[0], "pwd"))
 	{
 		char filename[256];
 		getcwd(filename, 256);
 		printf("%s\n", filename);
+		return (1);
 	}
-	else if (!ft_strcmp((*p)->args[0], "cd"))				//<----- {  cd  }
+	else if (!ft_strcmp((*p)->args[0], "cd"))
+	{
 		big_cd(&(*saving_env), &(*saving_expo), p);
-	else if (!ft_strcmp((*p)->args[0], "env"))				//<----- {  env  }
+		return (1);
+	}
+	else if (!ft_strcmp((*p)->args[0], "env"))
 	{
 		tmp = (*saving_env);
 		while (*saving_env)
@@ -143,8 +119,19 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 			(*saving_env) = (*saving_env)->next;
 		}
 		(*saving_env) = tmp;
+		return (1);
 	}
-	else if (!ft_strcmp((*p)->args[0], "unset"))			//<----- {  unset  }
+	return (0);
+}
+
+void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env, t_pipe *pipes)
+{
+	int		i;
+
+	if (!(*p)->args[0])
+		return ;
+	else if (echo_pwd_cd(p, saving_env, saving_expo) == 1);
+	else if (!ft_strcmp((*p)->args[0], "unset"))
 	{
 		i = 1;
 		while ((*p)->args[i])
@@ -154,7 +141,7 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 			i++;
 		}
 	}
-	else if (!ft_strcmp((*p)->args[0], "exit"))				//<----- {  exit  }
+	else if (!ft_strcmp((*p)->args[0], "exit"))
 	{
 		i = 1;
 		if ((*p)->args[i])
@@ -166,11 +153,8 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 		else
 			exit (0);
 	}
-	else if (!ft_strcmp((*p)->args[0], "export"))			//<----- {  export  }
+	else if (!ft_strcmp((*p)->args[0], "export"))
 		export_a(saving_expo, saving_env, p);
-	else
-	{
-		// puts("\n-----Implement_Cmnd-----");
+	else	
 		Implement_Cmnd((*saving_expo), *p, env, pipes);
-	}
 }

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/30 20:57:15 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/10 15:28:34 by otitebah         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "parsing.h"
 
@@ -37,6 +26,8 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 	}
 	temp = *lst;
 	create_list(args, *lst);
+	(*args)->args = malloc(sizeof(char *));
+	(*args)->args[0] = NULL;
 	temp2 = *args;
 	while (temp && *args)
 	{
@@ -292,12 +283,9 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		{
 			str2 = ft_strjoin(str2, str);
 			if (str2[0])
-			{
 				ft_lstadd_back(lst, ft_lstnew(str2));
-			}
 		}
 		lexing3(line, lst, x);
-		// printf("line[*x] = [%c]\n", line[*x]);
 		// exit (1);
 	}
 	lexing4(lst);

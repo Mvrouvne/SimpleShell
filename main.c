@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/11 10:22:30 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/11 15:23:56 by otitebah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -51,10 +62,6 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 		{
-			// printf("p->args = %s\n", args->args[0]);
-			// printf("p->args = %s\n", args->args[1]);
-			// printf("p->args = %s\n", args->args[2]);
-			exit(0);
 			execution(&args, &saving_env, &saving_expo, env, pipes);
 			while (args->next)
 			{

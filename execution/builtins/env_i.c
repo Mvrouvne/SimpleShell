@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:40:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/10 14:45:08 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/11 11:24:04 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_list	*env_i(t_list **saving_env)
 	t_list	*tmp;
 	
 	tmp = (*saving_env);
-	puts(".............");
 	s1 = "PWD=";
 	getcwd(filename, 256);
 	

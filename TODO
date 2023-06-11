@@ -1,40 +1,4 @@
-
-q l qodam
-4- echo -n o chi haja khasha thayd new line
-5- echo chi haja khasha tktbha +o meaha new line
-
-
-****************************************************************************************************
-
-
-export mazal khass nchof baln dyal "chi haja"+="chi haja"
-daba fach kandirha l chi haja deja kayna katzidha mn jdid makhashach tzidha khassha tkemel ela
-hadik li kant o safi
-
-
-****************************************************************************************************
-
-TO TEST
-
-cat | cat | ls
-
-katfot joj katleff : cat | cat | cat
-
-cat TODO | grep echo
+ls
 
 
 
-****************************************************************************************************
-endi li m7lolin daba homa
-fd[0][0] **
-fd[0][1] **
-fd[1][0]
-fd[1][1]
-
-
-
-closA lia fd[0][0]
-kteb lia f fd[0][1] o closah 
------->pipe
-ayqra lia mn fd[0][0] li hia ipe li qbel
-o kteb lia f fd[1][1]
