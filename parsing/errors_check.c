@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 20:55:59 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/11 16:57:19 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	errors_check(t_token *lst)
 	int	x;
 
 	x = 0;
-	if ((lst->next) && (lst->av_quotes != 1) && (!(ft_strcmp(lst->data, "|"))))
+	if (lst && (lst->next) && (lst->av_quotes != 1) && (!(ft_strcmp(lst->data, "|"))))
 	{
 		write(2, "syntax error near unexpected token `|'\n", 40);
 		return (1);
 	}
-	else if ((!lst->next) && (lst->av_quotes == 1))
+	else if (lst && (!lst->next) && (lst->av_quotes == 1))
 	{
 		write (2, "No such file or directory\n", 27);
 		return (1);

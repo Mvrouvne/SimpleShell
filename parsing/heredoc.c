@@ -1,14 +1,12 @@
 
 #include "parsing.h"
 
-// void	handler2(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler2(int num)
+{
+	(void) num;
+	printf("\n");
+	exit (0);
+}
 
 char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 {
@@ -82,6 +80,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     char    *str = NULL;
     int     fd[2];
 	int		x;
+	int		id;
     
     x = 0;
     // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
@@ -93,34 +92,41 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     // }
 	args->infile = fd[0];
 	args->outfile = 1;
-    while (1)
-    {
-		// signal(SIGINT, handler2);
-        write(1, "> ", 2);
-	    line = get_next_line(0);
-		if (line && line[0] == '\n')
-			continue;
-        else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line) - 1))))
-        {
-            free (line);
-			close (fd[1]);
-            return (1);
-        }
-		else if (lst && (!(lst->av_quotes)))
+	id = fork();
+	signal(SIGINT, SIG_IGN);
+	if (id == 0)
+	{
+		while (1)
 		{
-    		str = heredoc_expand(line, env_parse, lst);
-			// if (!str)
-			// 	return (1);
-        	write(fd[1], str, ft_strlen(str));
-			// write (fd[1], "\n", 1);	
+			signal(SIGINT, handler2);
+			line = readline("> ");
+			if (line && line[0] == '\n')
+				continue;
+			else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line)))))
+			{
+				free (line);
+				close (fd[1]);
+				exit (1);
+			}
+			else if (lst && (!(lst->av_quotes)))
+			{
+				str = heredoc_expand(line, env_parse, lst);
+				// if (!str)
+				// 	return (1);
+				write(fd[1], str, ft_strlen(str));
+				write (fd[1], "\n", 1);	
+			}
+			// printf("str = %s\n", str);
+			else
+			{
+				write(fd[1], line, ft_strlen(line));
+				write (fd[1], "\n", 1);
+			}
+			free (line);
 		}
-		// printf("str = %s\n", str);
-		else
-		{
-       		write(fd[1], line, ft_strlen(line));
-			// write (fd[1], "\n", 1);
-		}
-        free (line);
-    }
+	}
+	// waitpid(id, 0, 0);
+	while(wait(NULL) != -1)
+		continue;
     return (0);
 }

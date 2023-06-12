@@ -6,43 +6,21 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/09 23:58:18 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/11 23:00:29 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
+int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 {
 	char	*str;
 	char	*str2;
-	// int	d_quote;
-	// int	s_quote;
-	int		d_count;
-	int		s_count;
 	int		y;
-	int		temp;
 	
 	str = malloc(sizeof(char));
 	str[0] = '\0';
 	y = 0;
-	d_count = 0;
-	s_count = 0;
-	temp = *x;
-	while(line[temp])
-	{
-		if (line[temp] == '"')
-			d_count++;
-		else if (line[temp] == '\'')
-			s_count++;
-		temp++;
-	}
-	if ((d_count % 2 != 0 && s_count % 2 == 0)
-		|| (s_count % 2 != 0 && s_count % 2 == 0))
-	{
-		write (2, "unclosed quote!\n", 17);
-		exit (1);
-	}
 	if (line[*x] == '|')
 	{
 		ft_lstadd_back(lst, ft_lstnew("|"));
@@ -70,7 +48,7 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			// printf("str2 = %s\n", str2);
 			ft_lstadd_back(lst, ft_lstnew(str2));
 			(*x)++;
-			return (NULL);
+			return (0);
 		}
 		else if (line[*x] == '"')
 		{
@@ -89,6 +67,11 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 					(*x)--;
 				(*x)++;
 			}
+			if (line[*x] != '"')
+			{
+				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
+				return (1);
+			}
 		}
 		else if (line[*x] == '\'')
 		{
@@ -97,6 +80,11 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			{
 				str = ft_chrjoin(str, line[*x]);
 				(*x)++;
+			}
+			if (line[*x] != '"')
+			{
+				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
+				return (1);
 			}
 		}
 		else if (line[*x] == '$')
@@ -110,11 +98,12 @@ char	*check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			str = ft_chrjoin(str, line[*x]);
 		(*x)++;
 	}
-	if (line[*x] && str[0] && (line[*x] == ' ' || line[*x] == '|'
-		|| line[*x] == '<' || line[*x] == '>'))
-	{
-		ft_lstadd_back(lst, ft_lstnew(str));
-		return (NULL);
-	}
-	return (str);
+	// if (line[*x] && str[0] && (line[*x] == ' ' || line[*x] == '|'
+	// 	|| line[*x] == '<' || line[*x] == '>'))
+	// {
+		if (str[0])
+			ft_lstadd_back(lst, ft_lstnew(str));
+		// return (NULL);
+	// }
+	return (0);
 }
