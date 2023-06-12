@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/11 15:54:11 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:45:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	echo_pwd_cd(t_args **p, t_list** saving_env, t_list **saving_expo)
 	return (0);
 }
 
-void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env, t_pipe *pipes)
+void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env_copy, t_pipe *pipes)
 {
 	int		i;
 
@@ -156,5 +156,5 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 	else if (!ft_strcmp((*p)->args[0], "export"))
 		export_a(saving_expo, saving_env, p);
 	else	
-		Implement_Cmnd((*saving_expo), *p, env, pipes);
+		Implement_Cmnd((*saving_expo), *p, env_copy, pipes);
 }

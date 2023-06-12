@@ -6,20 +6,46 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:30 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/12 21:21:49 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:51:44 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+char **get_env_copy(t_list *saving_env)
+{
+	t_list *tmp;
+	char **env_copy;
+	
+	tmp = saving_env;
+	int i = 0;
+	while (saving_env)
+	{
+		i++;
+		saving_env = saving_env->next;
+	}
+	saving_env = tmp;
+	env_copy = malloc(sizeof(char *) * i + 1);
+	env_copy[i] = NULL;
+	i = 0;
+	while (saving_env)
+	{
+		env_copy[i] = saving_env->value;
+		i++;
+		saving_env = saving_env->next;
+	}
+	saving_env = tmp;
+	return (env_copy);
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -32,6 +58,7 @@ int	main(int ac, char **av, char **env)
 	t_list	*saving_env;
 	t_pipe	*pipes;
 	t_env	*env_parse;
+	char **env_copy;
 
 	pipes = malloc(sizeof(t_pipe));
 	saving_env = get_env(env);
@@ -44,8 +71,8 @@ int	main(int ac, char **av, char **env)
 	x = 0;
 	lst = NULL;
 	args = NULL;
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
 	while(1)
 	{
 		lst = NULL;
@@ -61,7 +88,8 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
 		{
-			execution(&args, &saving_env, &saving_expo, env, pipes);
+			env_copy = get_env_copy(saving_env);
+			execution(&args, &saving_env, &saving_expo, env_copy, pipes);
 			while (args->next)
 			{
 				close(pipes->fd[0]);			////////////// ana hna
