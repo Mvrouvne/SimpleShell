@@ -102,6 +102,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 			}
 			max++;
 			heredoc(*args, temp->data, env_parse, *lst);
+			// wait(NULL);
 		}
 		temp = temp->next;
 	}
@@ -200,51 +201,6 @@ int	lexing3(char *line, t_token **lst, int *x)
 	}
 	return (0);
 }
-
-// int	lexing2(char *line, t_token **lst, int *x, t_env *env_parse)
-// {
-// 	(void) env_parse;
-// 	char	*str;
-// 	int		y;
-// 	int		z;
-
-// 	y = *x;
-// 	z = 0;
-// 	while (line[y])
-// 	{
-// 		if  (line[*x] == '<' || line[*x] == '>'
-// 			|| line[*x] == '|' || line[*x] == ' '
-// 			|| line[*x] == '"' || line[*x] == '\''
-// 			|| line[*x] == '$')
-// 			break ;
-// 		y++;
-// 	}
-// 	if (y)
-// 	{
-// 		str = malloc(sizeof(char) * y + 1);
-// 		if (!str)
-// 			exit (1);
-// 	}
-// 	y = 0;
-// 	while (line[*x])
-// 	{
-// 		if  (line[*x] == '<' || line[*x] == '>'
-// 			|| line[*x] == '|' || line[*x] == ' '
-// 			|| line[*x] == '$' || line[*x] == '"'
-// 			|| line[*x] == '\'')
-// 			break ;
-// 		str[y] = line[*x];
-// 		y++;
-// 		(*x)++;
-// 	}
-// 	if (y)
-// 	{
-// 		str[y] = '\0';
-// 		(*x)++;
-// 		ft_lstadd_back(lst, ft_lstnew(str));
-// 	}
-// 	return (0);
-// }
 
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {

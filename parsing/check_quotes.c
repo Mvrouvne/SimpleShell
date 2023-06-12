@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/11 23:00:29 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:48:18 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 				str = ft_chrjoin(str, line[*x]);
 				(*x)++;
 			}
-			if (line[*x] != '"')
+			if (line[*x] != '\'')
 			{
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 				return (1);
