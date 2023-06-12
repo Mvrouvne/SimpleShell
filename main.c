@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:30 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/11 20:41:43 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:47:23 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av, char **env)
 	t_token	*lst;
 	t_args	*args;
 	int		x;
+	int		y;
 	(void) av;
 	t_list	*saving_expo;
 	t_list	*saving_env;
@@ -42,6 +43,7 @@ int	main(int ac, char **av, char **env)
 	int stdin_main = dup(0);
 	ac = 0;
 	x = 0;
+	y = 0;
 	lst = NULL;
 	args = NULL;
 	signal(SIGQUIT, SIG_IGN);
@@ -59,7 +61,7 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
-			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
+			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
 			execution(&args, &saving_env, &saving_expo, env, pipes);
 			while (args->next)
@@ -73,6 +75,17 @@ int	main(int ac, char **av, char **env)
 		}
 		// system("leaks minishell");
 		free (line);
+		free (lst);
+		// if (args->args[0])
+		// {
+		// 	while (args->args[y])
+		// 	{
+		// 		free(args->args[y]);
+		// 		y++;
+		// 	}
+		// 	free (args->args);
+		// }
+		free (args);
 	}
 	// while (lst)
 	// {

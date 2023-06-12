@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 11:37:23 by machaiba          #+#    #+#             */
-/*   Updated: 2023/05/16 20:07:49 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:20:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*ft_lstnew(char *data)
 
 	head = NULL;
 	head = malloc(sizeof(t_token));
-	head->data = data;
+	head->data = ft_strdup(data);
 	head->next = NULL;
 	return (head);
 }

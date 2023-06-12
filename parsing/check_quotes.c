@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/12 15:48:18 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:58:04 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,23 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			str2 = heredoc_expand(ft_strdup("$HOME"), env_parse, *lst);
 			write(2, str2, ft_strlen(str2));
 			write (2, ": is a directory\n", 18);
-			exit (1);
+			free (str);
+			free (str2);
+			return (1);
 		}
 		else if (line[0] == '/' && line[1] == '\0')
 		{
 			write (2, "/: is a directory\n", 18);
-			exit (1);
+			free (str);
+			return (1);
 		}
 		else if (line[*x] == '~' && (line[*x - 1] == ' ' || line[0] == '~')
 			&& (line[*x + 1] == ' ' || line[*x + 1] == '\0'))
 		{
 			str2 = heredoc_expand(ft_strdup("$HOME"), env_parse, *lst);
-			// printf("str2 = %s\n", str2);
 			ft_lstadd_back(lst, ft_lstnew(str2));
+			free (str);
+			free (str2);
 			(*x)++;
 			return (0);
 		}
@@ -72,6 +76,8 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 				return (1);
 			}
+			else if (line[*x] == '"' && !str[0])
+				ft_lstadd_back(lst, ft_lstnew(str));
 		}
 		else if (line[*x] == '\'')
 		{
@@ -86,6 +92,8 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 				return (1);
 			}
+			else if (line[*x] == '\'' && !str[0])
+				ft_lstadd_back(lst, ft_lstnew(str));
 		}
 		else if (line[*x] == '$')
 		{
@@ -105,5 +113,6 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			ft_lstadd_back(lst, ft_lstnew(str));
 		// return (NULL);
 	// }
+	free (str);
 	return (0);
 }
