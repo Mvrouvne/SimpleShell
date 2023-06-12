@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/12 15:16:33 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:20:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	child_exec_solo_cmd(t_args *p, char	**spl_path, char **env, char *cmd)
 	fd = fork();
 	if (fd == 0)
 	{
-		
+		check_slash(p, env);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);
 		while (spl_path[i])
@@ -101,13 +101,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		write (2, ": command not found\n", 21);
 		return (1);
 	}
-	if (p->args[0][0] == '/')
-	{
-		execve(p->args[0], p->args, env);
-		ft_putstr_fd(*p->args, 2);
-		write (2, ": command not found\n", 21);
-		return (1);
-	}
+	check_slash(p, env);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
 	i = 0;
