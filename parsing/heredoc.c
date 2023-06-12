@@ -5,6 +5,7 @@ void	handler2(int num)
 {
 	(void) num;
 	printf("\n");
+	// while (wait(NULL) != -1)
 	exit (0);
 }
 
@@ -96,9 +97,9 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	signal(SIGINT, SIG_IGN);
 	if (id == 0)
 	{
+		signal(SIGINT, handler2);
 		while (1)
 		{
-			signal(SIGINT, handler2);
 			line = readline("> ");
 			if (line && line[0] == '\n')
 				continue;
