@@ -6,20 +6,20 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:30 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 09:27:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:58:57 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -71,8 +71,8 @@ int	main(int ac, char **av, char **env)
 	x = 0;
 	lst = NULL;
 	args = NULL;
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
 	while(1)
 	{
 		lst = NULL;
