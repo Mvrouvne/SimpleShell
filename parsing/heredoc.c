@@ -82,6 +82,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     int     fd[2];
 	int		x;
 	int		id;
+	int		status;
     
     x = 0;
     // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
@@ -125,9 +126,10 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			}
 			free (line);
 		}
+
 	}
-	// waitpid(id, 0, 0);
-	while(wait(NULL) != -1)
-		continue;
+	waitpid(id, &status, 0);
+	if (status == 0)
+		return (1);
     return (0);
 }
