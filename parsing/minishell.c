@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:46:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/13 14:57:10 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/14 00:10:09 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,14 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 	{
 		if (tmp->av_quotes != 1)
 			tmp->av_quotes = 0;
+		if (!(ft_strcmp(tmp->data, "<<")))
+			max++;
 		tmp = tmp->next;
+	}
+	if (max >= 16)
+	{
+		write (2, "maximum here-document count exceeded\n", 38);
+		return (1);
 	}
 	temp = lst;
 	create_list(args, lst);
@@ -105,13 +112,6 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 		}
 		else if (temp->type == DELIMITER)
 		{
-			printf("max = %d\n", max);
-			if (max >= 16)
-			{
-				write (2, "maximum here-document count exceeded\n", 38);
-				exit (2);
-			}
-			max++;
 			if (heredoc(*args, temp->data, env_parse, lst))
 				return (1);
 			// wait(NULL);
@@ -228,89 +228,15 @@ int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 		return (1);
 	while (line[*x] == ' ' || line[*x] == '\t')
 		(*x)++;
-	// if (line[*x] == '<' && line[*x + 1] == '<')
-	// {
-	// 	ft_lstadd_back(lst, ft_lstnew("<<"));
-	// 	(*x) += 2;
-	// }
-	// else if (line[*x] == '<')
-	// {
-	// 	ft_lstadd_back(lst, ft_lstnew("<"));
-	// 	(*x)++;
-	// }
 	while (line[*x])
 	{
 		// printf("line[*x] = [%c]\n", line[*x]);
 		while (line[*x] && (line[*x] == ' ' || line[*x] == '\t'))
 			(*x)++;
-		// lexing2(line, lst, x, env_parse);
 		if (check_quotes(lst, line, x, env_parse))
 			return (1);
-		// if(str)
-		// {
-		// 	str2 = ft_strjoin(str2, str);
-		// 	if (str2[0])
-		// 		ft_lstadd_back(lst, ft_lstnew(str2));
-		// }
 		lexing3(line, lst, x);
-		// exit (1);
 	}
 	lexing4(lst);
 	return (0);
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	char	*line;
-// 	t_token	*lst;
-// 	t_args	*args;
-// 	int		x;
-// 	(void) env;
-// 	(void) av;
-
-// 	ac = 0;
-// 	// int	x = 0;
-// 	// int	y = 0;
-// 	x = 0;
-// 	lst = NULL;
-// 	args = NULL;
-// 	// args = malloc(sizeof(t_token));
-// 	// t_args = args;
-// 	while(1)
-// 	{
-// 		lst = NULL;
-// 		x = 0;
-// 		line = readline("minishell:$> ");
-// 		if (!line)
-// 			break ;
-// 		add_history(line);
-// 		lexing(line, &lst, &x);
-// 		split_args(&lst, &args);
-// 		// execution(args, env);
-// 		free (line);
-// 		// while (lst)
-// 		// {
-// 		// 	temp = lst;
-// 		// 	lst = lst->next;
-// 		// 	free(temp->data);
-// 		// 	free(temp);
-// 		// }
-// 	}
-// 	write(1, "\n", 1);
-// 	int	t = 0;
-// 	while (args)
-// 	{
-// 			t = 0;
-// 			while (args->args[t])
-// 				printf("args = %s\n", args->args[t++]);
-// 			printf("infile = %d\n", args->infile);
-// 			printf("outfile = %d\n", args->outfile);
-// 			printf("****************\n");
-// 		args = args->next;
-// 	}
-// 	// while (lst)
-// 	// {
-// 	// 	printf("type = %d\n", lst->type);
-// 	// 	lst = lst->next;
-// 	// }
-// }
