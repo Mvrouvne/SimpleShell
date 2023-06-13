@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/05 14:37:14 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:24:46 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	search_plus(char *str)
 	return (0);
 }
 
-void    export_a(t_list **saving_expo, t_list **saving_env, t_args **p)
+void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
 {
     t_list	*node;
     t_list	*node2;
@@ -53,17 +53,17 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args **p)
     
     x = 0;
     i = 1;
-    if ((*p)->args[i])
+    if (p->args[i])
     {
-        while ((*p)->args[i])
+        while (p->args[i])
         {
             x = 0;
-            while ((*p)->args[i][x])
+            while (p->args[i][x])
             {
-                if(search_plus((*p)->args[i]) == 1)
+                if(search_plus(p->args[i]) == 1)
                 {
                     char **spl_p;
-                    spl_p = ft_split((*p)->args[i], '=');
+                    spl_p = ft_split(p->args[i], '=');
                     node = search_node((*saving_expo), spl_p[0]);
                     node2 = search_node((*saving_env), spl_p[0]);
                     if (node)
@@ -80,21 +80,21 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args **p)
                     {
                         char **Remove_Plus;
                         char *join;
-                        Remove_Plus = ft_split((*p)->args[i], '+');
+                        Remove_Plus = ft_split(p->args[i], '+');
                         join = ft_strjoin(Remove_Plus[0], Remove_Plus[1]);
                         (*saving_env) = export(join, &(*saving_env));
                         return ;
                     }
                 }
-                else if (search_egal((*p)->args[i]) == 1)
+                else if (search_egal(p->args[i]) == 1)
                 {
-                    env_if_egal((*p)->args[i], &(*saving_env));
-                    (*saving_expo) = export((*p)->args[i], &(*saving_expo));
+                    env_if_egal(p->args[i], &(*saving_env));
+                    (*saving_expo) = export(p->args[i], &(*saving_expo));
                     return ;
                 }
                 else
                 {
-                    (*saving_expo) = export((*p)->args[i], saving_expo);
+                    (*saving_expo) = export(p->args[i], saving_expo);
                     return ;
                 }
                 x++;

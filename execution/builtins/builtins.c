@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 10:53:11 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:23:12 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,74 +89,61 @@ void	unset(t_list **head, char *key)
 		prev->next = cur->next;
 }
 
-int	echo_pwd_cd(t_args **p, t_list** saving_env, t_list **saving_expo)
+void	execution(t_args *p, t_list **saving_env)
 {
+	int		i;
+	t_list **saving_expo;
 	t_list	*tmp;
 
-	if (!ft_strcmp((*p)->args[0], "echo"))
-	{
-		echo((*p)->args, *p);
-		return (1);
-	}
-	else if (!ft_strcmp((*p)->args[0], "pwd"))
+	saving_expo = saving_env;
+	if (!p->args[0])
+		return ;
+	if (!ft_strcmp(p->args[0], "echo"))
+		echo(p->args, p);
+	else if (!ft_strcmp(p->args[0], "pwd"))
 	{
 		char filename[256];
 		getcwd(filename, 256);
-		ft_putendl_fd(filename, (*p)->outfile);
-		return (1);
+		ft_putendl_fd(filename, p->outfile);
 	}
-	else if (!ft_strcmp((*p)->args[0], "cd"))
-	{
+	else if (!ft_strcmp(p->args[0], "cd"))
 		big_cd(&(*saving_env), &(*saving_expo), p);
-		return (1);
-	}
-	else if (!ft_strcmp((*p)->args[0], "env"))
+	else if (!ft_strcmp(p->args[0], "env"))
 	{
 		tmp = (*saving_env);
 		while (*saving_env)
 		{
-			ft_putendl_fd((*saving_env)->value, (*p)->outfile);
+			ft_putendl_fd((*saving_env)->value, p->outfile);
 			(*saving_env) = (*saving_env)->next;
 		}
 		(*saving_env) = tmp;
-		return (1);
 	}
-	return (0);
-}
-
-void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env_copy, t_pipe *pipes)
-{
-	int		i;
-
-	if (!(*p)->args[0])
-		return ;
-	else if (echo_pwd_cd(p, saving_env, saving_expo) == 1);
-	else if (!ft_strcmp((*p)->args[0], "unset"))
+	else if (!ft_strcmp(p->args[0], "unset"))
 	{
 		i = 1;
-		while ((*p)->args[i])
+		while (p->args[i])
 		{
-			unset(saving_expo, (*p)->args[i]);
-			unset(saving_env, (*p)->args[i]);
+			unset(saving_expo, p->args[i]);
+			unset(saving_env, p->args[i]);
 			i++;
 		}
 	}
-	else if (!ft_strcmp((*p)->args[0], "exit"))
+	else if (!ft_strcmp(p->args[0], "exit"))
 	{
 		i = 1;
-		if ((*p)->args[i])
+		if (p->args[i])
 		{
 			int return_value;
-			return_value = ft_atoi((*p)->args[i]);
+			return_value = ft_atoi(p->args[i]);
 			exit(return_value);
 		}
 		else
 			exit (0);
 	}
-	else if (!ft_strcmp((*p)->args[0], "export"))
+	else if (!ft_strcmp(p->args[0], "export"))
 		export_a(saving_expo, saving_env, p);
-	else	
-		Implement_Cmnd((*saving_expo), *p, env_copy, pipes);
+	// else
+	// 	Implement_Cmnd((*saving_expo), *p, env_copy, pipes);
 }
 
 void ft_error(char *msg, char *str)

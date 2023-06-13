@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 09:33:49 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:40:39 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	child_exec_solo_cmd(t_args *p, char	**spl_path, char **env_copy, char *cmd)
 	fd = fork();
 	if (fd == 0)
 	{
+		puts("awtani");
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);
@@ -65,6 +66,7 @@ void	child_exec_solo_cmd(t_args *p, char	**spl_path, char **env_copy, char *cmd)
 		close(p->outfile);
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not found\n", 21);
+		exit(1);
 	}
 }
 
@@ -79,7 +81,7 @@ void execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 	{		
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not found\n", 21);
-		return ;
+		exit (1);
 	}
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
@@ -99,7 +101,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	{
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not found\n", 21);
-		return (1);
+		return (0);
 	}
 	check_slash(p, env);
 	spl_path = ft_split(find_path, ':');
@@ -114,7 +116,8 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	}
 	ft_putstr_fd(*p->args, 2);
 	write (2, ": command not found\n", 21);
-	exit (1);
+	return(0);
+	// exit (1);
 }
 
 void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
@@ -129,6 +132,22 @@ void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
 	int id = fork();
 	if (id == 0)
 	{
+		if (check_if_builtins(tmp) == 1 && tmp->next)
+		{
+			if (tmp->infile == 1)
+			{
+				dup2(pipes->tmp, STDIN_FILENO);
+				close (pipes->tmp);
+			}
+			if (tmp->outfile != 1)
+				dup2(tmp->outfile, 1);
+			else if(tmp->next)
+				dup2(pipes->fd[1], 1);
+			execution(tmp, &saving_expo);
+			close (pipes->fd[0]);
+			close(pipes->fd[1]);
+			exit(1);
+		}
 		if (tmp->infile == 1)
 		{
 			dup2(pipes->tmp, STDIN_FILENO);
@@ -140,9 +159,28 @@ void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
 			dup2(pipes->fd[1], 1);
 		close (pipes->fd[0]);
 		close(pipes->fd[1]);
-		if (execute_cmd_pipe(tmp, saving_expo, env) == 1)
+		if (execute_cmd_pipe(tmp, saving_expo, env) == 0)
 			exit(1);
 	}
+}
+
+int	check_if_builtins(t_args *p)
+{
+	if (!ft_strcmp(p->args[0], "echo"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "pwd"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "cd"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "env"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "export"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "unset"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "exit"))
+		return (1);
+	return (0);
 }
 
 void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env_copy, t_pipe *pipes)
@@ -150,6 +188,8 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env_copy, t_pipe *pip
 	t_args	*tmp;
 	int		i;
 	
+	if (!p->args[0])
+		return ;
 	tmp = p;
 	pipes->cmds = 0;
 	while (tmp)
@@ -159,7 +199,15 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env_copy, t_pipe *pip
 	}
 	tmp = p;
 	if (pipes->cmds == 1)
-		execute_cmd(p, saving_expo, env_copy);
+	{
+		if (check_if_builtins(p) == 1)
+			execution(p, &saving_expo);
+		else
+		{
+			puts("tala");
+			execute_cmd(p, saving_expo, env_copy);
+		}
+	}
 	else
 	{
 		i = 0;

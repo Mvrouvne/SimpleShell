@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 17:58:03 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/11 12:32:38 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:23:55 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ int	cd(char **p, t_list *saving_expo)
 	return (1);
 }
 
-void	big_cd(t_list **saving_env, t_list **saving_expo, t_args **p)
+void	big_cd(t_list **saving_env, t_list **saving_expo, t_args *p)
 {
 	char	old_pwd[256];
 	char	new_pwd[256];
 
 	getcwd (old_pwd, 256);
-	if (cd((*p)->args, (*saving_expo)) == 1)
+	if (cd(p->args, (*saving_expo)) == 1)
 	{
 		getcwd(new_pwd, 256);
 		add_oldpwd(saving_env, old_pwd);
