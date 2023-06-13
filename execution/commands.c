@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/12 21:46:50 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 09:33:49 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	check_slash(t_args *p, char **env)
 		execve(p->args[0], p->args, env);
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not found\n", 21);
-		return ;
+		exit(0) ;
 	}
 }
 

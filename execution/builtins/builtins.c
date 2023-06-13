@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/12 21:45:43 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:53:11 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	check_n(char *str)
 	return (2);
 }
 
-void	echo(char **p)
+void	echo(char **p, t_args *out)
 {
 		int	i;
 
 	i = 1;
 	if (p[i] == NULL)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", out->outfile);
 		return ;
 	}
 	while (p[i])
@@ -47,24 +47,24 @@ void	echo(char **p)
 		{
 			while (p[i])
 			{
-				printf("%s", p[i++]);
+				ft_putstr_fd(p[i++],  out->outfile);
 				if (p[i])
-					printf(" ");
+					ft_putstr_fd(" ",  out->outfile);
 			}
 			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
-				printf("\n");
+				ft_putstr_fd("\n",  out->outfile);
 			return ;
 		}
 		else if (check_n(p[i]) == 2)
 		{
 			while (p[i])
 			{
-				printf("%s", p[i++]);
+				ft_putstr_fd(p[i++],  out->outfile);
 				if (p[i])
-					printf(" ");
+					ft_putstr_fd(" ",  out->outfile);
 			}
 			if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
-				printf("\n");
+				ft_putstr_fd("\n",  out->outfile);
 			return;
 		}
 		i++;
@@ -95,14 +95,14 @@ int	echo_pwd_cd(t_args **p, t_list** saving_env, t_list **saving_expo)
 
 	if (!ft_strcmp((*p)->args[0], "echo"))
 	{
-		echo((*p)->args);
+		echo((*p)->args, *p);
 		return (1);
 	}
 	else if (!ft_strcmp((*p)->args[0], "pwd"))
 	{
 		char filename[256];
 		getcwd(filename, 256);
-		printf("%s\n", filename);
+		ft_putendl_fd(filename, (*p)->outfile);
 		return (1);
 	}
 	else if (!ft_strcmp((*p)->args[0], "cd"))
@@ -115,7 +115,7 @@ int	echo_pwd_cd(t_args **p, t_list** saving_env, t_list **saving_expo)
 		tmp = (*saving_env);
 		while (*saving_env)
 		{
-			printf("%s\n", (*saving_env)->value);
+			ft_putendl_fd((*saving_env)->value, (*p)->outfile);
 			(*saving_env) = (*saving_env)->next;
 		}
 		(*saving_env) = tmp;
@@ -157,4 +157,10 @@ void	execution(t_args **p, t_list **saving_env, t_list **saving_expo, char **env
 		export_a(saving_expo, saving_env, p);
 	else	
 		Implement_Cmnd((*saving_expo), *p, env_copy, pipes);
+}
+
+void ft_error(char *msg, char *str)
+{
+	ft_putstr_fd(msg, 2);
+	ft_putendl_fd(str, 2);
 }
