@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 12:46:19 by machaiba          #+#    #+#             */
+/*   Updated: 2023/06/13 14:57:10 by machaiba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "parsing.h"
 
@@ -101,7 +112,8 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 				exit (2);
 			}
 			max++;
-			heredoc(*args, temp->data, env_parse, lst);
+			if (heredoc(*args, temp->data, env_parse, lst))
+				return (1);
 			// wait(NULL);
 		}
 		free (temp->data);

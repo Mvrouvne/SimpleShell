@@ -5,22 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 10:59:52 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 14:47:44 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/13 15:43:12 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -64,7 +63,6 @@ int	main(int ac, char **av, char **env)
 
 	pipes = malloc(sizeof(t_pipe));
 	saving_env = get_env(env);
-	// saving_expo = saving_env;
 	pipes->cmds = 0;
 	pipes->tmp = dup(0);
 	env_parse = (t_env *)saving_env;
@@ -74,8 +72,8 @@ int	main(int ac, char **av, char **env)
 	y = 0;
 	lst = NULL;
 	args = NULL;
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
 	while(1)
 	{
 		lst = NULL;
