@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:30 by otitebah          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/13 10:58:57 by otitebah         ###   ########.fr       */
+=======
+/*   Updated: 2023/06/12 23:48:41 by machaiba         ###   ########.fr       */
+>>>>>>> 93a8888b3e93359e6a105875892f250dc83dc990
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +57,7 @@ int	main(int ac, char **av, char **env)
 	t_token	*lst;
 	t_args	*args;
 	int		x;
+	int		y;
 	(void) av;
 	t_list	*saving_expo;
 	t_list	*saving_env;
@@ -69,6 +74,7 @@ int	main(int ac, char **av, char **env)
 	int stdin_main = dup(0);
 	ac = 0;
 	x = 0;
+	y = 0;
 	lst = NULL;
 	args = NULL;
 	signal(SIGQUIT, SIG_IGN);
@@ -86,7 +92,7 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
-			&& (!(errors_check(lst)) && (!(split_args(&lst, &args, env_parse)))))
+			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
 			env_copy = get_env_copy(saving_env);
 			execution(&args, &saving_env, &saving_expo, env_copy, pipes);
@@ -101,6 +107,17 @@ int	main(int ac, char **av, char **env)
 		}
 		// system("leaks minishell");
 		free (line);
+		free (lst);
+		// if (args->args[0])
+		// {
+		// 	while (args->args[y])
+		// 	{
+		// 		free(args->args[y]);
+		// 		y++;
+		// 	}
+		// 	free (args->args);
+		// }
+		free (args);
 	}
 	// while (lst)
 	// {

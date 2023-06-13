@@ -1,7 +1,7 @@
 
 #include "parsing.h"
 
-int	split_args(t_token **lst, t_args **args, t_env *env_parse)
+int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 {
 	t_token	*temp;
 	t_args	*temp2;
@@ -17,15 +17,15 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 	in = 0;
 	out = 0;
 	max = 0;
-	t_token *tmp = *lst;
+	t_token *tmp = lst;
 	while (tmp)
 	{
 		if (tmp->av_quotes != 1)
 			tmp->av_quotes = 0;
 		tmp = tmp->next;
 	}
-	temp = *lst;
-	create_list(args, *lst);
+	temp = lst;
+	create_list(args, lst);
 	(*args)->args = malloc(sizeof(char *));
 	(*args)->args[0] = NULL;
 	temp2 = *args;
@@ -64,7 +64,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 			}
 			temp = temp->next;
 		}
-		else if (temp->type == CMD || temp->type == PIPE)
+		else if ((temp->type == CMD || temp->type == PIPE) && temp->data[0])
 		{
 			if (temp->type == PIPE)
 			{
@@ -73,7 +73,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 				x = 0;
 				z = 0;
 				in = 0;
-				x = args_count(*lst);
+				x = args_count(lst);
 				(*args)->args = malloc(sizeof(char *) * (x + 1));
 				z++;
 				(*args)->args[x] = NULL;
@@ -83,7 +83,7 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 				if (!y && !z)
 				{
 					x = 0;
-					x = args_count(*lst);
+					x = args_count(lst);
 					(*args)->args = malloc(sizeof(char *) * (x + 1));
 					(*args)->args[x] = NULL;
 				}
@@ -101,9 +101,10 @@ int	split_args(t_token **lst, t_args **args, t_env *env_parse)
 				exit (2);
 			}
 			max++;
-			heredoc(*args, temp->data, env_parse, *lst);
+			heredoc(*args, temp->data, env_parse, lst);
 			// wait(NULL);
 		}
+		free (temp->data);
 		temp = temp->next;
 	}
 	*args = temp2;
