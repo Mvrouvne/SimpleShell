@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 15:37:44 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:25:26 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ int		check_plus(char **p, t_list *saving_expo);
 int     check_if_builtins(t_args *p);
 int		cd(char **p, t_list *saving_expo);
 t_list	*create_node(char *value);
+void	check_slash(t_args *p, char **env);
+void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy);
 
 t_list	*get_env(char **env);
 
 void	execution(t_args *p, t_list **saving_env);
-int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env);
+int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy);
+int     execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env);
 void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p);
 void    *env_if_egal(char *p, t_list **saving_env);
 t_list	*export(char *p, t_list **saving_expo);

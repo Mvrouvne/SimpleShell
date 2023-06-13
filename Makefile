@@ -3,6 +3,8 @@ NAME = minishell
 
 
 FILES = main.c\
+		execution/exec/multiple_pipes.c\
+		execution/exec/solo_cmd.c\
 		execution/builtins/builtins.c\
 		execution/builtins/export_a.c\
 		execution/builtins/export.c\
@@ -11,7 +13,6 @@ FILES = main.c\
 		execution/builtins/cd2.c\
 		execution/builtins/cd.c\
 		execution/ft_strcpy.c\
-		execution/commands.c\
 		execution/save_env.c\
 		parsing/minishell.c\
 		parsing/args_count.c\
@@ -49,6 +50,7 @@ clean :
 	rm -f parsing/*.o
 	rm -f execution/*.o
 	rm -f execution/builtins/*.o
+	rm -f execution/exec/*.o
 
 fclean : clean
 	rm -f libft/libft.a
