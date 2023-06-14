@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/12 23:41:05 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:09:39 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,15 @@ char	*get_next_line(int fd);
 int		ft_strcmp(const char *s1, const char *s2);
 int		check_quotes(t_token **lst, char *line, int *x, t_env *env_parse);
 int		lexing(char *line, t_token **lst, int *x, t_env *env_parse);
-int		lexing2(char *line, t_token **lst, int *x, t_env *env_parse);
-int		lexing3(char *line, t_token **lst, int *x);
-int		lexing4(t_token	**lst);
+int		lexing2(char *line, t_token **lst, int *x);
+int		lexing3(t_token	**lst);
 int		split_args(t_token *lst, t_args **args, t_env *env_parse);
 char	*ft_chrjoin(char *s1, char c2);
 char	*expand(t_token *lst, char *line, int *x, t_env *env_parse);
 int		errors_check(t_token *lst);
 void	rl_replace_line (const char *text, int clear_undo);
 char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst);
+int		split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse);
+int		split_args3(t_token *temp, t_args **args, int *in, int *out);
 
 # endif

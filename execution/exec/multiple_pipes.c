@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.c                                         :+:      :+:    :+:   */
+/*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 15:40:39 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:12:07 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 char	*search_path(t_list *saving_expo, char *node)
 {
@@ -39,53 +39,6 @@ void	check_slash(t_args *p, char **env)
 		write (2, ": command not found\n", 21);
 		exit(0) ;
 	}
-}
-
-void	child_exec_solo_cmd(t_args *p, char	**spl_path, char **env_copy, char *cmd)
-{
-	char	*command;
-	int		i;
-	int	fd;
-	
-	i = 0;
-	fd = fork();
-	if (fd == 0)
-	{
-		puts("awtani");
-		check_slash(p, env_copy);
-		dup2(p->infile, 0);
-		dup2(p->outfile, 1);
-		while (spl_path[i])
-		{
-			command = ft_strjoin(spl_path[i], cmd);
-			if (access(command, X_OK) != -1)
-				execve(command, (p)->args, env_copy);
-			i++;
-		}
-		close(p->infile);
-		close(p->outfile);
-		ft_putstr_fd(*p->args, 2);
-		write (2, ": command not found\n", 21);
-		exit(1);
-	}
-}
-
-void execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
-{
-	char	*cmd;
-	char	*find_path;
-	char	**spl_path;
-
-	find_path = search_path(saving_expo, "PATH");
-	if (!find_path)
-	{		
-		ft_putstr_fd(*p->args, 2);
-		write (2, ": command not found\n", 21);
-		exit (1);
-	}
-	spl_path = ft_split(find_path, ':');
-	cmd = ft_strjoin("/", p->args[0]);
-	child_exec_solo_cmd(p, spl_path, env_copy, cmd);
 }
 
 int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
@@ -132,6 +85,9 @@ void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
 	int id = fork();
 	if (id == 0)
 	{
+        puts("fork dyal pipes");
+        if(tmp->args[0] == NULL)
+            exit(0);
 		if (check_if_builtins(tmp) == 1 && tmp->next)
 		{
 			if (tmp->infile == 1)
@@ -205,7 +161,7 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env_copy, t_pipe *pip
 		else
 		{
 			puts("tala");
-			execute_cmd(p, saving_expo, env_copy);
+			child_exec_solo_cmd(p, saving_expo, env_copy);
 		}
 	}
 	else

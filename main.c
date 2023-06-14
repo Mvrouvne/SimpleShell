@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 20:48:08 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:24:57 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_token	*lst;
 	t_args	*args;
+	t_args	*temp;
 	int		x;
 	int		y;
 	(void) av;
@@ -79,16 +80,30 @@ int	main(int ac, char **av, char **env)
 		lst = NULL;
 		args = NULL;
 		x = 0;
+		y = 0;
 		line = readline("minishell:$> ");
 		if (!line)
 		{
-			printf("exit ohibok\n"); 
+			printf("exit\n"); 
 			exit (0);
 		}
 		add_history(line);
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
+			// system("leaks minishell");
+			// exit(0);
+				// int	t = 0;
+				// while (args)
+				// {
+				// 		t = 0;
+				// 		while (args->args[t])
+				// 			printf("args = %s\n", args->args[t++]);
+				// 		printf("infile = %d\n", args->infile);
+				// 		printf("outfile = %d\n", args->outfile);
+				// 		printf("****************\n");
+				// 	args = args->next;
+				// }
 			env_copy = get_env_copy(saving_env);
 			Implement_Cmnd(saving_env, args, env_copy, pipes);
 			while (args->next)
@@ -100,19 +115,24 @@ int	main(int ac, char **av, char **env)
 			while (wait(NULL) != -1);
 			dup2(pipes->tmp, stdin_main);
 		}
-		// system("leaks minishell");
 		free (line);
-		free (lst);
-		// if (args->args[0])
-		// {
-		// 	while (args->args[y])
-		// 	{
-		// 		free(args->args[y]);
-		// 		y++;
-		// 	}
-		// 	free (args->args);
-		// }
-		free (args);
+		// free (lst);
+		if (args && args->args[0])
+		{
+			while (args->args[y])
+			{
+				free(args->args[y]);
+				y++;
+			}
+			free (args->args);
+			while (args)
+			{
+				temp = args;
+				args = args->next;
+				free (temp);
+			}
+		}
+		// free (pipes);
 	}
 	// while (lst)
 	// {

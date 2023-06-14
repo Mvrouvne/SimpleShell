@@ -104,7 +104,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			line = readline("> ");
 			if (line && line[0] == '\n')
 				continue;
-			else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(line)))))
+			else if (!line || (!(ft_strncmp(line, delimiter, ft_strlen(delimiter)))))
 			{
 				free (line);
 				close (fd[1]);
