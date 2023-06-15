@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 15:39:31 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:41:07 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
             x = 0;
             while (p->args[i][x])
             {
+                if((p->args[i][0] < 'a' || p->args[i][0] > 'z') && (p->args[i][0] < 'A' || p->args[i][0] > 'Z'))
+                {
+                    ft_error(p->args[i], "not a valid identifier", 1);
+                    return ;
+                }
                 if(search_plus(p->args[i]) == 1)
                 {
                     char **spl_p;
@@ -123,4 +128,12 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
             (*saving_expo) = tmp1;
         }
     }
+}
+
+void    ft_error(char *str, char *error, int i)
+{
+    ft_putstr_fd("minishell: ", i);
+    ft_putstr_fd(str, i);
+    ft_putstr_fd(": ", i);
+    ft_putendl_fd(error, i);
 }

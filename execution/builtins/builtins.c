@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 11:56:11 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:39:56 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
 	int		i;
 	t_list	*tmp;
+	t_list	*new;
 
 	if (!p->args[0])
 		return ;
@@ -109,6 +110,22 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	else if (!ft_strcmp(p->args[0], "env"))
 	{
 		i = 1;
+		while(p->args[i])
+		{
+			if (search_egal(p->args[i]) == 1)
+			{
+				new = create_node(p->args[i]);
+				ft_lstadd_front(saving_env, new);
+			}
+			else if (p->args[i])
+			{
+				ft_putstr_fd("env: ", 1);
+				ft_putstr_fd(p->args[i], 1);
+				ft_putstr_fd(": No such file or directory\n", 1);
+				return ;
+			}
+			i++;
+		}
 		tmp = (*saving_env);
 		while (*saving_env)
 		{
@@ -143,8 +160,8 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	}
 }
 
-void ft_error(char *msg, char *str)
-{
-	ft_putstr_fd(msg, 2);
-	ft_putendl_fd(str, 2);
-}
+// void ft_error(char *msg, char *str)
+// {
+// 	ft_putstr_fd(msg, 2);
+// 	ft_putendl_fd(str, 2);
+// }

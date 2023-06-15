@@ -6,7 +6,7 @@ void	handler2(int num)
 	(void) num;
 	printf("\n");
 	// while (wait(NULL) != -1)
-	exit (0);
+	exit (10);
 }
 
 char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
@@ -94,10 +94,13 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     // }
 	args->infile = fd[0];
 	args->outfile = 1;
+	// printf("args = %d\n", args->infile);
+	// printf("fd[0] = %d\n", fd[0]);
 	id = fork();
 	signal(SIGINT, SIG_IGN);
 	if (id == 0)
 	{
+		// system("leaks minishell");
 		signal(SIGINT, handler2);
 		while (1)
 		{
@@ -113,10 +116,9 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			else if (lst && (!(lst->av_quotes)))
 			{
 				str = heredoc_expand(line, env_parse, lst);
-				// if (!str)
-				// 	return (1);
 				write(fd[1], str, ft_strlen(str));
 				write (fd[1], "\n", 1);	
+				free (str);
 			}
 			// printf("str = %s\n", str);
 			else
@@ -129,7 +131,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 
 	}
 	waitpid(id, &status, 0);
-	if (status == 0)
+	if (WEXITSTATUS(status) == 10)
 		return (1);
     return (0);
 }

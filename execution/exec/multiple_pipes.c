@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 15:10:33 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:55:28 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 	{
         if(tmp->args[0] == NULL)
             exit(0);
-		if (check_if_builtins(tmp) == 1 && tmp->next)
+		if (check_if_builtins(tmp) == 1)
 		{
 			if (tmp->infile == 1)
 			{
@@ -100,7 +100,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 			builtins(tmp, &lst->saving_env, &lst->saving_expo);
 			close (pipes->fd[0]);
 			close(pipes->fd[1]);
-			// exit(1);
+			exit(1);
 		}
 		if (tmp->infile == 1)
 		{

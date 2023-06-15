@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/15 15:17:55 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:19:04 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		}
 		else if (temp->type == DELIMITER)
 		{
+			in = 1;
 			if (heredoc(*args, temp->data, env_parse, lst))
 				return (1);
 		}

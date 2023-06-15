@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 17:58:03 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 10:21:43 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:00:49 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	modify_pwd(t_list **saving_env, char *new_pwd)
 {
 	t_list	*pwd_found;
-
-	pwd_found = search_pwd(*saving_env);
-	pwd_found->value = ft_strjoin("PWD=", new_pwd);
+	if (!(*saving_env))
+	{
+		pwd_found = search_pwd(*saving_env);
+		pwd_found->value = ft_strjoin("PWD=", new_pwd);
+	}
 }
 
 void	add_oldpwd(t_list **saving_env, char *old_pwd)
@@ -81,8 +83,10 @@ void	big_cd(t_list **saving_env, t_list **saving_expo, t_args *p)
 	{
 		getcwd(new_pwd, 256);
 		add_oldpwd(saving_env, old_pwd);
-		modify_pwd(saving_env, new_pwd);
+		if (search_home(*saving_env, "PWD") == 1)
+			modify_pwd(saving_env, new_pwd);
 		add_oldpwd(saving_expo, old_pwd);
-		modify_pwd(saving_expo, new_pwd);
+		if (search_home(*saving_env, "PWD") == 1)
+			modify_pwd(saving_expo, new_pwd);
 	}
 }
