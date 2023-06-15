@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 20:44:54 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:47:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	main(int ac, char **av, char **env)
 				free(args->args[y]);
 				y++;
 			}
+			free(args->args[y]);
 			free (args->args);
 			while (args)
 			{
@@ -134,7 +135,9 @@ int	main(int ac, char **av, char **env)
 				args = args->next;
 				free (temp);
 			}
+			free (args);
 		}
+		// system("leaks minishell");
 		// free (pipes);
 	}
 	// while (lst)

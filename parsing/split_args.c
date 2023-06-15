@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:09:11 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/14 22:54:12 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:47:16 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,18 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 	create_list(args, lst);
 	(*args)->args = malloc(sizeof(char *));
 	(*args)->args[0] = NULL;
+	// printf("args 0 adress = %p\n", (*args)->args);
 	temp2 = *args;
     if (split_args2(temp, args, lst, env_parse))
+	{
+		while (lst)
+		{
+			temp = lst;
+			lst = lst->next;
+			free(temp);
+		}
         return (1);
+	}
 	*args = temp2;
 	while (lst)
 	{

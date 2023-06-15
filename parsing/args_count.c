@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:28:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/10 20:06:35 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:25:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	args_count(t_token *lst)
 
 	count = 0;
 	if (y)
-	{
 		lst = x;
-	}
 	while (lst)
 	{
 		if (lst->type == PIPE)

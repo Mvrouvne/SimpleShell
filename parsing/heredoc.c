@@ -18,9 +18,10 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 	int		z;
 	int		j;
 	int		i;
-	char 	*str = NULL;
+	char 	*str;
 	char 	*env_split;
 
+	str = NULL;
 	env_split = NULL;
 	env_split = malloc(sizeof(char));
 	env_split[0] = '\0';
