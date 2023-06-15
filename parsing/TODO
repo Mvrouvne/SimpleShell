@@ -1,3 +1,5 @@
 
 TODO cat | cat | cat | cat | cat > outfile
 export hh=
+
+(*args)->next

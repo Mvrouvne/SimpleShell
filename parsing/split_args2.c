@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/14 22:51:46 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:17:55 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 {
     int		x;
 	int		y;
+	int		z;
     int     in;
     int     out;
 
+	x = 0;
+	y = 0;
+	z = 0;
 	in = 0;
 	out = 0;
     while (temp && *args)
@@ -38,14 +42,21 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		{
 			if (temp->type == PIPE)
 			{
-				x = 0;
 				y = 0;
 				*args = (*args)->next;
+				x = 0;
+				z = 0;
+				in = 0;
+				x = args_count(lst);
+				(*args)->args = malloc(sizeof(char *) * (x + 1));
+				z++;
+				(*args)->args[x] = NULL;
 			}
 			else
 			{
-				if (!x)
+				if (!y && !z)
 				{
+					x = 0;
 					x = args_count(lst);
 					(*args)->args = malloc(sizeof(char *) * (x + 1));
 					(*args)->args[x] = NULL;
