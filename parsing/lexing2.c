@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 16:49:46 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/14 19:16:31 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:09:28 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	lexing2_follow(char *line, t_token **lst, int *x, char *str)
 	str[1] = line[*x + 1];
 	str[2] = '\0';
 	ft_lstadd_back(lst, ft_lstnew(str));
+	free (str);
 	return (check);
 }
 
@@ -51,7 +52,6 @@ int	lexing2(char *line, t_token **lst, int *x)
 		|| (line[*x] == '>' && line[*x + 1] == '>'))
 	{
 		check = lexing2_follow(line, lst, x, str);
-		free (str);
 		if (check)
 			(*lst)->av_quotes = 1;
 		(*x) += 2;
