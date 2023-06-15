@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 11:43:43 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:33:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		ft_strcmp_o(const char *s1, const char *s2);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 char	*ft_strcpy(char *dest, char *src);
 t_args	*ft_lstnew4(char *data);
+void    ft_error(char *str, char *error, int i);
 
 int		check_plus(char **p, t_list *saving_expo);
 int     check_if_builtins(t_args *p);

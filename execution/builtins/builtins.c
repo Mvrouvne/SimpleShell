@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 11:43:36 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:39:56 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,59 +92,76 @@ void	unset(t_list **head, char *key)
 void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
 	int		i;
-			t_list	*tmp;
+	t_list	*tmp;
+	t_list	*new;
 
-			if (!p->args[0])
+	if (!p->args[0])
+		return ;
+	if (!ft_strcmp(p->args[0], "echo"))
+		echo(p->args, p);
+	else if (!ft_strcmp(p->args[0], "pwd"))
+	{
+		char filename[256];
+		getcwd(filename, 256);
+		ft_putendl_fd(filename, p->outfile);
+	}
+	else if (!ft_strcmp(p->args[0], "cd"))
+		big_cd(saving_env, saving_expo, p);
+	else if (!ft_strcmp(p->args[0], "env"))
+	{
+		i = 1;
+		while(p->args[i])
+		{
+			if (search_egal(p->args[i]) == 1)
+			{
+				new = create_node(p->args[i]);
+				ft_lstadd_front(saving_env, new);
+			}
+			else if (p->args[i])
+			{
+				ft_putstr_fd("env: ", 1);
+				ft_putstr_fd(p->args[i], 1);
+				ft_putstr_fd(": No such file or directory\n", 1);
 				return ;
-			if (!ft_strcmp(p->args[0], "echo"))
-				echo(p->args, p);
-			else if (!ft_strcmp(p->args[0], "pwd"))
-			{
-				char filename[256];
-				getcwd(filename, 256);
-				ft_putendl_fd(filename, p->outfile);
 			}
-			else if (!ft_strcmp(p->args[0], "cd"))
-				big_cd(saving_env, saving_expo, p);
-			else if (!ft_strcmp(p->args[0], "env"))
-			{
-				i = 1;
-				tmp = (*saving_env);
-				while (*saving_env)
-				{
-					ft_putendl_fd((*saving_env)->value, p->outfile);
-					*saving_env = (*saving_env)->next;
-				}
-				(*saving_env) = tmp;
-			}
-			else if (!ft_strcmp(p->args[0], "unset"))
-			{
-				i = 1;
-				while (p->args[i])
-				{
-					unset(saving_expo, p->args[i]);
-					unset(saving_env, p->args[i]);
-					i++;
-				}
-			}
-			else if (!ft_strcmp(p->args[0], "export"))
-				export_a(saving_expo, saving_env, p);
-			else if (!ft_strcmp(p->args[0], "exit"))
-			{
-				i = 1;
-				if (p->args[i])
-				{
-					int return_value;
-					return_value = ft_atoi(p->args[i]);
-					exit(return_value);
-				}
-				else
-					exit (0);
-			}
+			i++;
+		}
+		tmp = (*saving_env);
+		while (*saving_env)
+		{
+			ft_putendl_fd((*saving_env)->value, p->outfile);
+			*saving_env = (*saving_env)->next;
+		}
+		(*saving_env) = tmp;
+	}
+	else if (!ft_strcmp(p->args[0], "unset"))
+	{
+		i = 1;
+		while (p->args[i])
+		{
+			unset(saving_expo, p->args[i]);
+			unset(saving_env, p->args[i]);
+			i++;
+		}
+	}
+	else if (!ft_strcmp(p->args[0], "export"))
+		export_a(saving_expo, saving_env, p);
+	else if (!ft_strcmp(p->args[0], "exit"))
+	{
+		i = 1;
+		if (p->args[i])
+		{
+			int return_value;
+			return_value = ft_atoi(p->args[i]);
+			exit(return_value);
+		}
+		else
+			exit (0);
+	}
 }
 
-void ft_error(char *msg, char *str)
-{
-	ft_putstr_fd(msg, 2);
-	ft_putendl_fd(str, 2);
-}
+// void ft_error(char *msg, char *str)
+// {
+// 	ft_putstr_fd(msg, 2);
+// 	ft_putendl_fd(str, 2);
+// }

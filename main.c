@@ -6,20 +6,20 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 00:47:22 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 00:48:29 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler(int num)
-{
-	(void) num;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void	handler(int num)
+// {
+// 	(void) num;
+// 	printf("\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -76,8 +76,8 @@ int	main(int ac, char **av, char **env)
 	y = 0;
 	lst = NULL;
 	args = NULL;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, handler);
 	while(1)
 	{
 		lst = NULL;
@@ -107,6 +107,17 @@ int	main(int ac, char **av, char **env)
 			// 		args = args->next;
 			// 	}
 			// exit(0);
+				// int	t = 0;
+				// while (args)
+				// {
+				// 		t = 0;
+				// 		while (args->args[t])
+				// 			printf("args = %s\n", args->args[t++]);
+				// 		printf("infile = %d\n", args->infile);
+				// 		printf("outfile = %d\n", args->outfile);
+				// 		printf("****************\n");
+				// 	args = args->next;
+				// }
 			env_copy = get_env_copy(list->saving_env);
 			Implement_Cmnd(list, args, env_copy, pipes);
 			while (args->next)
