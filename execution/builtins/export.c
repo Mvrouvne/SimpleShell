@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 11:24:46 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:39:31 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,15 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
                         return ;
                     }
                 }
-                else if (search_egal(p->args[i]) == 1)
+                else if (search_egal(p->args[i]) == 1 || search_egal(p->args[i]) == 2)
                 {
+                    if(search_egal(p->args[i]) == 2)
+                    {
+                        ft_putstr_fd("minishell: ", 1);
+                        ft_putstr_fd(p->args[i], 1);
+                        ft_putstr_fd(": not a valid identifier\n", 1);
+                        return ;
+                    }
                     env_if_egal(p->args[i], &(*saving_env));
                     (*saving_expo) = export(p->args[i], &(*saving_expo));
                     return ;

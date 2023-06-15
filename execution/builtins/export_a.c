@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/11 11:24:16 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:36:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	search_egal(char *str)
 	i = 0;
 	while (str[i])
 	{
+        if (str[i] == ' ')
+            return (2);
 		if (str[i] == '=')
 			return (1);
 		i++;
