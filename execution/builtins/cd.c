@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 17:58:03 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 11:23:55 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:21:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int	cd(char **p, t_list *saving_expo)
 	}
 	else if (chdir(p[1]))
 	{
-		perror("minishell: cd");
+		ft_putstr_fd("minishell: cd: ", 1);
+		ft_putstr_fd(p[1], 1);
+		write(1, ": ", 2);
+		write(1, "No such file or directory\n", 26);
 		return (0);
 	}
 	return (1);

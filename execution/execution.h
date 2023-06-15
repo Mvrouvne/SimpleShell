@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 16:25:26 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:43:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ typedef struct s_pipe {
 
 typedef struct  s_data
 {
-   t_list *env;
-   int exit_status;
+   t_list *saving_expo;
+   t_list *saving_env;
+   t_args *p;
 }   t_data;
 
 void   add_node(t_list **head, t_list *new_node);
@@ -45,6 +46,7 @@ void   add_node(t_list **head, t_list *new_node);
 int		ft_strcmp_o(const char *s1, const char *s2);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 char	*ft_strcpy(char *dest, char *src);
+t_args	*ft_lstnew4(char *data);
 
 int		check_plus(char **p, t_list *saving_expo);
 int     check_if_builtins(t_args *p);
@@ -55,8 +57,9 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy);
 
 t_list	*get_env(char **env);
 
-void	execution(t_args *p, t_list **saving_env);
-int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy);
+void	echo(char **p, t_args *out);
+void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo);
+int     execute_cmd(t_args *p, t_list *saving_expo, char **env_copy);
 int     execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env);
 void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p);
 void    *env_if_egal(char *p, t_list **saving_env);
@@ -72,7 +75,9 @@ t_list	*search_pwd(t_list *saving_env);
 int		search_plus(char *str);
 int		search_egal(char *str);
 
-void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env, t_pipe *pipe);
+void	Implement_Cmnd(t_data *lst, t_args *p, char **env, t_pipe *pipe);
+
+void	unset(t_list **head, char *key);
 
 void	big_cd(t_list **saving_env, t_list **saving_expo, t_args *p);
 void	modify_Pwd(t_list **saving_env, char *new_pwd);

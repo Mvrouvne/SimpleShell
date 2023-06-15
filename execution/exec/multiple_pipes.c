@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 17:12:07 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:48:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	// exit (1);
 }
 
-void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
+void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 {
 	if (tmp->infile != 0)
 		dup2(tmp->infile, 0);
@@ -99,7 +99,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
 				dup2(tmp->outfile, 1);
 			else if(tmp->next)
 				dup2(pipes->fd[1], 1);
-			execution(tmp, &saving_expo);
+			builtins(tmp, &lst->saving_env, &lst->saving_expo);
 			close (pipes->fd[0]);
 			close(pipes->fd[1]);
 			exit(1);
@@ -115,7 +115,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_list *saving_expo, char **env)
 			dup2(pipes->fd[1], 1);
 		close (pipes->fd[0]);
 		close(pipes->fd[1]);
-		if (execute_cmd_pipe(tmp, saving_expo, env) == 0)
+		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
 			exit(1);
 	}
 }
@@ -139,11 +139,13 @@ int	check_if_builtins(t_args *p)
 	return (0);
 }
 
-void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env_copy, t_pipe *pipes)
+void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
 	t_args	*tmp;
 	int		i;
-	
+	(void)env_copy;
+	(void)lst;
+
 	if (!p->args[0])
 		return ;
 	tmp = p;
@@ -157,19 +159,16 @@ void	Implement_Cmnd(t_list *saving_expo, t_args *p, char **env_copy, t_pipe *pip
 	if (pipes->cmds == 1)
 	{
 		if (check_if_builtins(p) == 1)
-			execution(p, &saving_expo);
+			builtins(p, &lst->saving_env, &lst->saving_expo);
 		else
-		{
-			puts("tala");
-			child_exec_solo_cmd(p, saving_expo, env_copy);
-		}
+			child_exec_solo_cmd(p, lst->saving_expo, env_copy);
 	}
 	else
 	{
 		i = 0;
 		while (i < pipes->cmds)
 		{
-			child_process(tmp, pipes, saving_expo, env_copy);
+			child_process(tmp, pipes, lst, env_copy);
 			dup2(pipes->fd[0], 0);
 			close(pipes->fd[1]);
 			close(pipes->fd[0]);

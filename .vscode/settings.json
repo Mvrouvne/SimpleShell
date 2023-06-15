@@ -3,6 +3,8 @@
         "minishell.h": "c",
         "execution.h": "c",
         "parsing.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "stdlib.h": "c",
+        "unistd.h": "c"
     }
 }

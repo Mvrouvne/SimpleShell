@@ -4,16 +4,16 @@ NAME = minishell
 
 FILES = main.c\
 		execution/exec/multiple_pipes.c\
-		execution/exec/solo_cmd.c\
 		execution/builtins/builtins.c\
+		execution/exec/solo_cmd.c\
+		execution/save_env.c\
+		execution/builtins/env_i.c\
+		execution/builtins/cd.c\
+		execution/builtins/cd2.c\
+		execution/ft_lstadd_front.c\
 		execution/builtins/export_a.c\
 		execution/builtins/export.c\
-		execution/ft_lstadd_front.c\
-		execution/builtins/env_i.c\
-		execution/builtins/cd2.c\
-		execution/builtins/cd.c\
 		execution/ft_strcpy.c\
-		execution/save_env.c\
 		parsing/minishell.c\
 		parsing/args_count.c\
 		parsing/check_in_out.c\

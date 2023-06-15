@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/13 16:46:05 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 10:59:51 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 	
 	i = 0;
 	fd = fork();
-	printf("AM HREER\n");
 	if (fd == 0)
 	{
-		printf("%d\n", p->infile);
-		puts("awtani");
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);
