@@ -37,7 +37,7 @@ FILES = main.c\
 INCLUDES = libft/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 READLINE = -lreadline -L /Users/machaiba/.brew/cellar/readline/8.2.1/lib -I /Users/machaiba/.brew/cellar/readline/8.2.1/include
 
 OBJ = $(FILES:.c=.o)

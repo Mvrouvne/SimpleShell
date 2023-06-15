@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 11:48:32 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:10:33 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	ft_putstr_fd(*p->args, 2);
 	write (2, ": command not found\n", 21);
 	return(0);
-	// exit (1);
 }
 
 void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
@@ -85,7 +84,6 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 	int id = fork();
 	if (id == 0)
 	{
-        puts("fork dyal pipes");
         if(tmp->args[0] == NULL)
             exit(0);
 		if (check_if_builtins(tmp) == 1 && tmp->next)
@@ -102,7 +100,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 			builtins(tmp, &lst->saving_env, &lst->saving_expo);
 			close (pipes->fd[0]);
 			close(pipes->fd[1]);
-			exit(1);
+			// exit(1);
 		}
 		if (tmp->infile == 1)
 		{

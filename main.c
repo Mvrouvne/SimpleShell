@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 10:07:33 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:08:21 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	main(int ac, char **av, char **env)
 				// 		printf("****************\n");
 				// 	args = args->next;
 				// }
+			
 			env_copy = get_env_copy(list->saving_env);
 			Implement_Cmnd(list, args, env_copy, pipes);
 			while (args->next)
