@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/11 16:57:19 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:58:33 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	filenames_check(char *str)
 int	errors_check(t_token *lst)
 {
 	int	x;
+	extern int exit_status;
 
 	x = 0;
 	if (lst && (lst->next) && (lst->av_quotes != 1) && (!(ft_strcmp(lst->data, "|"))))
@@ -44,7 +45,8 @@ int	errors_check(t_token *lst)
 			|| (!(ft_strcmp(lst->data, ">>")))) || (!(ft_strcmp(lst->data, "|")))))
 		{
 			write (2, "syntax error near unexpected token `newline'\n", 46);
-			return (1);
+			exit_status = 258;
+			return (exit_status);
 		}
 		if ((lst->next) && ((!(ft_strcmp(lst->data, "<"))) || (!(ft_strcmp(lst->data, "<<")))
 			|| (!(ft_strcmp(lst->data, ">")) || (!(ft_strcmp(lst->data, ">>"))))))
