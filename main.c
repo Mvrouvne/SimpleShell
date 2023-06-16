@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 00:48:29 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 10:19:38 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ int	main(int ac, char **av, char **env)
 
 	list = malloc(sizeof(t_list));
 	pipes = malloc(sizeof(t_pipe));
+	
 	list->saving_env = get_env(env);
 	list->saving_expo = get_env(env);
+	
 	pipes->cmds = 0;
 	pipes->tmp = dup(0);
 	env_parse = (t_env *)list->saving_env;

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:15:10 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/10 13:11:42 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 10:17:22 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,4 @@ t_list *get_env(char **env)
     head = temp;
     return (head);
 }
+

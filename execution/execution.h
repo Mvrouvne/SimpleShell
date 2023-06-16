@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 21:33:43 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 10:13:27 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,21 @@ typedef struct s_pipe {
 
 typedef struct  s_data
 {
-   t_list *saving_expo;
-   t_list *saving_env;
-   t_args *p;
+    t_list *saving_expo;
+    t_list *saving_env;
+    t_args *p;
 }   t_data;
 
 void   add_node(t_list **head, t_list *new_node);
+void	add_OldPwd(t_list **saving_env, char *old_pwd);
+
+void	big_cd(t_list **saving_env, t_list **saving_expo, t_args *p);
 
 int		ft_strcmp_o(const char *s1, const char *s2);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 char	*ft_strcpy(char *dest, char *src);
 t_args	*ft_lstnew4(char *data);
-void    ft_error(char *str, char *error, int i);
+void    ft_error(char *entourage, char *input, char *error, int i);
 
 int		check_plus(char **p, t_list *saving_expo);
 int     check_if_builtins(t_args *p);
@@ -57,6 +60,7 @@ void	check_slash(t_args *p, char **env);
 void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy);
 
 t_list	*get_env(char **env);
+t_list	*get_expo(char **env);
 
 void	echo(char **p, t_args *out);
 void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo);
@@ -80,9 +84,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env, t_pipe *pipe);
 
 void	unset(t_list **head, char *key);
 
-void	big_cd(t_list **saving_env, t_list **saving_expo, t_args *p);
 void	modify_Pwd(t_list **saving_env, char *new_pwd);
-void	add_OldPwd(t_list **saving_env, char *old_pwd);
 
 t_data g_data;
 

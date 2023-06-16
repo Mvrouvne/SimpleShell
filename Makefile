@@ -5,6 +5,7 @@ NAME = minishell
 FILES = main.c\
 		execution/exec/multiple_pipes.c\
 		execution/builtins/builtins.c\
+		execution/builtins/echo.c\
 		execution/exec/solo_cmd.c\
 		execution/save_env.c\
 		execution/builtins/env_i.c\
