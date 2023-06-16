@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 08:20:08 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:01:04 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*search_path(t_list *saving_expo, char *node)
 {
 	t_list	*tmp;
 	char **spl;
-
+	
 	tmp = saving_expo;
 	while (tmp)
 	{
@@ -32,12 +32,16 @@ char	*search_path(t_list *saving_expo, char *node)
 
 void	check_slash(t_args *p, char **env)
 {
+	extern int	exit_status;
+
 	if (p->args[0][0] == '/')
 	{
 		execve(p->args[0], p->args, env);
 		ft_putstr_fd(*p->args, 2);
-		write (2, ": command not found\n", 21);
-		exit(0) ;
+		write (2, ": command not founddd\n", 23);
+		write(2, "hana\n", 5);
+		exit_status = 127;
+		exit(exit_status) ;
 	}
 }
 
