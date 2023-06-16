@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/14 15:43:09 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:29:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			free (str2);
 			(*x)++;
 			return (0);
+		}
+		else if (line[*x] == '$' && line[*x + 1] == '?')
+		{
+			// ft_lstadd_back(lst, ft_lstnew("exit_status"));
+			str = ft_strjoin(str, "exit_status");
+			(*x)++;
+			// return (0);
 		}
 		else if (line[*x] == '"')
 		{
