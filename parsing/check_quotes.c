@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 16:56:49 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:26:42 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	char	*str;
 	char	*str2;
 	int		y;
-	extern int exit_status;
 	
 	str = malloc(sizeof(char));
 	str[0] = '\0';
@@ -58,7 +57,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		else if (line[*x] == '$' && line[*x + 1] == '?')
 		{
 			// ft_lstadd_back(lst, ft_lstnew("exit_status"));
-			str = ft_strjoin(str, ft_itoa(exit_status));
+			str = ft_strjoin(str, "exit_status");
 			(*x)++;
 			// return (0);
 		}

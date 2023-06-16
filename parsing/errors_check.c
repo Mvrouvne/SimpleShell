@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 16:58:33 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:51:33 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int	errors_check(t_token *lst)
 				write (2, "\'\n", 2);
 				return (1);
 			}
+		}
+		if ((lst->next) && (!(ft_strcmp(lst->data, "|"))) && (!(ft_strcmp(lst->next->data, "|"))))
+		{
+			write (2, "syntax error near unexpected token `|'\n", 39);
+			return (1);
 		}
 		lst = lst->next;
 	}

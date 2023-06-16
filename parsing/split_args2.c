@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 00:45:49 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:33:00 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
                 return (1);
             temp = temp->next;
         }
-		else if ((temp->type == CMD || temp->type == PIPE) && temp->data[0])
+		else if ((temp->type == CMD || temp->type == PIPE))
 		{
 			if (temp->type == PIPE)
 			{
