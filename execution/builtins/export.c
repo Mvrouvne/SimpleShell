@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 08:45:28 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:33:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	search_plus(char *str)
 	return (0);
 }
 
-void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
+void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
 {
     t_list	*node;
     t_list	*node2;
@@ -60,13 +60,15 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
             x = 0;
             while (p->args[i][x])
             {
-                if((p->args[i][0] < 'a' || p->args[i][0] > 'z') && (p->args[i][0] < 'A' || p->args[i][0] > 'Z'))
+                if((p->args[i][0] < 'a' || p->args[i][0] > 'z')
+                    && (p->args[i][0] < 'A' || p->args[i][0] > 'Z'))
                 {
                     ft_error("minishell: ", p->args[i], "not a valid identifier", 1);
                     return ;
                 }
                 if(search_plus(p->args[i]) == 1)
                 {
+                    // puts("hhhh");
                     char **spl_p;
                     spl_p = ft_split(p->args[i], '=');
                     node = search_node((*saving_expo), spl_p[0]);
@@ -101,7 +103,6 @@ void    export_a(t_list **saving_expo, t_list **saving_env, t_args *p)
                         return ;
                     }
                     env_if_egal(p->args[i], &(*saving_env));
-                    (*saving_expo) = export(p->args[i], &(*saving_expo));
                     return ;
                 }
                 else

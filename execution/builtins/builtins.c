@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 09:43:23 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:45:21 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,13 @@ void	unset(t_list **head, char *key)
 
 void	env(t_args *p, t_list **saving_env, int i)
 {
+	puts("im here");
 	t_list	*tmp;
-	t_list	*new;
 
 	i = 1;
 	while(p->args[i])
 	{
-		if (search_egal(p->args[i]) == 1)
-		{
-			new = create_node(p->args[i]);
-			ft_lstadd_front(saving_env, new);
-		}
-		else if (p->args[i])
+		if (p->args[i])
 		{
 			ft_error("env: ", p->args[i], "No such file or directory", 1);
 			return ;
@@ -87,6 +82,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
 	int		i;
 
+	extern int exit_status;
 	i = 1;
 	if (!p->args[0])
 		return ;
@@ -103,17 +99,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		}
 	}
 	else if (!ft_strcmp(p->args[0], "export"))
-		export_a(saving_expo, saving_env, p);
+		export_a(saving_env, saving_expo, p);
 	else if (!ft_strcmp(p->args[0], "exit"))
-	{
-		i = 1;
-		if (p->args[i])
-		{
-			int return_value;
-			return_value = ft_atoi(p->args[i]);
-			exit(return_value);
-		}
-		else
-			exit (0);
-	}
+			exit (messi);
 }
