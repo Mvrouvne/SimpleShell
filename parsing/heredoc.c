@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
+/*   Updated: 2023/06/16 15:58:05 by machaiba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "parsing.h"
 
@@ -134,5 +145,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	waitpid(id, &status, 0);
 	if (WEXITSTATUS(status) == 10)
 		return (1);
+	close (fd[1]);
     return (0);
 }
