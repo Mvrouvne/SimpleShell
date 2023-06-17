@@ -6,7 +6,7 @@
 #    By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/03 12:35:18 by otitebah          #+#    #+#              #
-#    Updated: 2023/06/10 13:25:37 by otitebah         ###   ########.fr        #
+#    Updated: 2023/06/17 19:40:58 by otitebah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ FILES = builtins.c ft_strcpy.c save_env.c ft_lstadd_front.c save_export.c\
 		commands.c ../parsing/ft_strcmp.c
 		
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDES = ../libft/libft.a
 
 OBJ = $(FILES:.c=.o)

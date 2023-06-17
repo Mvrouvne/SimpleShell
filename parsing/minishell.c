@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:46:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/15 21:20:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 22:20:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	lexing3(t_token	**lst)
 			temp->next->type = DELIMITER;
 			temp = temp->next;
 		}
-		else if (temp->next && (!(ft_strncmp(temp->next->data, "<<", 2))))
-			temp->type = CMD;
 		else if (temp->next && (!(ft_strncmp(temp->data, ">>", 2))))
 		{
 			temp->type = APPEND;

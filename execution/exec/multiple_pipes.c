@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 12:58:53 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:53:17 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_slash(t_args *p, char **env)
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not founddd\n", 23);
 		exit_status = 127;
-		exit(exit_status) ;
+		exit(0) ;
 	}
 }
 
@@ -69,6 +69,8 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 
 void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
 {
+	extern int exit_status;
+	
 	if (tmp->infile == 1)
 	{
 		dup2(pipes->tmp, STDIN_FILENO);
@@ -81,7 +83,8 @@ void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
 	builtins(tmp, &lst->saving_env, &lst->saving_expo);
 	close (pipes->fd[0]);
 	close(pipes->fd[1]);
-	exit(1);
+	exit_status = 0;
+	exit(0);
 }
 
 void child_not_builtins(t_args *tmp, t_pipe *pipes)
@@ -101,6 +104,10 @@ void child_not_builtins(t_args *tmp, t_pipe *pipes)
 
 void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 {
+	extern	int exit_status;
+
+	// if (!tmp->args[0])
+	// 	return ;
 	if (tmp->infile != 0)
 		dup2(tmp->infile, 0);
 	if (pipe(pipes->fd) == -1)
@@ -108,21 +115,27 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		perror("pipes failed");
 		exit(0);
 	}
-	lst->pid[lst->id] = fork();
-	if (lst->pid[lst->id] == 0)
+	// lst->pid[lst->id] = fork();
+	if (fork() == 0)
 	{
-		if(tmp->args[0] == NULL)
-		exit(0);
+		// if(tmp->args[0] == NULL)
+		// 	exit(0);
 		if (check_if_builtins(tmp) == 1)
 			child_builtins(tmp, pipes, lst);
 		child_not_builtins(tmp, pipes);
 		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
-			exit(1);
+		{
+			exit_status = 127;
+			exit(0);
+		}
 	}
 }
 
 int	check_if_builtins(t_args *p)
 {
+	// char *echo = ft_strdup("echo");
+	// if (!p->args[0])
+	// 	return (0);
 	if (!ft_strcmp(p->args[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(p->args[0], "pwd"))
@@ -145,8 +158,8 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	t_args	*tmp;
 	int		i;
 
-	if (!p->args[0])
-		return ;
+	// if (!p->args[0])
+	// 	return ;
 	tmp = p;
 	pipes->cmds = 0;
 	while (tmp)
@@ -155,8 +168,8 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		pipes->cmds++;
 	}
 	tmp = p;
-	lst->pid = malloc(sizeof(int) * pipes->cmds);
-	lst->id = 0;
+	// if (pipes->cmds == 1 && p->args[0] == NULL)
+	// 	return;
 	if (pipes->cmds == 1)
 	{
 		if (check_if_builtins(p) == 1)
@@ -164,21 +177,27 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		else
 		{
 			child_exec_solo_cmd(p, lst->saving_expo, env_copy, lst);
-			// lst->id++;
 		}
 	}
 	else
 	{
 		i = 0;
-		while (i < pipes->cmds)
+		while (tmp && i < pipes->cmds)
 		{
-			child_process(tmp, pipes, lst, env_copy);
-			lst->id++;
-			dup2(pipes->fd[0], 0);
-			close(pipes->fd[1]);
-			close(pipes->fd[0]);
+			if (!tmp->args[0])
+				i++;
+			else
+			{
+				child_process(tmp, pipes, lst, env_copy);
+				// lst->id++;
+				dup2(pipes->fd[0], 0);
+				close(pipes->fd[1]);
+				close(pipes->fd[0]);
+				// tmp = tmp->next;
+				i++;
+				
+			}
 			tmp = tmp->next;
-			i++;
 		}
 		close(0);
 		dup2(pipes->tmp, 0);

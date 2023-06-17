@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/17 20:45:26 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 00:52:21 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 				x = 0;
 				z = 0;
 				in = 0;
-				x = args_count(lst);
+				x = args_count(temp->next);
 				(*args)->args = malloc(sizeof(char *) * (x + 1));
-				z++;
 				(*args)->args[x] = NULL;
+				z++;
 			}
 			else
 			{
@@ -59,13 +59,11 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 				{
 					x = 0;
 					x = args_count(lst);
-					// if (!(*args)->args[0])
-					// 	free ((*args)->args);
+					free ((*args)->args);
 					(*args)->args = malloc(sizeof(char *) * (x + 1));
 					(*args)->args[x] = NULL;
 				}
 				(*args)->args[y] = ft_strdup(temp->data);
-				printf("args = %s\n", (*args)->args[y]);
 				y++;
 			}
 		}
@@ -75,9 +73,8 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 			if (heredoc(*args, temp->data, env_parse, lst))
 				return (1);
 		}
+		
 		check_in_out(*args, in, out);
-		// printf("adress = %p\n", temp->data);
-		// printf("data = %s\n", temp->data);
 		free (temp->data);
 		temp = temp->next;
 	}
