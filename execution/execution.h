@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 11:40:50 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:44:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include "../minishell.h"
 # include <stdlib.h>
+#include <sys/types.h>
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -39,8 +40,6 @@ typedef struct  s_data
     t_list *saving_expo;
     t_list *saving_env;
     t_args *p;
-    int   *pid;
-    int   id;
 }   t_data;
 
 

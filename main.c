@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 13:05:25 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 22:43:35 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_token	*lst;
 	t_args	*args;
-	t_args	*temp;
+	// t_args	*temp;
 	int		x;
 	int		y;
 	(void) av;
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **env)
 	t_data *list;
 	t_pipe	*pipes;
 	t_env	*env_parse;
-	// char **env_copy;
+	char **env_copy;
 
 	list = malloc(sizeof(t_list));
 	pipes = malloc(sizeof(t_pipe));
@@ -74,7 +74,7 @@ int	main(int ac, char **av, char **env)
 	pipes->cmds = 0;
 	pipes->tmp = dup(0);
 	env_parse = (t_env *)list->saving_env;
-	// int stdin_main = dup(0);
+	int stdin_main = dup(0);
 	ac = 0;
 	x = 0;
 	y = 0;
@@ -99,18 +99,18 @@ int	main(int ac, char **av, char **env)
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
 			// system("leaks minishell");
-			// 	int	t = 0;
-			// 	while (args)
-			// 	{
-			// 			t = 0;
-			// 			while (args->args[t])
-			// 				printf("args = %s\n", args->args[t++]);
-			// 			printf("infile = %d\n", args->infile);
-			// 			printf("outfile = %d\n", args->outfile);
-			// 			printf("****************\n");
-			// 		args = args->next;
-			// 	}
-			// exit(0);
+				// int	t = 0;
+				// while (args)
+				// {
+				// 		t = 0;
+				// 		while (args->args[t])
+				// 			printf("args = %s\n", args->args[t++]);
+				// 		printf("infile = %d\n", args->infile);
+				// 		printf("outfile = %d\n", args->outfile);
+				// 		printf("****************\n");
+				// 	args = args->next;
+				// }
+				// exit(0);
 				// int	t = 0;
 				// while (args)
 				// {
@@ -133,31 +133,40 @@ int	main(int ac, char **av, char **env)
 			// printf("pipes->cmds   =  %d\n", pipes->cmds);
 			// printf("list->id   =  %d\n", list->id);
 			// list->pid[list->id] = 0;
-			int i = 0;
-			while (i < pipes->cmds)
-			{
-				waitpid(list->pid[i], &exit_status, 0);
-				i++;
-			}
+			// int i = 0;
+			while (wait(NULL) != -1)
+			// while (i < pipes->cmds)
+			// {
+			// 	waitpid(list->pid[i], &exit_status, 0);
+			// 	i++;
+			// }
+			// if (WIFEXITED(exit_status))
+			// 	exit_status = WEXITSTATUS(exit_status);
 			dup2(pipes->tmp, stdin_main);
 		}
 		free (line);
 		// free (lst);
-		if (args && args->args[0])
-		{
-			while (args)
-			{
-				while (args->args[y])
-				{
-					free(args->args[y]);
-					y++;
-				}
-				free (args->args);
-				temp = args;
-				args = args->next;
-				free (temp);
-			}
-		}
+		// if (args && args->args[0])
+		// {
+		// 	while (args)
+		// 	{
+		// 		while (args->args[y])
+		// 		{
+		// 			free(args->args[y]);
+		// 			y++;
+		// 		}
+		// 		free (args->args);
+		// 		temp = args;
+		// 		args = args->next;
+		// 		free (temp);
+		// 	}
+		// }
+		// while (lst)
+		// {
+		// 	temp = lst;
+		// 	lst = lst->next;
+		// 	free(temp);
+		// }
 		// system("leaks minishell");
 		// free (pipes);
 	}

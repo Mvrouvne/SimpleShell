@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 15:58:05 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 22:38:51 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,11 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
     
     x = 0;
     // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
-    pipe(fd);
+    if (pipe(fd) == -1)
+	{
+		printf("PIPE");
+
+	}
     // if (fd == -1)
     // {
     //     write(2, "heredoc file failed\n", 21);

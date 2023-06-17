@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 10:17:44 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:24:22 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         return ;
                     }
                     env_if_egal(p->args[i], &(*saving_env));
+                    (*saving_expo) = export(p->args[i], saving_expo);
                     return ;
                 }
                 else
@@ -128,13 +129,29 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
     {
         if (*saving_expo)
         {
+            char **sp;
+            char *add_quotes;
+            char *add_quotes2;
+            char *final;
+            char *add_egal;
             (*saving_expo) = sort_list(saving_expo);
             tmp1 = (*saving_expo);
             while ((*saving_expo))
             {
-                printf("declare -x  %s\n", (*saving_expo)->value);
+                if (search_egal((*saving_expo)->value) == 1)
+                {
+                    sp = ft_split((*saving_expo)->value, '=');
+                    add_quotes = ft_strjoin("\"", sp[1]);
+                    add_quotes2 = ft_strjoin(add_quotes, "\"");
+                    add_egal = ft_strjoin("=", add_quotes2);
+                    final = ft_strjoin(sp[0], add_egal);
+                }
+                else
+                    final = (*saving_expo)->value;
+                printf("declare -x  %s\n", final);
                 (*saving_expo) = (*saving_expo)->next;
             }
+            puts("hana");
             (*saving_expo) = tmp1;
         }
     }

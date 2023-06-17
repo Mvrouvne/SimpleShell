@@ -5,3 +5,5 @@ export hh=
 cat | | ls
 ""
 ./
+
+<< l | << l | << l | << l | << l | << l | << l | ls

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:09:11 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 23:45:15 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:54:18 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,21 +134,7 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 	// printf("args 0 adress = %p\n", (*args)->args);
 	temp2 = *args;
     if (split_args2(temp, args, lst, env_parse))
-	{
-		while (lst)
-		{
-			temp = lst;
-			lst = lst->next;
-			free(temp);
-		}
         return (1);
-	}
 	*args = temp2;
-	while (lst)
-	{
-		temp = lst;
-		lst = lst->next;
-		free(temp);
-	}
 	return (0);
 }
