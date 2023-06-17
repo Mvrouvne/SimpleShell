@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 18:51:33 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:01:25 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ int	errors_check(t_token *lst)
 	if (lst && (lst->next) && (lst->av_quotes != 1) && (!(ft_strcmp(lst->data, "|"))))
 	{
 		write(2, "syntax error near unexpected token `|'\n", 40);
-		return (1);
+		exit_status = 258;
+		return (exit_status);
 	}
 	else if (lst && (!lst->next) && (lst->av_quotes == 1))
 	{
 		write (2, "No such file or directory\n", 27);
-		return (1);
+		exit_status = 258;
+		return (exit_status);
 	}
 	while (lst)
 	{
@@ -55,15 +57,16 @@ int	errors_check(t_token *lst)
 			{
 				write (2, "syntax error near unexpected token `", 37);
 				write (2, lst->next->data, 1);
-				// ft_putstr_fd(lst->next->data, 2);
 				write (2, "\'\n", 2);
-				return (1);
+				exit_status = 258;
+				return (exit_status);
 			}
 		}
 		if ((lst->next) && (!(ft_strcmp(lst->data, "|"))) && (!(ft_strcmp(lst->next->data, "|"))))
 		{
 			write (2, "syntax error near unexpected token `|'\n", 39);
-			return (1);
+			exit_status = 258;
+			return (exit_status);
 		}
 		lst = lst->next;
 	}

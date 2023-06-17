@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 15:58:05 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:44:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	int		x;
 	int		id;
 	int		status;
+	extern int	exit_status;
     
     x = 0;
     // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
@@ -123,7 +124,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			{
 				free (line);
 				close (fd[1]);
-				exit (1);
+				exit (20);
 			}
 			else if (lst && (!(lst->av_quotes)))
 			{
@@ -140,11 +141,16 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			}
 			free (line);
 		}
-
 	}
 	waitpid(id, &status, 0);
 	if (WEXITSTATUS(status) == 10)
 		return (1);
+	else if (WEXITSTATUS(status) == 20)
+	{
+		// puts ("HEEERREE");
+		// exit_status = 0;
+		return (0);
+	}
 	close (fd[1]);
     return (0);
 }
