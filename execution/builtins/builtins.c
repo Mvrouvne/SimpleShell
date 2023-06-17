@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 09:18:18 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:52:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
 	int		i;
-
 	extern int exit_status;
+
+	exit_status = 0;
 	i = 1;
 	if (!p->args[0])
 		return ;

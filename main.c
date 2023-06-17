@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 12:13:49 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:05:25 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,16 +122,24 @@ int	main(int ac, char **av, char **env)
 				// 		printf("****************\n");
 				// 	args = args->next;
 				// }
-			// env_copy = get_env_copy(list->saving_env);
-			// Implement_Cmnd(list, args, env_copy, pipes);
-			// while (args->next)
-			// {
-			// 	close(pipes->fd[0]);			////////////// ana hna
-			// 	close(pipes->fd[1]);
-			// 	args = args->next;
-			// }
-			// while (wait(NULL) != -1);
-			// dup2(pipes->tmp, stdin_main);
+			env_copy = get_env_copy(list->saving_env);
+			Implement_Cmnd(list, args, env_copy, pipes);
+			while (args->next)
+			{
+				close(pipes->fd[0]);			////////////// ana hna
+				close(pipes->fd[1]);
+				args = args->next;
+			}
+			// printf("pipes->cmds   =  %d\n", pipes->cmds);
+			// printf("list->id   =  %d\n", list->id);
+			// list->pid[list->id] = 0;
+			int i = 0;
+			while (i < pipes->cmds)
+			{
+				waitpid(list->pid[i], &exit_status, 0);
+				i++;
+			}
+			dup2(pipes->tmp, stdin_main);
 		}
 		free (line);
 		// free (lst);

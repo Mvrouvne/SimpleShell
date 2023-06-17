@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 11:24:00 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:40:50 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef struct  s_data
     t_list *saving_expo;
     t_list *saving_env;
     t_args *p;
-    int   *id;
+    int   *pid;
+    int   id;
 }   t_data;
 
 
@@ -60,7 +61,7 @@ int     check_if_builtins(t_args *p);
 int		cd(char **p, t_list *saving_expo);
 t_list	*create_node(char *value);
 void	check_slash(t_args *p, char **env);
-void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy);
+void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data *lst);
 
 t_list	*get_env(char **env);
 t_list	*get_expo(char **env);

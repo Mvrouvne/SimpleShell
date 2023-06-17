@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 11:24:02 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:58:53 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	}
 	if (!ft_strcmp(p->args[0], "./minishell"))
 		execve(p->args[0], (p)->args, env);
+	else if (p->args[0][0] == '.')
+	{
+		ft_error("", p->args[0], "command not found", 1);
+		return (0);
+	}
 	check_slash(p, env);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
@@ -103,8 +108,8 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		perror("pipes failed");
 		exit(0);
 	}
-	int id = fork();
-	if (id == 0)
+	lst->pid[lst->id] = fork();
+	if (lst->pid[lst->id] == 0)
 	{
 		if(tmp->args[0] == NULL)
 		exit(0);
@@ -150,13 +155,17 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		pipes->cmds++;
 	}
 	tmp = p;
-	lst->id = malloc(sizeof(int) * pipes->cmds);
+	lst->pid = malloc(sizeof(int) * pipes->cmds);
+	lst->id = 0;
 	if (pipes->cmds == 1)
 	{
 		if (check_if_builtins(p) == 1)
 			builtins(p, &lst->saving_env, &lst->saving_expo);
 		else
-			child_exec_solo_cmd(p, lst->saving_expo, env_copy);
+		{
+			child_exec_solo_cmd(p, lst->saving_expo, env_copy, lst);
+			// lst->id++;
+		}
 	}
 	else
 	{
@@ -164,6 +173,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		while (i < pipes->cmds)
 		{
 			child_process(tmp, pipes, lst, env_copy);
+			lst->id++;
 			dup2(pipes->fd[0], 0);
 			close(pipes->fd[1]);
 			close(pipes->fd[0]);
