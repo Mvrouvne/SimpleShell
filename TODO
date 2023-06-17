@@ -11,3 +11,9 @@ sssssssssssssss
 sssssssssssssss
 sssssssssssssss
 sssssssssssssss
+
+norm cd.c done
+norm cd2.c done
+norm echo.c done
+norm env_i.c done
+norm export_a.c done

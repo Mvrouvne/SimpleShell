@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:40:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 15:47:20 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:43:01 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_list	*ft_lstlast3(t_list *lst)
 	}
 	return (0);
 }
+
 void	ft_lstadd_back3(t_list **lst, t_list *new)
 {
 	if (!lst || !new)
@@ -52,10 +53,9 @@ t_list	*env_i(t_list **saving_env)
 	char	*s1;
 	char	*node;
 	char	filename[256];
-	// t_list	*head;
+
 	s1 = "PWD=";
 	getcwd(filename, 256);
-	
 	node = ft_strjoin(s1, filename);
 	if (!*saving_env)
 	{

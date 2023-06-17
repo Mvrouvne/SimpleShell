@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 17:58:03 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/15 17:00:49 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 10:50:37 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 void	modify_pwd(t_list **saving_env, char *new_pwd)
 {
 	t_list	*pwd_found;
-	if (!(*saving_env))
-	{
-		pwd_found = search_pwd(*saving_env);
+
+	pwd_found = search_pwd(*saving_env);
+	if (pwd_found)
 		pwd_found->value = ft_strjoin("PWD=", new_pwd);
-	}
 }
 
 void	add_oldpwd(t_list **saving_env, char *old_pwd)

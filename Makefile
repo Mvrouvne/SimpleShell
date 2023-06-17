@@ -7,6 +7,7 @@ FILES = main.c\
 		execution/builtins/builtins.c\
 		execution/builtins/echo.c\
 		execution/exec/solo_cmd.c\
+		execution/exec/search_funcs.c\
 		execution/save_env.c\
 		execution/builtins/env_i.c\
 		execution/builtins/cd.c\

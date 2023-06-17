@@ -6,29 +6,13 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 18:01:04 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:24:02 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-char	*search_path(t_list *saving_expo, char *node)
-{
-	t_list	*tmp;
-	char **spl;
-	
-	tmp = saving_expo;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->value, node, (ft_strlen(node))) == 0)
-		{
-			spl = ft_split(tmp->value, '=');
-			return (spl[1]);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
+
 
 void	check_slash(t_args *p, char **env)
 {
@@ -39,7 +23,6 @@ void	check_slash(t_args *p, char **env)
 		execve(p->args[0], p->args, env);
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not founddd\n", 23);
-		write(2, "hana\n", 5);
 		exit_status = 127;
 		exit(exit_status) ;
 	}
@@ -60,6 +43,8 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		write (2, ": command not found\n", 21);
 		return (0);
 	}
+	if (!ft_strcmp(p->args[0], "./minishell"))
+		execve(p->args[0], (p)->args, env);
 	check_slash(p, env);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
@@ -69,11 +54,44 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		command = ft_strjoin(spl_path[i], cmd);
 		if (access(command, X_OK) != -1)
 			execve(command, (p)->args, env);
+		free (command);
 		i++;
 	}
 	ft_putstr_fd(*p->args, 2);
 	write (2, ": command not found\n", 21);
 	return(0);
+}
+
+void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
+{
+	if (tmp->infile == 1)
+	{
+		dup2(pipes->tmp, STDIN_FILENO);
+		close (pipes->tmp);
+	}
+	if (tmp->outfile != 1)
+		dup2(tmp->outfile, 1);
+	else if(tmp->next)
+		dup2(pipes->fd[1], 1);
+	builtins(tmp, &lst->saving_env, &lst->saving_expo);
+	close (pipes->fd[0]);
+	close(pipes->fd[1]);
+	exit(1);
+}
+
+void child_not_builtins(t_args *tmp, t_pipe *pipes)
+{
+	if (tmp->infile == 1)
+	{
+		dup2(pipes->tmp, STDIN_FILENO);
+		close (pipes->tmp);
+	}
+	if (tmp->outfile != 1)
+		dup2(tmp->outfile, 1);
+	else if(tmp->next)
+		dup2(pipes->fd[1], 1);
+	close (pipes->fd[0]);
+	close(pipes->fd[1]);
 }
 
 void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
@@ -88,35 +106,11 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 	int id = fork();
 	if (id == 0)
 	{
-        if(tmp->args[0] == NULL)
-            exit(0);
+		if(tmp->args[0] == NULL)
+		exit(0);
 		if (check_if_builtins(tmp) == 1)
-		{
-			if (tmp->infile == 1)
-			{
-				dup2(pipes->tmp, STDIN_FILENO);
-				close (pipes->tmp);
-			}
-			if (tmp->outfile != 1)
-				dup2(tmp->outfile, 1);
-			else if(tmp->next)
-				dup2(pipes->fd[1], 1);
-			builtins(tmp, &lst->saving_env, &lst->saving_expo);
-			close (pipes->fd[0]);
-			close(pipes->fd[1]);
-			exit(1);
-		}
-		if (tmp->infile == 1)
-		{
-			dup2(pipes->tmp, STDIN_FILENO);
-			close (pipes->tmp);
-		}
-		if (tmp->outfile != 1)
-			dup2(tmp->outfile, 1);
-		else if(tmp->next)
-			dup2(pipes->fd[1], 1);
-		close (pipes->fd[0]);
-		close(pipes->fd[1]);
+			child_builtins(tmp, pipes, lst);
+		child_not_builtins(tmp, pipes);
 		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
 			exit(1);
 	}
@@ -145,8 +139,6 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
 	t_args	*tmp;
 	int		i;
-	(void)env_copy;
-	(void)lst;
 
 	if (!p->args[0])
 		return ;
@@ -158,6 +150,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		pipes->cmds++;
 	}
 	tmp = p;
+	lst->id = malloc(sizeof(int) * pipes->cmds);
 	if (pipes->cmds == 1)
 	{
 		if (check_if_builtins(p) == 1)

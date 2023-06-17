@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 16:33:08 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 10:17:44 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,28 @@ t_list	*search_node(t_list *saving_expo, char *node)
 	return (NULL);
 }
 
-int	search_plus(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '+' && str[i + 1] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
+// int plus_condition(t_list **saving_env, t_list *node, char *p, char **spl_p)
+// {
+// 	char **Remove_Plus;
+// 	char *join;
+// 	char *res;
+// 	char *res1;
+// 	if (node)
+// 	{	
+// 		res = ft_strjoin(node->value, spl_p[1]);
+// 		res1 = ft_strjoin(node2->value, spl_p[1]);
+// 		node->value = res;
+// 		node2->value = res1;
+// 		return ;
+// 	}
+// 	else
+// 	{
+// 		Remove_Plus = ft_split(p, '+');
+// 		join = ft_strjoin(Remove_Plus[0], Remove_Plus[1]);
+// 		(*saving_env) = export(join, &(*saving_env));
+// 		return ;
+// 	}
+// }
 
 void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
 {

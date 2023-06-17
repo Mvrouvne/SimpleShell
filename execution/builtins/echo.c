@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 08:27:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 08:28:19 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:41:57 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,30 @@ int	check_n(char *str)
 	return (2);
 }
 
-int if_echo(char **p, int i, t_args *out)
+int	if_echo(char **p, int i, t_args *out)
 {
 	if (check_n(p[i]) == 1)
 	{
 		while (p[i])
 		{
-			ft_putstr_fd(p[i++],  out->outfile);
+			ft_putstr_fd(p[i++], out->outfile);
 			if (p[i])
-				ft_putstr_fd(" ",  out->outfile);
+				ft_putstr_fd(" ", out->outfile);
 		}
 		if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
-			ft_putstr_fd("\n",  out->outfile);
+			ft_putstr_fd("\n", out->outfile);
 		return (0);
 	}
 	else if (check_n(p[i]) == 2)
 	{
 		while (p[i])
 		{
-			ft_putstr_fd(p[i++],  out->outfile);
+			ft_putstr_fd(p[i++], out->outfile);
 			if (p[i])
-				ft_putstr_fd(" ",  out->outfile);
+				ft_putstr_fd (" ", out->outfile);
 		}
 		if (check_n(p[1]) == 1 || check_n(p[1]) == 2)
-			ft_putstr_fd("\n",  out->outfile);
+			ft_putstr_fd ("\n", out->outfile);
 		return (0);
 	}
 	return (1);

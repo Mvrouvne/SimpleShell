@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 08:20:06 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:24:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 		write (2, ": command not found\n", 21);
 		return (0);
 	}
+	if (!ft_strcmp(p->args[0], "./minishell"))
+		execve(p->args[0], (p)->args, env_copy);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
     i = 0;
@@ -57,6 +59,7 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 		command = ft_strjoin(spl_path[i], cmd);
 		if (access(command, X_OK) != -1)
 			execve(command, (p)->args, env_copy);
+		free(command);
 		i++;
 	}
 	ft_putstr_fd(*p->args, 2);

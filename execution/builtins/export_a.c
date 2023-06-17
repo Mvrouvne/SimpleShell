@@ -6,84 +6,51 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 16:33:35 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:48:05 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-t_list  *sort_list(t_list **saving_expo)
-{
-    t_list  *tmp;
-    char *swap;
-
-    tmp = (*saving_expo);
-    while ((*saving_expo)->next != NULL)
-    {
-        if (ft_strncmp((*saving_expo)->value, (*saving_expo)->next->value, 1) > 0)
-        {
-            swap = (*saving_expo)->value;
-            (*saving_expo)->value = (*saving_expo)->next->value;
-            (*saving_expo)->next->value = swap;
-            (*saving_expo) = tmp;
-        }
-        else
-            (*saving_expo) = (*saving_expo)->next;
-    }
-    (*saving_expo) = tmp;
-    return (*saving_expo);
-}
-
-t_list  *export(char *p, t_list **saving_expo)
-{
-    t_list  *new;
-    t_list  *res;
-
-    new = create_node(p);
-    ft_lstadd_back3(saving_expo, new);
-    res = sort_list(saving_expo);
-    return (res);
-}
-
-void  *env_if_egal(char *p, t_list **saving_env)
-{
-    t_list  *new;
-
-    new = create_node(p);
-    ft_lstadd_back3(saving_env, new);
-    return (0);
-}
-
-int search_home(t_list *saving_expo, char *node)
+t_list	*sort_list(t_list **saving_expo)
 {
 	t_list	*tmp;
+	char	*swap;
 
-	tmp = saving_expo;
-	while (tmp)
+	tmp = (*saving_expo);
+	while ((*saving_expo)->next != NULL)
 	{
-		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 2)) == 0)
-			return (1);
-		tmp = tmp->next;
+		if (ft_strncmp((*saving_expo)->value,
+				(*saving_expo)->next->value, 1) > 0)
+		{
+			swap = (*saving_expo)->value;
+			(*saving_expo)->value = (*saving_expo)->next->value;
+			(*saving_expo)->next->value = swap;
+			(*saving_expo) = tmp;
+		}
+		else
+			(*saving_expo) = (*saving_expo)->next;
 	}
-	return (0);
+	(*saving_expo) = tmp;
+	return (*saving_expo);
 }
 
-
-
-int	search_egal(char *str)
+t_list	*export(char *p, t_list **saving_expo)
 {
-	int	i;
+	t_list	*new;
+	t_list	*res;
 
-	i = 0;
-	while (str[i])
-	{
-        if (str[i] == ' ')
-            return (2);
-		if (str[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
+	new = create_node(p);
+	ft_lstadd_back3(saving_expo, new);
+	res = sort_list(saving_expo);
+	return (res);
 }
 
-/// home ila makantch makhasch tkhdem dik cd 
+void	*env_if_egal(char *p, t_list **saving_env)
+{
+	t_list	*new;
+
+	new = create_node(p);
+	ft_lstadd_back3(saving_env, new);
+	return (0);
+}

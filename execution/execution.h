@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 16:40:28 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:24:00 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct  s_data
     t_list *saving_expo;
     t_list *saving_env;
     t_args *p;
+    int   *id;
 }   t_data;
 
 

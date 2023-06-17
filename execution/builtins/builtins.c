@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/16 16:49:35 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 09:18:18 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,20 @@ void	unset(t_list **head, char *key)
 		cur = cur->next;
 	}
 	if (prev == NULL && cur )
+	{
 		(*head) = cur->next;
+		free (cur);
+	}
 	else if (cur && prev && ft_strncmp(cur->value, key, ft_strlen(key)) == 0)
+	{
 		prev->next = cur->next;
+		free (cur);
+	}
+	
 }
 
 void	env(t_args *p, t_list **saving_env, int i)
 {
-	puts("im here");
 	t_list	*tmp;
 
 	i = 1;
