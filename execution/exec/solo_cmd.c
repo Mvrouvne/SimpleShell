@@ -6,20 +6,16 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 11:24:32 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:58:16 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy)
+void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data *lst)
 {
-	int		i;
-	int fd;
-	
-	i = 0;
-	fd = fork();
-	if (fd == 0)
+	lst->pid[lst->id] = fork();
+	if (lst->pid[lst->id] == 0)
 	{
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
@@ -51,6 +47,11 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 	}
 	if (!ft_strcmp(p->args[0], "./minishell"))
 		execve(p->args[0], (p)->args, env_copy);
+	else if (p->args[0][0] == '.')
+	{
+		ft_error("", p->args[0], "command not found", 1);
+		return (0);
+	}
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
     i = 0;

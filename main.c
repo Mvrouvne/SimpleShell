@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 11:19:53 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:10:26 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,15 @@ int	main(int ac, char **av, char **env)
 				close(pipes->fd[1]);
 				args = args->next;
 			}
-			while (wait(NULL) != -1);
+			// printf("pipes->cmds   =  %d\n", pipes->cmds);
+			// printf("list->id   =  %d\n", list->id);
+			// list->pid[list->id] = 0;
+			int i = 0;
+			while (i < pipes->cmds)
+			{
+				waitpid(list->pid[i], &exit_status, 0);
+				i++;
+			}
 			dup2(pipes->tmp, stdin_main);
 		}
 		free (line);
