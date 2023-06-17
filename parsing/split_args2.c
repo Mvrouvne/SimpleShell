@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/17 00:36:24 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:04:47 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 	out = 0;
     while (temp && *args)
 	{
-		// printf("adress = %p\n", temp);
+		// printf("adress = %p\n", temp->data);
+		// printf("data = %s\n", temp->data);
         if (temp->type == INPUT || temp->type == OUTPUT || temp->type == APPEND)
         {
             if (split_args3(temp, args, &in, &out))
