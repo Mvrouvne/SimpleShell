@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 16:33:16 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:37:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **env)
 	t_data *list;
 	t_pipe	*pipes;
 	t_env	*env_parse;
-	char **env_copy;
+	// char **env_copy;
 
 	list = malloc(sizeof(t_data));
 	pipes = malloc(sizeof(t_pipe));
@@ -71,7 +71,7 @@ int	main(int ac, char **av, char **env)
 	pipes->cmds = 0;
 	pipes->tmp = dup(0);
 	env_parse = (t_env *)list->saving_env;
-	int stdin_main = dup(0);
+	// int stdin_main = dup(0);
 	ac = 0;
 	x = 0;
 	y = 0;
@@ -119,23 +119,23 @@ int	main(int ac, char **av, char **env)
 				// 		printf("****************\n");
 				// 	args = args->next;
 				// }
-			env_copy = get_env_copy(list->saving_env);
-			Implement_Cmnd(list, args, env_copy, pipes);
-			while (args->next)
-			{
-				close(pipes->fd[0]);
-				close(pipes->fd[1]);
-				args = args->next;
-			}
-			int i = 0;
-			while (i < pipes->cmds)
-			{
-				waitpid(list->pid[i], &g_exit_status, 0);
-				i++;
-			}
-			if (WIFEXITED(g_exit_status))
-				g_exit_status = WEXITSTATUS(g_exit_status);
-			dup2(pipes->tmp, stdin_main);
+			// env_copy = get_env_copy(list->saving_env);
+			// Implement_Cmnd(list, args, env_copy, pipes);
+			// while (args->next)
+			// {
+			// 	close(pipes->fd[0]);
+			// 	close(pipes->fd[1]);
+			// 	args = args->next;
+			// }
+			// int i = 0;
+			// while (i < pipes->cmds)
+			// {
+			// 	waitpid(list->pid[i], &g_exit_status, 0);
+			// 	i++;
+			// }
+			// if (WIFEXITED(g_exit_status))
+			// 	g_exit_status = WEXITSTATUS(g_exit_status);
+			// dup2(pipes->tmp, stdin_main);
 			// system("leaks minishell");
 		}
 		free (line);
