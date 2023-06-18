@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 16:33:01 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:36:26 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 			str = ft_chrjoin(str, line[x]);
 		x++;
 	}
+	free (to_expand);
 	return (str);
 }
 
