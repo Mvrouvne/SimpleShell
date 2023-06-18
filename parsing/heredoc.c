@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 11:50:03 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:05:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	else if (WEXITSTATUS(status) == 20)
 	{
 		// puts ("HEEERREE");
-		// exit_status = 0;
+		exit_status = 0;
 		close (fd[1]);
-		return (0);
+		return (exit_status);
 	}
 	close (fd[1]);
     return (0);
