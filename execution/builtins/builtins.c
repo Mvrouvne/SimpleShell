@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 12:37:01 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
 	int		i;
-	extern int exit_status;
+	extern int g_exit_status;
 
-	exit_status = 0;
+	g_exit_status = 0;
 	i = 1;
 	if (!p->args[0])
 		return ;
@@ -110,5 +110,5 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	else if (!ft_strcmp(p->args[0], "export"))
 		export_a(saving_env, saving_expo, p);
 	else if (!ft_strcmp(p->args[0], "exit"))
-		exit (exit_status);
+		exit (g_exit_status);
 }

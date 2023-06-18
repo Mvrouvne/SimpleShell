@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 13:02:26 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data *lst)
 {
-	extern int exit_status;
+	extern int g_exit_status;
 	// (void)lst;
 	lst->pid[lst->id] = fork();
 	if (lst->pid[lst->id] == 0)
@@ -28,8 +28,8 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data
 			close(p->outfile);
 		if(execute_cmd(p,saving_expo, env_copy) == 0)
 		{
-			exit_status = 127;
-			exit(exit_status);
+			g_exit_status = 127;
+			exit(g_exit_status);
 		}
 	}
 	lst->id++;
