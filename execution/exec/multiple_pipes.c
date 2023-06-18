@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 00:53:17 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:12:19 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	// 	return;
 	if (pipes->cmds == 1)
 	{
+		if (!tmp->args[0])
+			return ;
 		if (check_if_builtins(p) == 1)
 			builtins(p, &lst->saving_env, &lst->saving_expo);
 		else
