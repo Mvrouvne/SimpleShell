@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:26:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // 	rl_redisplay();
 // }
 
-int g_exit_status = 1;
+int g_exit_status = 0;
 
 char **get_env_copy(t_list *saving_env)
 {
