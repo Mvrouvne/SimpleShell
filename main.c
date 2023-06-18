@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 00:50:30 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:05:47 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,15 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_token	*lst;
 	t_args	*args;
-	// t_args	*temp;
 	int		x;
 	int		y;
 	(void) av;
-	// t_list	*saving_expo;
-	// t_list	*saving_env;
 	t_data *list;
 	t_pipe	*pipes;
 	t_env	*env_parse;
 	char **env_copy;
 
-	list = malloc(sizeof(t_list));
+	list = malloc(sizeof(t_data));
 	pipes = malloc(sizeof(t_pipe));
 	
 	list->saving_env = get_env(env);
@@ -126,23 +123,20 @@ int	main(int ac, char **av, char **env)
 			Implement_Cmnd(list, args, env_copy, pipes);
 			while (args->next)
 			{
-				close(pipes->fd[0]);			////////////// ana hna
+				close(pipes->fd[0]);
 				close(pipes->fd[1]);
 				args = args->next;
 			}
-			// printf("pipes->cmds   =  %d\n", pipes->cmds);
-			// printf("list->id   =  %d\n", list->id);
-			// list->pid[list->id] = 0;
-			// int i = 0;
-			while (wait(NULL) != -1)
-			// while (i < pipes->cmds)
-			// {
-			// 	waitpid(list->pid[i], &exit_status, 0);
-			// 	i++;
-			// }
-			// if (WIFEXITED(exit_status))
-			// 	exit_status = WEXITSTATUS(exit_status);
+			int i = 0;
+			while (i < pipes->cmds)
+			{
+				waitpid(list->pid[i], &exit_status, 0);
+				i++;
+			}
+			if (WIFEXITED(exit_status))
+				exit_status = WEXITSTATUS(exit_status);
 			dup2(pipes->tmp, stdin_main);
+			// system("leaks minishell");
 		}
 		free (line);
 		// free (lst);
@@ -170,6 +164,8 @@ int	main(int ac, char **av, char **env)
 		// system("leaks minishell");
 		// free (pipes);
 	}
+		free(list);
+		free(pipes);
 	// while (lst)
 	// {
 	// 	printf("lst = %s\n", lst->data);

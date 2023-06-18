@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 09:48:05 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:06:18 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,14 @@ t_list	*export(char *p, t_list **saving_expo)
 	t_list	*new;
 	t_list	*res;
 
-	new = create_node(p);
-	ft_lstadd_back3(saving_expo, new);
-	res = sort_list(saving_expo);
+	if (search_home2(*saving_expo, p) == 0)
+	{
+		new = create_node(p);
+		ft_lstadd_back3(saving_expo, new);
+		res = sort_list(saving_expo);
+	}
+	else
+		res = sort_list(saving_expo);
 	return (res);
 }
 

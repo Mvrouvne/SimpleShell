@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 20:39:21 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:02:26 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data *lst)
 {
 	extern int exit_status;
-	(void)lst;
-	// lst->pid[lst->id] = fork();
-	if (fork() == 0)
+	// (void)lst;
+	lst->pid[lst->id] = fork();
+	if (lst->pid[lst->id] == 0)
 	{
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
@@ -29,10 +29,10 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data
 		if(execute_cmd(p,saving_expo, env_copy) == 0)
 		{
 			exit_status = 127;
-			exit(0);
+			exit(exit_status);
 		}
 	}
-	// close(0);
+	lst->id++;
 }
 
 int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
@@ -65,6 +65,7 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 		command = ft_strjoin(spl_path[i], cmd);
 		if (access(command, X_OK) != -1)
 			execve(command, (p)->args, env_copy);
+		free(spl_path[i]);
 		free(command);
 		i++;
 	}

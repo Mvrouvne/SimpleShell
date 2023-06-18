@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 00:53:17 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:04:04 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_slash(t_args *p, char **env)
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not founddd\n", 23);
 		exit_status = 127;
-		exit(0) ;
+		exit(exit_status) ;
 	}
 }
 
@@ -63,7 +63,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		i++;
 	}
 	ft_putstr_fd(*p->args, 2);
-	write (2, ": command not found\n", 21);
+	write (2, ": command not foundddd\n", 23);
 	return(0);
 }
 
@@ -84,7 +84,7 @@ void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
 	close (pipes->fd[0]);
 	close(pipes->fd[1]);
 	exit_status = 0;
-	exit(0);
+	exit(exit_status);
 }
 
 void child_not_builtins(t_args *tmp, t_pipe *pipes)
@@ -106,8 +106,6 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 {
 	extern	int exit_status;
 
-	// if (!tmp->args[0])
-	// 	return ;
 	if (tmp->infile != 0)
 		dup2(tmp->infile, 0);
 	if (pipe(pipes->fd) == -1)
@@ -115,27 +113,22 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		perror("pipes failed");
 		exit(0);
 	}
-	// lst->pid[lst->id] = fork();
-	if (fork() == 0)
+	lst->pid[lst->id] = fork();
+	if (lst->pid[lst->id] == 0)
 	{
-		// if(tmp->args[0] == NULL)
-		// 	exit(0);
 		if (check_if_builtins(tmp) == 1)
 			child_builtins(tmp, pipes, lst);
 		child_not_builtins(tmp, pipes);
 		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
 		{
 			exit_status = 127;
-			exit(0);
+			exit(exit_status);
 		}
 	}
 }
 
 int	check_if_builtins(t_args *p)
 {
-	// char *echo = ft_strdup("echo");
-	// if (!p->args[0])
-	// 	return (0);
 	if (!ft_strcmp(p->args[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(p->args[0], "pwd"))
@@ -160,16 +153,18 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 
 	// if (!p->args[0])
 	// 	return ;
-	tmp = p;
+	// lst->pid = malloc(sizeof(t_status));
+	// system("leaks minishell");
 	pipes->cmds = 0;
+	tmp = p;
 	while (tmp)
 	{
 		tmp = tmp->next;
 		pipes->cmds++;
 	}
 	tmp = p;
-	// if (pipes->cmds == 1 && p->args[0] == NULL)
-	// 	return;
+	lst->id = 0;
+	lst->pid = malloc(sizeof(int) * pipes->cmds);
 	if (pipes->cmds == 1)
 	{
 		if (check_if_builtins(p) == 1)
@@ -177,23 +172,23 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		else
 		{
 			child_exec_solo_cmd(p, lst->saving_expo, env_copy, lst);
+			lst->id++;
 		}
 	}
 	else
 	{
 		i = 0;
-		while (tmp && i < pipes->cmds)
+		while (p && i < pipes->cmds)
 		{
 			if (!tmp->args[0])
 				i++;
 			else
 			{
 				child_process(tmp, pipes, lst, env_copy);
-				// lst->id++;
+				lst->id++;
 				dup2(pipes->fd[0], 0);
 				close(pipes->fd[1]);
 				close(pipes->fd[0]);
-				// tmp = tmp->next;
 				i++;
 				
 			}

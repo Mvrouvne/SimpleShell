@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 20:37:30 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 12:37:01 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,5 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	else if (!ft_strcmp(p->args[0], "export"))
 		export_a(saving_env, saving_expo, p);
 	else if (!ft_strcmp(p->args[0], "exit"))
-		exit (0);
+		exit (exit_status);
 }

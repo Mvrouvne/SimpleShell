@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 20:44:32 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:06:25 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,18 @@ typedef struct s_pipe {
     int     tmp;
 }   t_pipe;
 
+// typedef struct s_status {
+//     int     *pid;
+//     int     id;
+// }   t_status;
+
 typedef struct  s_data
 {
     t_list *saving_expo;
     t_list *saving_env;
     t_args *p;
+    int     *pid;
+    int     id;
 }   t_data;
 
 
@@ -82,6 +89,7 @@ t_list	*sort_list(t_list **saving_expo);
 t_list	*search_pwd(t_list *saving_env);
 int		search_plus(char *str);
 int		search_egal(char *str);
+int     search_home2(t_list *saving_expo, char *node);
 
 void	Implement_Cmnd(t_data *lst, t_args *p, char **env, t_pipe *pipe);
 

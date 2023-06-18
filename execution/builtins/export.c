@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/17 15:24:22 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:58:09 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 }
                 if(search_plus(p->args[i]) == 1)
                 {
-                    // puts("hhhh");
                     char **spl_p;
                     spl_p = ft_split(p->args[i], '=');
                     node = search_node((*saving_expo), spl_p[0]);
@@ -90,6 +89,8 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         res1 = ft_strjoin(node2->value, spl_p[1]);
                         node->value = res;
                         node2->value = res1;
+                        free(res);
+                        free(res1);
                         return ;
                     }
                     else
@@ -99,6 +100,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         Remove_Plus = ft_split(p->args[i], '+');
                         join = ft_strjoin(Remove_Plus[0], Remove_Plus[1]);
                         (*saving_env) = export(join, &(*saving_env));
+                        free(join);
                         return ;
                     }
                 }
@@ -145,13 +147,18 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     add_quotes2 = ft_strjoin(add_quotes, "\"");
                     add_egal = ft_strjoin("=", add_quotes2);
                     final = ft_strjoin(sp[0], add_egal);
+                    free(add_quotes);
+                    free(add_quotes2);
+                    free(add_egal);
+                    free(final);
+                    free (sp[0]);
+                    free (sp[1]);
                 }
                 else
                     final = (*saving_expo)->value;
                 printf("declare -x  %s\n", final);
                 (*saving_expo) = (*saving_expo)->next;
             }
-            puts("hana");
             (*saving_expo) = tmp1;
         }
     }
