@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:45:10 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 			}
 			tmp = tmp->next;
 		}
+		free(lst->pid);
 		close(0);
 		dup2(pipes->tmp, 0);
 	}
