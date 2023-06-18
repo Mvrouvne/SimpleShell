@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 17:07:16 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 13:04:04 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/18 15:17:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	lst->pid = malloc(sizeof(int) * pipes->cmds);
 	if (pipes->cmds == 1)
 	{
+		if (!tmp->args[0])
+			return ;
 		if (check_if_builtins(p) == 1)
 			builtins(p, &lst->saving_env, &lst->saving_expo);
 		else
