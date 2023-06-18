@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 13:05:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // 	rl_redisplay();
 // }
 
-int exit_status = 1;
+int g_exit_status = 1;
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -130,11 +130,11 @@ int	main(int ac, char **av, char **env)
 			int i = 0;
 			while (i < pipes->cmds)
 			{
-				waitpid(list->pid[i], &exit_status, 0);
+				waitpid(list->pid[i], &g_exit_status, 0);
 				i++;
 			}
-			if (WIFEXITED(exit_status))
-				exit_status = WEXITSTATUS(exit_status);
+			if (WIFEXITED(g_exit_status))
+				g_exit_status = WEXITSTATUS(g_exit_status);
 			dup2(pipes->tmp, stdin_main);
 			// system("leaks minishell");
 		}

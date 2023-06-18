@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:17:08 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 
 void	check_slash(t_args *p, char **env)
 {
-	extern int	exit_status;
+	extern int	g_exit_status;
 
 	if (p->args[0][0] == '/')
 	{
 		execve(p->args[0], p->args, env);
 		ft_putstr_fd(*p->args, 2);
 		write (2, ": command not founddd\n", 23);
-		exit_status = 127;
-		exit(exit_status) ;
+		g_exit_status = 127;
+		exit(g_exit_status) ;
 	}
 }
 
@@ -69,7 +69,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 
 void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
 {
-	extern int exit_status;
+	extern int g_exit_status;
 	
 	if (tmp->infile == 1)
 	{
@@ -83,8 +83,8 @@ void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
 	builtins(tmp, &lst->saving_env, &lst->saving_expo);
 	close (pipes->fd[0]);
 	close(pipes->fd[1]);
-	exit_status = 0;
-	exit(exit_status);
+	g_exit_status = 0;
+	exit(g_exit_status);
 }
 
 void child_not_builtins(t_args *tmp, t_pipe *pipes)
@@ -104,7 +104,7 @@ void child_not_builtins(t_args *tmp, t_pipe *pipes)
 
 void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 {
-	extern	int exit_status;
+	extern	int g_exit_status;
 
 	if (tmp->infile != 0)
 		dup2(tmp->infile, 0);
@@ -121,8 +121,8 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		child_not_builtins(tmp, pipes);
 		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
 		{
-			exit_status = 127;
-			exit(exit_status);
+			g_exit_status = 127;
+			exit(g_exit_status);
 		}
 	}
 }
