@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:09:11 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 00:11:34 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:43:44 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 	t_token	*temp;
 	t_args	*temp2;
 	int		max;
+	extern int	g_exit_status;
 
 	max = 0;
 	t_token *tmp = lst;
@@ -125,7 +126,8 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 	if (max >= 16)
 	{
 		write (2, "maximum here-document count exceeded\n", 38);
-		return (1);
+		g_exit_status = 2;
+		exit (g_exit_status);
 	}
 	temp = lst;
 	create_list(args, lst);

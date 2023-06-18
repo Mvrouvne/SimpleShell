@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:53:36 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/15 22:16:50 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:41:31 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 
 int	split_args3_follow(t_token *temp, t_args **args, int *out)
 {
+	extern int	g_exit_status;
+
 	*out = 1;
 	if ((*args)->outfile == -1)
 	{
 		perror(temp->next->data);
-		return (1);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	return (0);
 }
 
 int	split_args3(t_token *temp, t_args **args, int *in, int *out)
 {
+	extern int	g_exit_status;
 	if (temp->next && temp->type == INPUT)
 	{
 		*in = 1;
@@ -32,7 +36,8 @@ int	split_args3(t_token *temp, t_args **args, int *in, int *out)
 		if ((*args)->infile == -1)
 		{
 			perror(temp->next->data);
-			return (1);
+			g_exit_status = 1;
+			return (g_exit_status);
 		}
 	}
 	else if (temp->next && temp->type == OUTPUT)
@@ -40,14 +45,14 @@ int	split_args3(t_token *temp, t_args **args, int *in, int *out)
 		(*args)->outfile = open(temp->next->data,
 				O_RDWR | O_CREAT | O_TRUNC, 0777);
 		if (split_args3_follow(temp, args, out))
-			return (1);
+			return (g_exit_status);
 	}
 	else if (temp->next && temp->type == APPEND)
 	{
 		(*args)->outfile = open(temp->next->data,
 				O_RDWR | O_CREAT | O_APPEND, 0777);
 		if (split_args3_follow(temp, args, out))
-			return (1);
+			return (g_exit_status);
 	}
 	return (0);
 }

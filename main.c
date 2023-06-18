@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 15:42:56 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:42:27 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/18 16:35:24 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/18 16:49:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_token	*lst;
 	t_args	*args;
+	t_args	*temp;
 	int		x;
 	int		y;
 	(void) av;
@@ -97,18 +98,13 @@ int	main(int ac, char **av, char **env)
 		{
 			env_copy = get_env_copy(list->saving_env);
 			Implement_Cmnd(list, args, env_copy, pipes);
-			int i = 0;
-			i = 0;
-			while (env_copy[i])
-				free(env_copy[i++]);
-			free(env_copy);
 			while (args->next)
 			{
 				close(pipes->fd[0]);
 				close(pipes->fd[1]);
 				args = args->next;
 			}
-			i = 0;
+			int i = 0;
 			while (i < pipes->cmds)
 			{
 				waitpid(list->pid[i], &g_exit_status, 0);
@@ -120,7 +116,48 @@ int	main(int ac, char **av, char **env)
 			// system("leaks minishell");
 		}
 		free (line);
+		// free (lst);
+		if (args && args->args[0])
+		{
+			while (args)
+			{
+				while (args->args[y])
+				{
+					free(args->args[y]);
+					y++;
+				}
+				free (args->args);
+				temp = args;
+				args = args->next;
+				free (temp);
+			}
+		}
+		// while (lst)
+		// {
+		// 	temp = lst;
+		// 	lst = lst->next;
+		// 	free(temp);
+		// }
+		// system("leaks minishell");
+		// free (pipes);
 	}
 		free(list);
 		free(pipes);
+	// while (lst)
+	// {
+	// 	printf("lst = %s\n", lst->data);
+	// 	lst = lst->next;
+	// }
+	// write(1, "\n", 1);
+	// int	t = 0;
+	// while (args)
+	// {
+	// 		t = 0;
+	// 		while (args->args[t])
+	// 			printf("args = %s\n", args->args[t++]);
+	// 		printf("infile = %d\n", args->infile);
+	// 		printf("outfile = %d\n", args->outfile);
+	// 		printf("****************\n");
+	// 	args = args->next;
+	// }
 }

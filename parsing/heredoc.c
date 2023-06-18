@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:33:01 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,26 +98,13 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	extern int	g_exit_status;
     
     x = 0;
-    // fd = open("heredoc_file", O_CREAT | O_RDWR | O_APPEND, 0777);
-    if (pipe(fd) == -1)
-	{
-		printf("PIPE");
-
-	}
-    // if (fd == -1)
-    // {
-    //     write(2, "heredoc file failed\n", 21);
-    //     exit (1);
-    // }
+   	pipe(fd);
 	args->infile = fd[0];
 	args->outfile = 1;
-	// printf("args = %d\n", args->infile);
-	// printf("fd[0] = %d\n", fd[0]);
 	id = fork();
 	signal(SIGINT, SIG_IGN);
 	if (id == 0)
 	{
-		// system("leaks minishell");
 		signal(SIGINT, handler2);
 		while (1)
 		{
@@ -137,7 +124,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 				write (fd[1], "\n", 1);	
 				free (str);
 			}
-			// printf("str = %s\n", str);
 			else
 			{
 				write(fd[1], line, ft_strlen(line));
@@ -148,13 +134,16 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	}
 	waitpid(id, &status, 0);
 	if (WEXITSTATUS(status) == 10)
-		return (1);
+	{
+		close (fd[1]);
+		g_exit_status = 1;
+		return (g_exit_status);
+	}
 	else if (WEXITSTATUS(status) == 20)
 	{
-		// puts ("HEEERREE");
-		// g_exit_status = 0;
 		close (fd[1]);
-		return (0);
+		g_exit_status = 0;
+		return (g_exit_status);
 	}
 	close (fd[1]);
     return (0);
