@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 16:02:19 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:45:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		if (check_if_builtins(tmp) == 1)
 			child_builtins(tmp, pipes, lst);
 		child_not_builtins(tmp, pipes);
+		// system("leaks minishell");
 		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
 		{
 			g_exit_status = 127;
@@ -157,11 +158,6 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	t_args	*tmp;
 	int		i;
 
-	// if (!p->args[0])
-	// 	return ;
-	// lst->pid = malloc(sizeof(t_status));
-	// system("leaks minishell");
-	// system("leaks minishell");
 	pipes->cmds = 0;
 	tmp = p;
 	while (tmp)

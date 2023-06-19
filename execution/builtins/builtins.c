@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 20:21:56 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:24:58 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		return ;
 	if(builtins_utils(p, saving_env, saving_expo) == 1);
 	else if (!ft_strcmp(p->args[0], "env"))
-	{
 		env(p, saving_env, i);
-	}
 	else if (!ft_strcmp(p->args[0], "unset"))
 	{
 		while (p->args[i])
@@ -108,10 +106,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		}
 	}
 	else if (!ft_strcmp(p->args[0], "export"))
-	{
-		// system("leaks minishell");
 		export_a(saving_env, saving_expo, p);
-	}
 	else if (!ft_strcmp(p->args[0], "exit"))
 	{
 		if (p->args[2])

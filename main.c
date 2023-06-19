@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 16:09:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:54:35 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,19 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
-			
+			system("leaks minishell");
 			env_copy = get_env_copy(list->saving_env);
 			// system("leaks minishell");
 			Implement_Cmnd(list, args, env_copy, pipes);
 			// while (1);
-			// system("leaks minishell");
+			args_temp = args;
 			while (args->next)
 			{
 				close(pipes->fd[0]);
 				close(pipes->fd[1]);
 				args = args->next;
 			}
+			args = args_temp;
 			int i = 0;
 			while (i < pipes->cmds)
 			{

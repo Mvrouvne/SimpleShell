@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 15:13:30 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:58:38 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,15 +121,16 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     //leaks here i guess
                     env_if_egal(p->args[i], &(*saving_env));
                     (*saving_expo) = export(p->args[i], saving_expo);
-                    return ;
+                    // return ;
                 }
                 else
                 {
                     (*saving_expo) = export(p->args[i], saving_expo);
-                    return ;
+                    // return ;
                 }
                 x++;
             }
+            puts("hana");
             i++;
             // free(node);
             // free(node2);
