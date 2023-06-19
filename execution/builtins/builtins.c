@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 20:24:58 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:01:04 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,16 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		export_a(saving_env, saving_expo, p);
 	else if (!ft_strcmp(p->args[0], "exit"))
 	{
-		if (p->args[2])
+		if (p->args[1] && !p->args[2])
+		{
+			unsigned char ex = ft_atoi(p->args[1]);
+			exit(ex);
+		}
+		if (p->args[0] && p->args[1] && p->args[2])
 		{
 			ft_putstr_fd("minishell : exit: to many arguments\n", 1);
 			g_exit_status = 1;
 			return ;
-		}
-		else if (p->args[1] && !p->args[2])
-		{
-			unsigned char ex = ft_atoi(p->args[1]);
-			exit(ex);
 		}
 		else
 			exit(g_exit_status);

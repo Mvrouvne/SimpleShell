@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 20:58:38 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 22:58:34 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ t_list	*search_node(t_list *saving_expo, char *node)
 	tmp = saving_expo;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 2)) == 0)
+		if (ft_strncmp(tmp->value, node, (ft_strlen(node))) == 0)
 		{
+            puts("node");
 			printf("tmp :%s\n", tmp->value);
 			return (tmp);
 		}
@@ -118,10 +119,10 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         ft_putstr_fd(": not a valid identifier\n", 1);
                         return ;
                     }
-                    //leaks here i guess
                     env_if_egal(p->args[i], &(*saving_env));
+                    // env_if_egal(p->args[i], &(*saving_expo));
                     (*saving_expo) = export(p->args[i], saving_expo);
-                    // return ;
+                    return ;
                 }
                 else
                 {
@@ -153,15 +154,24 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 if (search_egal((*saving_expo)->value) == 1)
                 {
                     sp = ft_split((*saving_expo)->value, '=');
-                    add_quotes = ft_strjoin("\"", sp[1]);
-                    add_quotes2 = ft_strjoin(add_quotes, "\"");
-                    add_egal = ft_strjoin("=", add_quotes2);
-                    final = ft_strjoin(sp[0], add_egal);
+                    if (sp[1])
+                    {
+                        add_quotes = ft_strjoin("\"", sp[1]);
+                        add_quotes2 = ft_strjoin(add_quotes, "\"");
+                        add_egal = ft_strjoin("=", add_quotes2);
+                        final = ft_strjoin(sp[0], add_egal);
+                        free(add_quotes);
+                        free(add_quotes2);
+                        free(add_egal);
+                        free(final);
+                    }
+                    else
+                    {
+                        final = (*saving_expo)->value;
+                        // final = ft_strjoin((*saving_expo)->value, "\"");
+                        // free(final);
+                    }
 					ft_free(sp);
-                    free(add_quotes);
-                    free(add_quotes2);
-                    free(add_egal);
-                    free(final);
                 }
                 else
                     final = (*saving_expo)->value;
