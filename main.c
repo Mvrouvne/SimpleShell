@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/18 16:35:24 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 13:22:12 by machaiba         ###   ########.fr       */
+/*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/19 20:30:46 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char **get_env_copy(t_list *saving_env)
 	i = 0;
 	while (saving_env)
 	{
-		env_copy[i] = saving_env->value;
+		env_copy[i] = ft_strdup(saving_env->value);
 		i++;
 		saving_env = saving_env->next;
 	}
@@ -62,7 +62,7 @@ int	main(int ac, char **av, char **env)
 	t_data *list;
 	t_pipe	*pipes;
 	t_env	*env_parse;
-	char **env_copy;
+	char **env_copy = NULL;
 
 	list = malloc(sizeof(t_data));
 	pipes = malloc(sizeof(t_pipe));
@@ -109,7 +109,10 @@ int	main(int ac, char **av, char **env)
 				// 	args = args->next;
 				// }
 			env_copy = get_env_copy(list->saving_env);
+			// system("leaks minishell");
 			Implement_Cmnd(list, args, env_copy, pipes);
+			// while (1);
+			// system("leaks minishell");
 			while (args->next)
 			{
 				close(pipes->fd[0]);
@@ -125,10 +128,10 @@ int	main(int ac, char **av, char **env)
 			if (WIFEXITED(g_exit_status))
 				g_exit_status = WEXITSTATUS(g_exit_status);
 			dup2(pipes->tmp, stdin_main);
+			// ft_free
+			ft_free(env_copy);
 		}
 		free (line);
-		// while(1)
-		// free (lst);
 		if (args && args->args)
 		{
 			while (args)
@@ -154,11 +157,16 @@ int	main(int ac, char **av, char **env)
 				free(lst_temp);
 			}
 		}
-		// system("leaks minishell");
 		// free (pipes);
 	}
-		free(list);
-		free(pipes);
+
+	// while (list->saving_env)
+	// {
+	// 	free (list->saving_env->value);
+	// 	list->saving_env = list->saving_env->next;
+	// }
+	// free(list);
+	free(pipes);
 	// while (lst)
 	// {
 	// 	printf("lst = %s\n", lst->data);

@@ -17,3 +17,16 @@ norm cd2.c done
 norm echo.c done
 norm env_i.c done
 norm export_a.c done
+
+
+****NEDITHOM****
+----------------
+leak unset done
+leak cd done
+
+
+
+
+****MAZAAAAL****
+----------------
+leak f export aaa=aaaa mazal

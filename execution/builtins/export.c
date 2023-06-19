@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 14:58:09 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:13:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ t_list	*search_node(t_list *saving_expo, char *node)
 
 void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
 {
-    t_list	*node;
-    t_list	*node2;
+    t_list	*node = NULL;
+    t_list	*node2 = NULL;
 	t_list	*tmp1;
+    char **spl_p = NULL;
     int     x;
     int     i;
     
@@ -67,6 +68,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
         while (p->args[i])
         {
             x = 0;
+            // system("leaks minishell");
             while (p->args[i][x])
             {
                 if((p->args[i][0] < 'a' || p->args[i][0] > 'z')
@@ -77,7 +79,6 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 }
                 if(search_plus(p->args[i]) == 1)
                 {
-                    char **spl_p;
                     spl_p = ft_split(p->args[i], '=');
                     node = search_node((*saving_expo), spl_p[0]);
                     node2 = search_node((*saving_env), spl_p[0]);
@@ -87,20 +88,24 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         char *res1;
                         res = ft_strjoin(node->value, spl_p[1]);
                         res1 = ft_strjoin(node2->value, spl_p[1]);
-                        node->value = res;
-                        node2->value = res1;
+                        free(node->value);
+                        free(node2->value);
+                        node->value = ft_strdup(res);
+                        node2->value = ft_strdup(res1);
                         free(res);
                         free(res1);
+                        ft_free(spl_p);
                         return ;
                     }
                     else
                     {
-                        char **Remove_Plus;
+                        char **remove_Plus;
                         char *join;
-                        Remove_Plus = ft_split(p->args[i], '+');
-                        join = ft_strjoin(Remove_Plus[0], Remove_Plus[1]);
+                        remove_Plus = ft_split(p->args[i], '+');
+                        join = ft_strjoin(remove_Plus[0], remove_Plus[1]);
                         (*saving_env) = export(join, &(*saving_env));
                         free(join);
+                        ft_free(remove_Plus);
                         return ;
                     }
                 }
@@ -113,6 +118,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         ft_putstr_fd(": not a valid identifier\n", 1);
                         return ;
                     }
+                    //leaks here i guess
                     env_if_egal(p->args[i], &(*saving_env));
                     (*saving_expo) = export(p->args[i], saving_expo);
                     return ;
@@ -125,17 +131,20 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 x++;
             }
             i++;
+            // free(node);
+            // free(node2);
+            // ft_free(spl_p);
         }
     }
     else
     {
         if (*saving_expo)
         {
-            char **sp;
-            char *add_quotes;
-            char *add_quotes2;
-            char *final;
-            char *add_egal;
+            char **sp = NULL;
+            char *add_quotes = NULL;
+            char *add_quotes2 = NULL;
+            char *final = NULL;
+            char *add_egal = NULL;
             (*saving_expo) = sort_list(saving_expo);
             tmp1 = (*saving_expo);
             while ((*saving_expo))
@@ -147,17 +156,18 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     add_quotes2 = ft_strjoin(add_quotes, "\"");
                     add_egal = ft_strjoin("=", add_quotes2);
                     final = ft_strjoin(sp[0], add_egal);
+					ft_free(sp);
                     free(add_quotes);
                     free(add_quotes2);
                     free(add_egal);
                     free(final);
-                    free (sp[0]);
-                    free (sp[1]);
                 }
                 else
                     final = (*saving_expo)->value;
-                printf("declare -x  %s\n", final);
+                ft_putstr_fd("declare -x  ", 1);
+                ft_putendl_fd(final, 1);
                 (*saving_expo) = (*saving_expo)->next;
+                // free(final);
             }
             (*saving_expo) = tmp1;
         }
@@ -170,4 +180,16 @@ void    ft_error(char *entourage, char *input, char *error, int i)
     ft_putstr_fd(input, i);
     ft_putstr_fd(": ", i);
     ft_putendl_fd(error, i);
+}
+
+void	ft_free(char **str)
+{
+	int		i;
+
+	i = 0;
+    if (!str)
+        return ;
+	while (str[i])
+		free(str[i++]);
+	free(str);
 }

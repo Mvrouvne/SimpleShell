@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 10:12:53 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:06:18 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:44:27 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	*env_if_egal(char *p, t_list **saving_env)
 {
 	t_list	*new;
 
+	new = NULL;
+	// system("leaks minishell");
 	new = create_node(p);
 	ft_lstadd_back3(saving_env, new);
 	return (0);
