@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:35:24 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 21:48:07 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:22:12 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,17 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
-			
+				// int	t = 0;
+				// while (args)
+				// {
+				// 		t = 0;
+				// 		while (args->args[t])
+				// 			printf("args = %s\n", args->args[t++]);
+				// 		printf("infile = %d\n", args->infile);
+				// 		printf("outfile = %d\n", args->outfile);
+				// 		printf("****************\n");
+				// 	args = args->next;
+				// }
 			env_copy = get_env_copy(list->saving_env);
 			Implement_Cmnd(list, args, env_copy, pipes);
 			while (args->next)
