@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:35:24 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 16:49:30 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:06:17 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,14 @@ int	main(int ac, char **av, char **env)
 		// system("leaks minishell");
 		// free (pipes);
 	}
-		free(list);
-		free(pipes);
+
+	while (list->saving_env)
+	{
+		free (list->saving_env->value);
+		list->saving_env = list->saving_env->next;
+	}
+	free(list);
+	free(pipes);
 	// while (lst)
 	// {
 	// 	printf("lst = %s\n", lst->data);

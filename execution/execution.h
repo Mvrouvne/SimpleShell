@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:06:25 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:56:20 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*ft_strcpy(char *dest, char *src);
 t_args	*ft_lstnew4(char *data);
 void    ft_error(char *entourage, char *input, char *error, int i);
 void	ft_lstadd_back3(t_list **lst, t_list *new);
+void	ft_free(char **str);
 
 int		check_plus(char **p, t_list *saving_expo);
 int     check_if_builtins(t_args *p);
