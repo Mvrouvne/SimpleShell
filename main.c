@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 20:30:46 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:00:39 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
+			// system("leaks minishell");
 				// int	t = 0;
 				// while (args)
 				// {
@@ -109,7 +110,6 @@ int	main(int ac, char **av, char **env)
 				// 	args = args->next;
 				// }
 			env_copy = get_env_copy(list->saving_env);
-			// system("leaks minishell");
 			Implement_Cmnd(list, args, env_copy, pipes);
 			// while (1);
 			// system("leaks minishell");

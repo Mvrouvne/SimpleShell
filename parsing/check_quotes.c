@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:06:45 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 				{
 					str2 = expand(*lst, line, x, env_parse);
 					if (str2)
+					{
 						str = ft_strjoin(str, str2);
+						free (str2);
+					}
 				}
 				if (line[*x] != '"')
 					str = ft_chrjoin(str, line[*x]);
@@ -81,6 +84,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			}
 			if (line[*x] != '"')
 			{
+				free (str);
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 				return (1);
 			}
@@ -97,6 +101,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			}
 			if (line[*x] != '\'')
 			{
+				free (str);
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 				return (1);
 			}
@@ -107,7 +112,10 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		{
 			str2 = expand(*lst, line, x, env_parse);
 			if (str2)
+			{
 				str = ft_strjoin(str, str2);
+				free(str2);
+			}
 			(*x)--;
 		}
 		else 

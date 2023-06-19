@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/10 21:30:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:32:27 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,8 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	int		i;
 	char 	*str;
 	char 	*env_split;
+	extern int	g_exit_status;
 
-	// while (env_parse)
-	// {
-	// 	puts(env_parse->value);
-	// 	env_parse = env_parse->next;
-	// }
-	env_split = malloc(sizeof(char));
-	env_split[0] = '\0';
 	check1 = 0;
 	check2 = 0;
 	y = 0;
@@ -58,7 +52,6 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		j++;
 	}
 	to_expand = ft_substr(line, *x, j);
-	// printf("to_expand = %s\n", to_expand);
 	while (env_parse)
 	{
 		i = 0;
@@ -74,30 +67,24 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		{
 			expanded = ft_substr(env_parse->value, i + 1,
 				ft_strlen(env_parse->value));
-			// *x = y;
-			// free (env_split);
-			// return (expanded);
+			check2++;
 		}
 		free (env_split);
 		env_parse = env_parse->next;
 	}
-	i = 0;
-	while (expanded && expanded[i])
+	if ((check1 && !check2))
 	{
-		if (expanded[i] == ' ')
-		{
-			check2++;
-			break ;
-		}
-		i++;
-	}
-	if (check1 || (check1 && check2))
-	{
+		puts("HEEREE");
 		write (2, "$", 1);
 		write (2, to_expand, ft_strlen(to_expand));
 		write (2, ": ambiguous redirect\n", 22);
-		exit (1);
+		free (to_expand);
+		free (str);
+		g_exit_status = 1;
+		return (NULL);
 	}
 	*x = y;
+	free (to_expand);
+	free (str);
 	return (expanded);
 }
