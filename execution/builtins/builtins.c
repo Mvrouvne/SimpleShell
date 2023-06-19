@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 23:02:48 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:54:59 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	else if (!ft_strcmp(p->args[0], "env"))
 	{
 		env(p, saving_env, i);
-		// system("leaks minishell");
 	}
 	else if (!ft_strcmp(p->args[0], "unset"))
 	{

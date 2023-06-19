@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 00:52:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/18 21:07:13 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
         if (temp->type == INPUT || temp->type == OUTPUT || temp->type == APPEND)
         {
             if (split_args3(temp, args, &in, &out))
-                return (1);
+                return (free (temp->data), free (temp->next->data), 1);
 			free (temp->data);
             temp = temp->next;
         }
@@ -71,9 +71,8 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		{
 			in = 1;
 			if (heredoc(*args, temp->data, env_parse, lst))
-				return (1);
+				return (free (temp->data), 1);
 		}
-		
 		check_in_out(*args, in, out);
 		free (temp->data);
 		temp = temp->next;
