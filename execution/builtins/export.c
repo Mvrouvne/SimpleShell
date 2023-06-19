@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 11:30:12 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:13:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
         while (p->args[i])
         {
             x = 0;
+            // system("leaks minishell");
             while (p->args[i][x])
             {
                 if((p->args[i][0] < 'a' || p->args[i][0] > 'z')
@@ -87,10 +88,13 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         char *res1;
                         res = ft_strjoin(node->value, spl_p[1]);
                         res1 = ft_strjoin(node2->value, spl_p[1]);
-                        node->value = res;
-                        node2->value = res1;
-                        // free(res);
-                        // free(res1);
+                        free(node->value);
+                        free(node2->value);
+                        node->value = ft_strdup(res);
+                        node2->value = ft_strdup(res1);
+                        free(res);
+                        free(res1);
+                        ft_free(spl_p);
                         return ;
                     }
                     else
@@ -100,11 +104,10 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         remove_Plus = ft_split(p->args[i], '+');
                         join = ft_strjoin(remove_Plus[0], remove_Plus[1]);
                         (*saving_env) = export(join, &(*saving_env));
-                        // free(join);
-                        // ft_free(remove_Plus);
+                        free(join);
+                        ft_free(remove_Plus);
                         return ;
                     }
-                    ft_free(spl_p);
                 }
                 else if (search_egal(p->args[i]) == 1 || search_egal(p->args[i]) == 2)
                 {
@@ -184,6 +187,8 @@ void	ft_free(char **str)
 	int		i;
 
 	i = 0;
+    if (!str)
+        return ;
 	while (str[i])
 		free(str[i++]);
 	free(str);

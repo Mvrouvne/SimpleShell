@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 12:18:54 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:02:19 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,16 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	{
 		command = ft_strjoin(spl_path[i], cmd);
 		if (access(command, X_OK) != -1)
+		{
+			free(cmd);
+			ft_free(spl_path);
 			execve(command, (p)->args, env);
+		}
 		free (command);
 		i++;
 	}
+	free(cmd);
+	ft_free(spl_path);
 	ft_putstr_fd(*p->args, 2);
 	write (2, ": command not foundddd\n", 23);
 	return(0);
@@ -111,7 +117,7 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 	if (pipe(pipes->fd) == -1)
 	{
 		perror("pipes failed");
-		exit(0);
+		exit(1);
 	}
 	lst->pid[lst->id] = fork();
 	if (lst->pid[lst->id] == 0)
@@ -155,6 +161,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	// 	return ;
 	// lst->pid = malloc(sizeof(t_status));
 	// system("leaks minishell");
+	// system("leaks minishell");
 	pipes->cmds = 0;
 	tmp = p;
 	while (tmp)
@@ -196,10 +203,8 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 			}
 			tmp = tmp->next;
 		}
-		free(lst->pid);
-		ft_free(env_copy);
 		close(0);
 		dup2(pipes->tmp, 0);
-		// system("leaks minishell");
 	}
+	free(lst->pid);
 }

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 11:54:59 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:21:56 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,24 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		}
 	}
 	else if (!ft_strcmp(p->args[0], "export"))
+	{
+		// system("leaks minishell");
 		export_a(saving_env, saving_expo, p);
+	}
 	else if (!ft_strcmp(p->args[0], "exit"))
-		exit (g_exit_status);
+	{
+		if (p->args[2])
+		{
+			ft_putstr_fd("minishell : exit: to many arguments\n", 1);
+			g_exit_status = 1;
+			return ;
+		}
+		else if (p->args[1] && !p->args[2])
+		{
+			unsigned char ex = ft_atoi(p->args[1]);
+			exit(ex);
+		}
+		else
+			exit(g_exit_status);
+	}
 }

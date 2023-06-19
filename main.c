@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 13:27:20 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:09:52 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,11 @@ char **get_env_copy(t_list *saving_env)
 	i = 0;
 	while (saving_env)
 	{
-		env_copy[i] = saving_env->value;
+		env_copy[i] = ft_strdup(saving_env->value);
 		i++;
 		saving_env = saving_env->next;
 	}
 	saving_env = tmp;
-	system("leaks minishell");
 	return (env_copy);
 }
 
@@ -100,7 +99,9 @@ int	main(int ac, char **av, char **env)
 		{
 			
 			env_copy = get_env_copy(list->saving_env);
+			// system("leaks minishell");
 			Implement_Cmnd(list, args, env_copy, pipes);
+			// while (1);
 			// system("leaks minishell");
 			while (args->next)
 			{
@@ -116,12 +117,11 @@ int	main(int ac, char **av, char **env)
 			}
 			if (WIFEXITED(g_exit_status))
 				g_exit_status = WEXITSTATUS(g_exit_status);
-			// ft_free(env_copy);
 			dup2(pipes->tmp, stdin_main);
+			// ft_free
+			ft_free(env_copy);
 		}
 		free (line);
-		// while(1)
-		// free (lst);
 		if (args && args->args)
 		{
 			while (args)
