@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 09:25:28 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 15:46:08 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:13:21 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*search_path(t_list *saving_expo, char *node)
 		{
 			spl = ft_split(tmp->value, '=');
 			free(spl[0]);
-			free (spl);
+			// free (spl);
 			return (spl[1]);
 		}
 		tmp = tmp->next;

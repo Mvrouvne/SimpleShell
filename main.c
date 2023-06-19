@@ -6,11 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 00:09:23 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:20:31 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_exit_status = 0;
 
 // void	handler(int num)
 // {
@@ -20,8 +22,6 @@
 // 	rl_replace_line("", 0);
 // 	rl_redisplay();
 // }
-
-int g_exit_status = 0;
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -98,8 +98,6 @@ int	main(int ac, char **av, char **env)
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
 			// system("leaks minishell");
-			env_copy = get_env_copy(list->saving_env);
-			// system("leaks minishell");
 				// int	t = 0;
 				// while (args)
 				// {
@@ -114,14 +112,13 @@ int	main(int ac, char **av, char **env)
 			env_copy = get_env_copy(list->saving_env);
 			Implement_Cmnd(list, args, env_copy, pipes);
 			// while (1);
-			args_temp = args;
+			// system("leaks minishell");
 			while (args->next)
 			{
 				close(pipes->fd[0]);
 				close(pipes->fd[1]);
 				args = args->next;
 			}
-			args = args_temp;
 			int i = 0;
 			while (i < pipes->cmds)
 			{
