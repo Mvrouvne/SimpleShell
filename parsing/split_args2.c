@@ -6,16 +6,39 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 21:07:13 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:18:50 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-// void	split_args2_follow(t_token *temp, t_token *lst, t_args **args)
-// {
-	
-// }
+int	split_args2_follow2(t_token *temp, t_args **args, int *y)
+{
+	int	z;
+	int	x;
+
+	*y = 0;
+	*args = (*args)->next;
+	x = 0;
+	z = 0;
+	x = args_count(temp->next);
+	(*args)->args = malloc(sizeof(char *) * (x + 1));
+	(*args)->args[x] = NULL;
+	z++;
+	return (z);
+}
+
+int	split_args2_follow(t_token *temp, t_args **args)
+{
+	int	x;
+
+	x = 0;
+	x = args_count(temp);
+	free ((*args)->args);
+	(*args)->args = malloc(sizeof(char *) * (x + 1));
+	(*args)->args[x] = NULL;
+	return (x);
+}
 
 int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 {
@@ -42,27 +65,11 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		else if ((temp->type == CMD || temp->type == PIPE))
 		{
 			if (temp->type == PIPE)
-			{
-				y = 0;
-				*args = (*args)->next;
-				x = 0;
-				z = 0;
-				in = 0;
-				x = args_count(temp->next);
-				(*args)->args = malloc(sizeof(char *) * (x + 1));
-				(*args)->args[x] = NULL;
-				z++;
-			}
+				z = split_args2_follow2(temp, args, &y);
 			else
 			{
 				if (!y && !z)
-				{
-					x = 0;
-					x = args_count(lst);
-					free ((*args)->args);
-					(*args)->args = malloc(sizeof(char *) * (x + 1));
-					(*args)->args[x] = NULL;
-				}
+					x = split_args2_follow(temp, args);
 				(*args)->args[y] = ft_strdup(temp->data);
 				y++;
 			}
@@ -77,10 +84,5 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		free (temp->data);
 		temp = temp->next;
 	}
-	// while (lst)
-	// {
-	// 	free (lst->data);
-	// 	lst = lst->next;
-	// }
     return (0);
 }

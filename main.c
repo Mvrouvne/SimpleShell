@@ -5,12 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 08:33:23 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/20 12:08:34 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/20 13:11:14 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_exit_status = 0;
 
 // void	handler(int num)
 // {
@@ -20,8 +22,6 @@
 // 	rl_replace_line("", 0);
 // 	rl_redisplay();
 // }
-
-int g_exit_status = 0;
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -98,18 +98,27 @@ int	main(int ac, char **av, char **env)
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
 			// system("leaks minishell");
+				// int	t = 0;
+				// while (args)
+				// {
+				// 		t = 0;
+				// 		while (args->args[t])
+				// 			printf("args = %s\n", args->args[t++]);
+				// 		printf("infile = %d\n", args->infile);
+				// 		printf("outfile = %d\n", args->outfile);
+				// 		printf("****************\n");
+				// 	args = args->next;
+				// }
 			env_copy = get_env_copy(list->saving_env);
-			// system("leaks minishell");
 			Implement_Cmnd(list, args, env_copy, pipes);
 			// while (1);
-			args_temp = args;
+			// system("leaks minishell");
 			while (args->next)
 			{
 				close(pipes->fd[0]);
 				close(pipes->fd[1]);
 				args = args->next;
 			}
-			args = args_temp;
 			int i = 0;
 			printf("%d\n", pipes->cmds);
 			while (i < pipes->cmds)
