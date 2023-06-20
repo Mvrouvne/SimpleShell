@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 14:08:03 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:08:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int search_node_1(t_list *saving_expo, char *node)
 // }
 
 void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
-// {
-//     t_list	*node = NULL;
-//     t_list	*node2 = NULL;
+{
+    t_list	*node = NULL;
+    t_list	*node2 = NULL;
 	t_list	*tmp1;
-    // char **spl_p = NULL;
+    char **spl_p = NULL;
     int     x;
     int     i;
     (void)saving_env;
@@ -87,8 +87,85 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
     {
         while (p->args[i])
         {
-            
-        }    
+        //     x = 0;
+        //     // system("leaks minishell");
+        //     while (p->args[i][x])
+        //     {
+                if((p->args[i][0] < 'a' || p->args[i][0] > 'z')
+                    && (p->args[i][0] < 'A' || p->args[i][0] > 'Z'))
+                {
+                    ft_error("minishell: ", p->args[i], "not a valid identifier", 1);
+                    return ;
+                }
+               if(search_plus(p->args[i]) == 2)
+                {
+                    // char **spl_p;
+                    spl_p = ft_split(p->args[i], '=');
+                    node = search_node((*saving_expo), spl_p[0]);
+                    node2 = search_node((*saving_env), spl_p[0]);
+                    if (node)
+                    {	
+                        if (search_egal(node->value) == 0)
+                        {
+                            puts("++++++");
+                            char *str;
+                            char *rslt;
+                            str = ft_strjoin(spl_p[0], "=");
+                            rslt = ft_strjoin(str, spl_p[1]);
+                            node->value = rslt;
+                            node2->value = rslt;
+                            return ;
+                        }
+                        puts("---------");
+                        char *res;
+                        char *res1;
+                        res = ft_strjoin(node->value, spl_p[1]);
+                        res1 = ft_strjoin(node2->value, spl_p[1]);
+                        node->value = res;
+                        node2->value = res1;
+                        return ;
+                    }
+                    else
+                    {
+                        puts("*******");
+                        char **Remove_Plus;
+                        char *join;
+                        Remove_Plus = ft_split(p->args[i], '+');
+                        join = ft_strjoin(Remove_Plus[0], Remove_Plus[1]);
+                        puts(join);
+                        (*saving_env) = export(join, &(*saving_env));
+                        (*saving_expo) = export(join, &(*saving_expo));
+                        // return ;
+                    }
+                }
+                else if (search_egal(p->args[i]) == 1)
+                {
+                    env_if_egal(p->args[i], &(*saving_env));
+                    (*saving_expo) = export(p->args[i], &(*saving_expo));
+                    // return ;
+                }
+                // else if(search_egal(p->args[i]) == 0)
+                // {
+                //     node = search_node((*saving_expo), p->args[i]);
+                //     if(node)
+                //     {
+                //         char *ress;
+                //         ress = ft_strjoin
+                //     }
+                // }
+                else
+                {
+                    (*saving_expo) = export(p->args[i], saving_expo);
+                    // return ;
+                }
+        //         x++;
+        //     }
+        //     puts("hana");
+            i++;
+        //     // free(node);
+        //     // free(node2);
+        //     // ft_free(spl_p);
+        }
     }
     else
     {
