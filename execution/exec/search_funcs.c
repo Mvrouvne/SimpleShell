@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/17 09:25:28 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 13:14:13 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/20 14:26:45 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/20 18:12:25 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*search_path(t_list *saving_expo, char *node)
 		if (ft_strncmp(tmp->value, node, (ft_strlen(node))) == 0)
 		{
 			spl = ft_split(tmp->value, '=');
+			free(spl[0]);
 			return (spl[1]);
 		}
 		tmp = tmp->next;
@@ -67,6 +68,8 @@ int	search_egal(char *str)
 	{
         if (str[i] == ' ')
             return (2);
+		if (str[i] == '=' && !str[i + 1])
+			return (3);
 		if (str[i] == '=')
 			return (1);
 		i++;
@@ -81,12 +84,12 @@ int	search_plus(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == '+' && str[i + 1] == '=')
+		if ((str[i] == '+' && str[i + 1] == '=' && !str[i + 2])
 			|| (str[i] == '+' && str[i + 1] == '=' && str[i + 2]))
 		{
 			if (str[i] == '+' && str[i + 1] == '=' && str[i + 2])
 				return (2);
-			else
+			else if (str[i] == '+' && str[i + 1] == '=' && !str[i + 2])
 				return(1);
 		}
 		i++;
