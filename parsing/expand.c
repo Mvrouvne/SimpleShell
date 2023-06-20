@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/19 23:32:27 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:34:19 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	}
 	if ((check1 && !check2))
 	{
-		puts("HEEREE");
 		write (2, "$", 1);
 		write (2, to_expand, ft_strlen(to_expand));
 		write (2, ": ambiguous redirect\n", 22);

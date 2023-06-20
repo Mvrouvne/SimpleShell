@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/19 23:06:45 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:38:39 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		else if (line[*x] == '$' && line[*x + 1] == '?')
 		{
 			// ft_lstadd_back(lst, ft_lstnew("g_exit_status"));
+			free (str);
 			str = ft_strjoin(str, ft_itoa(g_exit_status));
 			(*x)++;
 			// return (0);
@@ -72,9 +73,12 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 					str2 = expand(*lst, line, x, env_parse);
 					if (str2)
 					{
+						free (str);
 						str = ft_strjoin(str, str2);
 						free (str2);
 					}
+					else
+						free (str2);
 				}
 				if (line[*x] != '"')
 					str = ft_chrjoin(str, line[*x]);
@@ -86,7 +90,8 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			{
 				free (str);
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
-				return (1);
+				g_exit_status = 258;
+				return (g_exit_status);
 			}
 			else if (line[*x] == '"' && !str[0])
 				ft_lstadd_back(lst, ft_lstnew(str));
@@ -103,7 +108,8 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			{
 				free (str);
 				write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
-				return (1);
+				g_exit_status = 258;
+				return (g_exit_status);
 			}
 			else if (line[*x] == '\'' && !str[0])
 				ft_lstadd_back(lst, ft_lstnew(str));
@@ -113,9 +119,12 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			str2 = expand(*lst, line, x, env_parse);
 			if (str2)
 			{
+				free (str);
 				str = ft_strjoin(str, str2);
 				free(str2);
 			}
+			else
+				free (str2);
 			(*x)--;
 		}
 		else 
