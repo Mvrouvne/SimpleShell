@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 16:32:33 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:44:38 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,11 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
             }
             else if (search_plus(p->args[i]) == 0 && search_egal(p->args[i]) == 0)
                 (*saving_expo) = export(p->args[i], &(*saving_expo));
+            else if (search_egal(p->args[i]) == 3)
+            {
+                (*saving_env) = export(p->args[i], &(*saving_env));
+                (*saving_expo) = export(p->args[i], &(*saving_expo));
+            }
             else if (search_egal(p->args[i]) == 1 && search_plus(p->args[i]) == 0)
             {
                 puts("kayna '=' o makinach '+'");
@@ -131,55 +136,84 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     (*saving_env) = export(ft_strdup(res), &(*saving_env));
                 }
                 else
+                    (*saving_env) = export(p->args[i], &(*saving_env));
                     (*saving_expo) = export(p->args[i], &(*saving_expo));
             }
             else if (search_plus(p->args[i]) == 2)
             {
-                puts("there is +");
-                char    **spl;
-                spl = ft_split(p->args[i], '=');
-                spl_p = ft_split(p->args[i], '+');
-                node = search_node(*saving_expo, spl_p[0]);
-                node2 = search_node1(*saving_env, spl[0]);
-                if (node)
-                {
-                    puts(node->value);
-                    puts("true");
-                    char *res;
-                    char *final;
-                    char *add_egal;
-                    char **old_value;
-                    old_value = ft_split(node->value, '=');
-                    add_egal = ft_strjoin(old_value[0], "=");
-                    res = ft_strjoin(add_egal, old_value[1]);
-                    final = ft_strjoin(res, spl[1]);
-                    puts(final);
-                    free(node->value);
-                    node->value = ft_strdup(final);
-                }
-                if (node2)
-                {
-                    puts("node2");
-                    puts(node2->value);
-                    char *add_equal;
-                    char *res;
-                    char *final;
-                    char **old_value;
-                    old_value = ft_split(node2->value, '=');
-                    add_equal = ft_strjoin(spl[0], "=");
-                    res = ft_strjoin(add_equal, old_value[1]);
-                    final = ft_strjoin(res, spl[1]);
-                    free(node2->value);
-                    node2->value = ft_strdup(final);
-                }
-                else
-                {
-                    char **remove_plus;
-                    char *res;
-                    remove_plus = ft_split(p->args[i], '+');
-                    res = ft_strjoin(remove_plus[0], remove_plus[1]);
-                    (*saving_expo) = export(res, &(*saving_expo));
-                    (*saving_env) = export(res, &(*saving_env));
+                // if (search_egal(p->args[i]) == 3)
+                // {
+                //     char **spll;
+                //     char *join;
+                //     // char *fnl;
+                //     spll = ft_split(p->args[i], '+');
+                //     join = ft_strjoin(spll[0], spll[1]);
+                //     (*saving_env) = export(join, &(*saving_env));
+                //     (*saving_expo) = export(join, &(*saving_expo));
+                    
+                // }
+                // else
+                // {
+                    puts("there is +");
+                    char    **spl;
+                    spl = ft_split(p->args[i], '=');
+                    spl_p = ft_split(p->args[i], '+');
+                    if(!search_node_1(*saving_expo, spl_p[0]))
+                    {
+                        puts("remove plus");
+                        char **remove_plus;
+                        char *res;
+                        remove_plus = ft_split(p->args[i], '+');
+                        res = ft_strjoin(remove_plus[0], remove_plus[1]);
+                        (*saving_expo) = export(res, &(*saving_expo));
+                        (*saving_env) = export(res, &(*saving_env));
+                    }
+                    else if (search_node(*saving_expo, spl_p[0]))
+                    {
+                        puts("true");
+                        node = search_node(*saving_expo, spl_p[0]);
+                        node2 = search_node1(*saving_env, spl[0]);
+                        char *res;
+                        char *final;
+                        char *add_egal;
+                        char **old_value;
+                        old_value = ft_split(node->value, '=');
+                        add_egal = ft_strjoin(old_value[0], "=");
+                        if (old_value[1])
+                        {
+                            res = ft_strjoin(add_egal, old_value[1]);
+                            final = ft_strjoin(res, spl[1]);
+                        }
+                        else
+                        {
+                            final = ft_strjoin(node->value, spl[1]);
+                            
+                        }
+                        puts(final);
+                        free(node->value);
+                        node->value = ft_strdup(final);
+                        if (search_node1(*saving_env, spl[0]))
+                        {
+                            puts("node2");
+                            puts(node2->value);
+                            char *add_equal;
+                            char *res;
+                            char *final;
+                            char **old_value;
+                            old_value = ft_split(node2->value, '=');
+                            add_equal = ft_strjoin(spl[0], "=");
+                            if (old_value[1])
+                            {
+                                res = ft_strjoin(add_equal, old_value[1]);
+                                final = ft_strjoin(res, spl[1]);
+                            }
+                            else
+                                final = ft_strjoin(node2->value, spl[1]);
+                            free(node2->value);
+                            node2->value = ft_strdup(final);
+                        }
+                    // }
+                    
                 }
             }
             i++;
