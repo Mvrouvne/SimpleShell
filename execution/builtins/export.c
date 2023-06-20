@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 18:44:38 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:34:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 ft_error("minishell: ", p->args[i], "not a valid identifier", 1);
                 return ;
             }
-            else if (search_plus(p->args[i]) == 0 && search_egal(p->args[i]) == 0)
+            else if (search_plus(p->args[i]) == 0 && search_egal(p->args[i]) == 0
+                    && !search_node(*saving_expo, p->args[i]))
                 (*saving_expo) = export(p->args[i], &(*saving_expo));
             else if (search_egal(p->args[i]) == 3)
             {
@@ -123,6 +124,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 puts("kayna '=' o makinach '+'");
                 spl_p = ft_split(p->args[i], '=');
                 node = search_node(*saving_expo, spl_p[0]);
+                node2 = search_node(*saving_env, spl_p[0]);
                 if (node)
                 {
                     puts("true");
@@ -131,29 +133,18 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     char *res;
                     str = ft_strjoin(spl_p[0], "=");
                     res = ft_strjoin(str, spl_p[1]);
+                    free(node2->value);
                     free(node->value);
+                    node2->value = ft_strdup(res);
                     node->value = ft_strdup(res);
-                    (*saving_env) = export(ft_strdup(res), &(*saving_env));
                 }
                 else
                     (*saving_env) = export(p->args[i], &(*saving_env));
                     (*saving_expo) = export(p->args[i], &(*saving_expo));
+                ft_free(spl_p);
             }
             else if (search_plus(p->args[i]) == 2)
             {
-                // if (search_egal(p->args[i]) == 3)
-                // {
-                //     char **spll;
-                //     char *join;
-                //     // char *fnl;
-                //     spll = ft_split(p->args[i], '+');
-                //     join = ft_strjoin(spll[0], spll[1]);
-                //     (*saving_env) = export(join, &(*saving_env));
-                //     (*saving_expo) = export(join, &(*saving_expo));
-                    
-                // }
-                // else
-                // {
                     puts("there is +");
                     char    **spl;
                     spl = ft_split(p->args[i], '=');
@@ -212,6 +203,9 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                             free(node2->value);
                             node2->value = ft_strdup(final);
                         }
+                        ft_free(old_value);
+                        ft_free(spl);
+                        ft_free(spl_p);
                     // }
                     
                 }
@@ -248,8 +242,8 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     else
                     {
                         final = (*saving_expo)->value;
-                        // final = ft_strjoin((*saving_expo)->value, "\"");
-                        // free(final);
+                        final = ft_strjoin((*saving_expo)->value, "\"");
+                        free(final);
                     }
 					ft_free(sp);
                 }
@@ -259,7 +253,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 ft_putendl_fd(final, 1);
                 // free(final);
                 (*saving_expo) = (*saving_expo)->next;
-                // free(final);
+                free(final);
             }
             (*saving_expo) = tmp1;
         }
