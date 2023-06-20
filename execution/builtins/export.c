@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 22:58:34 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:03:57 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*search_node(t_list *saving_expo, char *node)
 	tmp = saving_expo;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->value, node, (ft_strlen(node))) == 0)
+		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 1)) == 0)
 		{
             puts("node");
 			printf("tmp :%s\n", tmp->value);
@@ -28,6 +28,24 @@ t_list	*search_node(t_list *saving_expo, char *node)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int search_node_1(t_list *saving_expo, char *node)
+{
+	t_list	*tmp;
+
+	tmp = saving_expo;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 1)) == 0)
+		{
+            puts("node");
+			printf("tmp :%s\n", tmp->value);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 // int plus_condition(t_list **saving_env, t_list *node, char *p, char **spl_p)
@@ -61,6 +79,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
     char **spl_p = NULL;
     int     x;
     int     i;
+    (void)saving_env;
     
     x = 0;
     i = 1;
@@ -68,74 +87,77 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
     {
         while (p->args[i])
         {
-            x = 0;
-            // system("leaks minishell");
-            while (p->args[i][x])
-            {
+        //     x = 0;
+        //     // system("leaks minishell");
+        //     while (p->args[i][x])
+        //     {
                 if((p->args[i][0] < 'a' || p->args[i][0] > 'z')
                     && (p->args[i][0] < 'A' || p->args[i][0] > 'Z'))
                 {
                     ft_error("minishell: ", p->args[i], "not a valid identifier", 1);
                     return ;
                 }
-                if(search_plus(p->args[i]) == 1)
+               if(search_plus(p->args[i]) == 2)
                 {
+                    // char **spl_p;
                     spl_p = ft_split(p->args[i], '=');
                     node = search_node((*saving_expo), spl_p[0]);
                     node2 = search_node((*saving_env), spl_p[0]);
                     if (node)
                     {	
+                        if (search_egal(node->value) == 0)
+                        {
+                            char *str;
+                            char *rslt;
+                            str = ft_strjoin(spl_p[0], "=");
+                            rslt = ft_strjoin(str, spl_p[1]);
+                            node->value = rslt;
+                            node2->value = rslt;
+                            return ;
+                        }
+                        puts("---------");
                         char *res;
                         char *res1;
                         res = ft_strjoin(node->value, spl_p[1]);
                         res1 = ft_strjoin(node2->value, spl_p[1]);
-                        free(node->value);
-                        free(node2->value);
-                        node->value = ft_strdup(res);
-                        node2->value = ft_strdup(res1);
-                        free(res);
-                        free(res1);
-                        ft_free(spl_p);
+                        node->value = res;
+                        node2->value = res1;
                         return ;
                     }
                     else
                     {
-                        char **remove_Plus;
+                        puts("*******");
+                        char **Remove_Plus;
                         char *join;
-                        remove_Plus = ft_split(p->args[i], '+');
-                        join = ft_strjoin(remove_Plus[0], remove_Plus[1]);
+                        Remove_Plus = ft_split(p->args[i], '+');
+                        join = ft_strjoin(Remove_Plus[0], Remove_Plus[1]);
                         (*saving_env) = export(join, &(*saving_env));
-                        free(join);
-                        ft_free(remove_Plus);
-                        return ;
+                        (*saving_expo) = export(p->args[i], &(*saving_expo));
+                        // return ;
                     }
                 }
-                else if (search_egal(p->args[i]) == 1 || search_egal(p->args[i]) == 2)
+                else if (search_egal(p->args[i]) == 1)
                 {
-                    if(search_egal(p->args[i]) == 2)
-                    {
-                        ft_putstr_fd("minishell: ", 1);
-                        ft_putstr_fd(p->args[i], 1);
-                        ft_putstr_fd(": not a valid identifier\n", 1);
-                        return ;
-                    }
                     env_if_egal(p->args[i], &(*saving_env));
-                    // env_if_egal(p->args[i], &(*saving_expo));
-                    (*saving_expo) = export(p->args[i], saving_expo);
-                    return ;
+                    (*saving_expo) = export(p->args[i], &(*saving_expo));
+                    // return ;
+                    // else if(search_egal(p->args[i]) == 0)
+                    // {
+                        
+                    // }
                 }
                 else
                 {
                     (*saving_expo) = export(p->args[i], saving_expo);
                     // return ;
                 }
-                x++;
-            }
-            puts("hana");
+        //         x++;
+        //     }
+        //     puts("hana");
             i++;
-            // free(node);
-            // free(node2);
-            // ft_free(spl_p);
+        //     // free(node);
+        //     // free(node2);
+        //     // ft_free(spl_p);
         }
     }
     else
@@ -163,7 +185,6 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                         free(add_quotes);
                         free(add_quotes2);
                         free(add_egal);
-                        free(final);
                     }
                     else
                     {
@@ -177,6 +198,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                     final = (*saving_expo)->value;
                 ft_putstr_fd("declare -x  ", 1);
                 ft_putendl_fd(final, 1);
+                // free(final);
                 (*saving_expo) = (*saving_expo)->next;
                 // free(final);
             }

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 10:35:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 21:02:30 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 08:33:23 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	main(int ac, char **av, char **env)
 			}
 			args = args_temp;
 			int i = 0;
+			printf("%d\n", pipes->cmds);
 			while (i < pipes->cmds)
 			{
 				waitpid(list->pid[i], &g_exit_status, 0);

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 16:56:20 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:45:03 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_list	*search_pwd(t_list *saving_env);
 int		search_plus(char *str);
 int		search_egal(char *str);
 int     search_home2(t_list *saving_expo, char *node);
+int search_node_1(t_list *saving_expo, char *node);
 
 void	Implement_Cmnd(t_data *lst, t_args *p, char **env, t_pipe *pipe);
 
