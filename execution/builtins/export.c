@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 13:33:14 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:08:03 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int search_node_1(t_list *saving_expo, char *node)
 // }
 
 void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
-{
-    t_list	*node = NULL;
-    t_list	*node2 = NULL;
+// {
+//     t_list	*node = NULL;
+//     t_list	*node2 = NULL;
 	t_list	*tmp1;
-    char **spl_p = NULL;
+    // char **spl_p = NULL;
     int     x;
     int     i;
     (void)saving_env;
