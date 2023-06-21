@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/20 14:34:19 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/20 23:38:32 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	int		y;
 	int		check1;
 	int		check2;
+	int		hdoc;
 	int		j;
 	int		i;
 	char 	*str;
@@ -27,10 +28,13 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 
 	check1 = 0;
 	check2 = 0;
+	hdoc = 0;
 	y = 0;
 	i = 0;
 	while (lst)
 	{
+		if (!(ft_strcmp(lst->data, "<<")))
+			hdoc++;
 		if ((!(ft_strcmp(lst->data, ">")) || (!(ft_strcmp(lst->data, ">>"))
 			|| (!(ft_strcmp(lst->data, "<"))))))
 		{
@@ -72,7 +76,18 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 		free (env_split);
 		env_parse = env_parse->next;
 	}
-	if ((check1 && !check2))
+	int p = 0;
+	int check3 = 0;
+	while (expanded && expanded[p])
+	{
+		if (expanded[p] == ' ')
+		{
+			check3++;
+			break ;
+		}
+		p++;
+	}
+	if ((check1 && !check2) || check3)
 	{
 		write (2, "$", 1);
 		write (2, to_expand, ft_strlen(to_expand));
