@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:17:49 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:02:05 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 00:21:28 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	error_export(char **str, int i)
 void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str)
 {
 	t_list	*node;
-	t_list	*node2;
+	t_list	*node2;        			//no  leaks
 	char	**spl_p;
 	
 	spl_p = ft_split(str, '=');
@@ -37,37 +37,36 @@ void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str)
 		puts("true");
 		char *src;
 		char *res;
-		puts(spl_p[0]);
-		puts(spl_p[1]);
 		src = ft_strjoin(spl_p[0], "=");
 		if (spl_p[1])
 		{
 			puts("spl_p[1]  mafihach null");
 			res = ft_strjoin(src, spl_p[1]);
-			free(node->value);
+			// free(node->value);
 			node->value = ft_strdup(res);
 			if (!node2)
 				ft_lstadd_back3(saving_env, ft_lstnew3(res));
 			else
 			{
-				free(node2->value);
+				// free(node2->value);
 				node2->value = ft_strdup(res);
 			}
+			// free(res);
+			// free(src);
 		}
 	}
 	 else
 		(*saving_env) = export(str, &(*saving_env));
 	(*saving_expo) = export(str, &(*saving_expo));
+	// ft_free(spl_p);
 }
 
 int	if_plus(t_list **saving_expo, t_list **saving_env, char *str)
 {
-	char    **spl;
 	char    **spl_p;
-	char **remove_plus;
+	char **remove_plus;			//leaks done
 	char *res;
-	
-	spl = ft_split(str, '=');
+
 	spl_p = ft_split(str, '+');
 	if(!search_node_1(*saving_expo, spl_p[0]))
 	{
@@ -77,9 +76,11 @@ int	if_plus(t_list **saving_expo, t_list **saving_env, char *str)
 		(*saving_expo) = export(res, &(*saving_expo));
 		(*saving_env) = export(res, &(*saving_env));
 		ft_free(remove_plus);
+		ft_free(spl_p);
 		free(res);
 		return (1);
 	}
+	ft_free(spl_p);
 	return (0);
 }
 
@@ -100,22 +101,30 @@ void	if_plus2(t_list **saving_expo, t_list **saving_env, char *str)
 	node2 = search_node1(*saving_env, spl[0]);
 	old_value = ft_split(node->value, '=');
 	add_egal = ft_strjoin(old_value[0], "=");
+    puts("if_plus2");
 	if (old_value[1])
 	{
 		puts("------");
 		res = ft_strjoin(add_egal, old_value[1]);
+		free(add_egal);
 		final = ft_strjoin(res, spl[1]);
+		free(res);
 	}
 	else
 	{
 		puts("*****");
 		res = ft_strjoin(node->value, "=");
 		final = ft_strjoin(res, spl[1]);
+		free(res);
 	}
-	// free(add_egal);
-	// free(node->value);
-	// ft_free(old_value);
+	free(node->value);
 	node->value = ft_strdup(final);
+	
+	free(final);
+	ft_free(old_value);
+	ft_free(spl_p);
+	ft_free(spl);
+	// system("leaks minishell");
 }
 
 void	if_plus3(t_list **saving_env, char *str, char *spl_p)
@@ -133,15 +142,21 @@ void	if_plus3(t_list **saving_env, char *str, char *spl_p)
 	{
 		puts("node2");
 		old_value = ft_split(node2->value, '=');
-		add_equal = ft_strjoin(&spl_p[0], "=");
 		if (old_value[1])
 		{
 			puts("old\n");
+			add_equal = ft_strjoin(&spl_p[0], "=");
 			res = ft_strjoin(add_equal, old_value[1]);
+			free(add_equal);
 			final = ft_strjoin(res, spl[1]);
+			free(res);
 		}
 		else
 			final = ft_strjoin(node2->value, spl[1]);
+		free(node2->value);
 		node2->value = ft_strdup(final);
+		free(final);
+		ft_free(old_value);
 	}
+	ft_free(spl);
 }

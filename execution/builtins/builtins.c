@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:36:54 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:42:44 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	unset(t_list **head, char *key)
 	else if (cur && prev && ft_strncmp(cur->value, join, ft_strlen(join)) == 0)
 	{
 		prev->next = cur->next;
+		// free (cur->value);
 		free(cur);
 	}
-		// free (cur->value);
 	free(join);
 	// system("leaks minishell");
 }
@@ -110,10 +110,10 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 				unset(saving_env, p->args[i]);
 			i++;
 		}
-		system("leaks minishell");
 	}
 	else if (!ft_strcmp(p->args[0], "export"))
 		export_a(saving_env, saving_expo, p);
+		// system("leaks minishell");
 	else if (!ft_strcmp(p->args[0], "exit"))
 	{
 		if (p->args[1] && !p->args[2])
