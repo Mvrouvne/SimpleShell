@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:15:06 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:08:04 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int g_exit_status = 0;
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -81,8 +81,8 @@ int	main(int ac, char **av, char **env)
 	args = NULL;
 	while(1)
 	{
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, handler);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
@@ -140,7 +140,7 @@ int	main(int ac, char **av, char **env)
 		free (line);
 		if (args && args->args)
 		{
-			while (args)
+			while (args && args->args[0])
 			{
 				y = 0;
 				while (args->args[y])

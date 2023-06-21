@@ -36,6 +36,7 @@ FILES = main.c\
 		parsing/split_args.c\
 		parsing/split_args2.c\
 		parsing/split_args3.c\
+		parsing/heredoc_expand.c\
 		
 
 INCLUDES = libft/libft.a
