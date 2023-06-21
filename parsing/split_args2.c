@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/19 20:18:50 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:41:24 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,18 @@ int	split_args2_follow2(t_token *temp, t_args **args, int *y)
 	return (z);
 }
 
-int	split_args2_follow(t_token *temp, t_args **args)
+int	split_args2_follow(t_token *temp, t_args **args, int y, int z)
 {
 	int	x;
 
 	x = 0;
-	x = args_count(temp);
-	free ((*args)->args);
-	(*args)->args = malloc(sizeof(char *) * (x + 1));
-	(*args)->args[x] = NULL;
+	if (!y && !z)
+	{
+		x = args_count(temp);
+		free ((*args)->args);
+		(*args)->args = malloc(sizeof(char *) * (x + 1));
+		(*args)->args[x] = NULL;
+	}
 	return (x);
 }
 
@@ -68,10 +71,8 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 				z = split_args2_follow2(temp, args, &y);
 			else
 			{
-				if (!y && !z)
-					x = split_args2_follow(temp, args);
-				(*args)->args[y] = ft_strdup(temp->data);
-				y++;
+				x = split_args2_follow(temp, args, y, z);
+				(*args)->args[y++] = ft_strdup(temp->data);
 			}
 		}
 		else if (temp->type == DELIMITER)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:02:52 by otitebah         ###   ########.fr       */
+/*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/21 18:13:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	if_plus3(t_list **saving_env, char *str, char *spl_p);
 void	unset(t_list **head, char *key);
 
 void	modify_Pwd(t_list **saving_env, char *new_pwd);
+
+void	handler3(int num);
 
 t_data g_data;
 

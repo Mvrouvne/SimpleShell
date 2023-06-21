@@ -6,19 +6,33 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/18 15:23:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:14:42 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
+
+void	handler3(int num)
+{
+	extern int	g_exit_status;
+	(void) num;
+	printf("\n");
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_redisplay();
+	g_exit_status = 130;
+	exit (g_exit_status);
+}
 
 void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data *lst)
 {
 	extern int g_exit_status;
 	// (void)lst;
 	lst->pid[lst->id] = fork();
+	// signal(SIGINT, SIG_IGN);
 	if (lst->pid[lst->id] == 0)
 	{
+		// signal(SIGINT, handler3);
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);
@@ -50,16 +64,17 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 		write (2, ": command not found\n", 21);
 		return (0);
 	}
-	if (!ft_strcmp(p->args[0], "./minishell"))
-		execve(p->args[0], (p)->args, env_copy);
-	else if (p->args[0][0] == '.')
-	{
-		ft_error("", p->args[0], "command not found", 1);
-		return (0);
-	}
+	// if (!ft_strcmp(p->args[0], "./minishell"))
+	// 	execve(p->args[0], (p)->args, env_copy);
+	// else if (p->args[0][0] == '.')
+	// {
+	// 	ft_error("", p->args[0], "command not found", 1);
+	// 	return (0);
+	// }
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
     i = 0;
+	execve(p->args[0], (p)->args, env_copy);
 	while (spl_path[i])
 	{
 		command = ft_strjoin(spl_path[i], cmd);

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:07:16 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:32:00 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
         if (*saving_expo)
             print_export(saving_expo);
         (*saving_expo) = tmp1;
-    system("leaks minishell");
+    // system("leaks minishell");
     }
 }
 
