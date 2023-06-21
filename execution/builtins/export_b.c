@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:17:49 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 11:45:19 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:02:05 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,25 @@ void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str)
 	if (node)
 	{
 		puts("true");
-		puts(node->value);
 		char *src;
 		char *res;
+		puts(spl_p[0]);
+		puts(spl_p[1]);
 		src = ft_strjoin(spl_p[0], "=");
-		res = ft_strjoin(src, spl_p[1]);
-		free(node2->value);
-		free(node->value);
-		node2->value = ft_strdup(res);
-		node->value = ft_strdup(res);
+		if (spl_p[1])
+		{
+			puts("spl_p[1]  mafihach null");
+			res = ft_strjoin(src, spl_p[1]);
+			free(node->value);
+			node->value = ft_strdup(res);
+			if (!node2)
+				ft_lstadd_back3(saving_env, ft_lstnew3(res));
+			else
+			{
+				free(node2->value);
+				node2->value = ft_strdup(res);
+			}
+		}
 	}
 	 else
 		(*saving_env) = export(str, &(*saving_env));
@@ -108,25 +118,22 @@ void	if_plus2(t_list **saving_expo, t_list **saving_env, char *str)
 	node->value = ft_strdup(final);
 }
 
-void	if_plus3(t_list **saving_expo, t_list **saving_env, char *str)
+void	if_plus3(t_list **saving_env, char *str, char *spl_p)
 {
 	char    **spl;
-	char    **spl_p;
 	t_list	*node2;
 	char *add_equal;
 	char *res;
 	char *final;
 	char **old_value;
-	(void)saving_expo;
 
-	spl_p = ft_split(str, '+');
 	spl = ft_split(str, '=');
 	node2 = search_node1(*saving_env, spl[0]);
 	if (search_node1(*saving_env, spl[0]))
 	{
 		puts("node2");
 		old_value = ft_split(node2->value, '=');
-		add_equal = ft_strjoin(spl_p[0], "=");
+		add_equal = ft_strjoin(&spl_p[0], "=");
 		if (old_value[1])
 		{
 			puts("old\n");
@@ -135,9 +142,6 @@ void	if_plus3(t_list **saving_expo, t_list **saving_env, char *str)
 		}
 		else
 			final = ft_strjoin(node2->value, spl[1]);
-		// free(add_equal);
-		// free(node2->value);
 		node2->value = ft_strdup(final);
-		// ft_free(old_value);
 	}
 }

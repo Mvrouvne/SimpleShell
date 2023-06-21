@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 12:23:26 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:07:16 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_list	*search_node(t_list *saving_expo, char *node)
 	{
 		if (ft_strncmp(tmp->value, node, (ft_strlen(node))) == 0)
 		{
-            puts("node");
-			printf("tmp :%s\n", tmp->value);
 			return (tmp);
 		}
 		tmp = tmp->next;
@@ -39,8 +37,6 @@ t_list	*search_node1(t_list *saving_expo, char *node)
 	{
 		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 1)) == 0)
 		{
-            puts("node");
-			printf("tmp :%s\n", tmp->value);
 			return (tmp);
 		}
 		tmp = tmp->next;
@@ -57,8 +53,6 @@ int search_node_1(t_list *saving_expo, char *node)
 	{
 		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 1)) == 0)
 		{
-            puts("node");
-			printf("tmp :%s\n", tmp->value);
 			return (1);
 		}
 		tmp = tmp->next;
@@ -68,11 +62,10 @@ int search_node_1(t_list *saving_expo, char *node)
 
 void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
 {
-    int     x;
     int     i;
     char    **spl_p;
+	t_list *tmp1;
     
-    x = 0;
     i = 1;
     if (p->args[i])
     {
@@ -85,19 +78,24 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 (*saving_expo) = export(p->args[i], &(*saving_expo));
             else if (search_egal(p->args[i]) == 3)
             {
+                puts("hanu11111");
                 (*saving_env) = export(p->args[i], &(*saving_env));
                 (*saving_expo) = export(p->args[i], &(*saving_expo));
             }
             else if (search_egal(p->args[i]) == 1 && search_plus(p->args[i]) == 0)
+            {
+
                 equal_no_plus(saving_expo, saving_env, p->args[i]);
+            }
             else if (search_plus(p->args[i]) == 2)
             {
+                puts("hanasssss");
                     spl_p = ft_split(p->args[i], '+');
                     if(if_plus(saving_expo, saving_env, p->args[i]) == 1);
                     else if (search_node(*saving_expo, spl_p[0]))
                     {
                         if_plus2(saving_expo, saving_env, p->args[i]);
-                        if_plus3(saving_expo, saving_env, p->args[i]);
+                        if_plus3(saving_env, p->args[i], spl_p[0]);
                     }
             }
             i++;
@@ -105,8 +103,11 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
     }
     else
     {
+        tmp1 = (*saving_expo);
         if (*saving_expo)
             print_export(saving_expo);
+        (*saving_expo) = tmp1;
+    system("leaks minishell");
     }
 }
 

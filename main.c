@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 12:08:34 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 13:11:14 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:45:46 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **env)
 	pipes = malloc(sizeof(t_pipe));
 	
 	list->saving_env = get_env(env);
-	list->saving_expo = get_env(env);
+	list->saving_expo = get_expo(env);
 	
 	pipes->cmds = 0;
 	pipes->tmp = dup(0);
@@ -120,7 +120,6 @@ int	main(int ac, char **av, char **env)
 				args = args->next;
 			}
 			int i = 0;
-			printf("%d\n", pipes->cmds);
 			while (i < pipes->cmds)
 			{
 				waitpid(list->pid[i], &g_exit_status, 0);

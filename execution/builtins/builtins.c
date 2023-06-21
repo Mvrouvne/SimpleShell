@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 08:59:23 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:11:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	unset(t_list **head, char *key)
 {
 	t_list	*cur;
 	t_list	*prev;
+	char	*join;
 
 	cur = (*head);
 	prev = NULL;
-	while(cur && cur->next != NULL && ft_strncmp(cur->value, key, ft_strlen(key)))
+	join = ft_strjoin(key, "=");
+	while(cur && cur->next != NULL && ft_strncmp(cur->value, join, ft_strlen(join)))
 	{
 		prev = cur;
 		cur = cur->next;
@@ -33,7 +35,7 @@ void	unset(t_list **head, char *key)
 	else if (cur && prev && ft_strncmp(cur->value, key, ft_strlen(key)) == 0)
 	{
 		prev->next = cur->next;
-		free (cur->value);
+		// free (cur->value);
 		free(cur);
 	}
 }
@@ -98,12 +100,15 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		env(p, saving_env, i);
 	else if (!ft_strcmp(p->args[0], "unset"))
 	{
-		while (search_home2(*saving_expo, p->args[i]))
+		while (p->args[i])
 		{
-			unset(saving_expo, p->args[i]);
-			unset(saving_env, p->args[i]);
+			if (search_home_unset(*saving_expo, p->args[i]))
+				unset(saving_expo, p->args[i]);
+			if (search_home_unset(*saving_env, p->args[i]))
+				unset(saving_env, p->args[i]);
 			i++;
 		}
+		puts("khrej mn unset");
 	}
 	else if (!ft_strcmp(p->args[0], "export"))
 		export_a(saving_env, saving_expo, p);
