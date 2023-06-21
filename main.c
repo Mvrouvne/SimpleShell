@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 12:08:34 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 14:41:40 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:37:40 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int	main(int ac, char **av, char **env)
 		free (line);
 		if (args && args->args)
 		{
-			while (args)
+			while (args && args->args[0])
 			{
 				y = 0;
 				while (args->args[y])
