@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/21 21:03:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 00:50:20 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,25 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	char	*str;
 	char	*str2;
 	int		y;
+	int		a;
+	int		check;
 	extern int	g_exit_status;
 	
 	str = malloc(sizeof(char));
 	str[0] = '\0';
 	y = 0;
+
+	a = 0;
+	check = 0;
+	while (line[a])
+	{
+		if (line[a] == '<' && line[a + 1] == '<')
+		{
+			check++;
+			break ;
+		}
+		a++;
+	}
 	if (line[*x] == '|')
 	{
 		ft_lstadd_back(lst, ft_lstnew("|"));
@@ -118,12 +132,10 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		}
 		else if (line[*x] == '"')
 		{
-	
-			// str = check_quotes2(line, x, lst, env_parse);
 			(*x)++;
 			while (line[*x] && line[*x] != '"')
 			{
-				if (line[*x] == '$')
+				if (line[*x] == '$' && !check)
 				{
 					str2 = expand(*lst, line, x, env_parse);
 					if (str2)
@@ -157,7 +169,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			if (!str)
 				return (1);
 		}
-		else if (line[*x] == '$')
+		else if (line[*x] == '$' && !check)
 		{
 			str2 = expand(*lst, line, x, env_parse);
 			if (str2)
