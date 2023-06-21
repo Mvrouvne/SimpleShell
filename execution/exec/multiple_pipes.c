@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/21 20:13:57 by machaiba         ###   ########.fr       */
+=======
+/*   Updated: 2023/06/21 18:34:46 by otitebah         ###   ########.fr       */
+>>>>>>> 78a999fb3e7cbbb081fad1cd9f4529ab5d9d973a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +119,10 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		exit(1);
 	}
 	lst->pid[lst->id] = fork();
-	signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
 	if (lst->pid[lst->id] == 0)
 	{
-		signal(SIGINT, handler3);
+		// signal(SIGINT, handler3);
 		if (check_if_builtins(tmp) == 1)
 			child_builtins(tmp, pipes, lst);
 		child_not_builtins(tmp, pipes);

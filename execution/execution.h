@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 14:43:45 by machaiba         ###   ########.fr       */
+/*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
+/*   Updated: 2023/06/21 18:13:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ typedef struct s_pipe {
     int     tmp;
 }   t_pipe;
 
-// typedef struct s_status {
-//     int     *pid;
-//     int     id;
-// }   t_status;
 
 typedef struct  s_data
 {
@@ -62,6 +58,7 @@ t_args	*ft_lstnew4(char *data);
 void    ft_error(char *entourage, char *input, char *error, int i);
 void	ft_lstadd_back3(t_list **lst, t_list *new);
 void	ft_free(char **str);
+t_list	*ft_lstnew3(char *data);
 
 int		check_plus(char **p, t_list *saving_expo);
 int     check_if_builtins(t_args *p);
@@ -96,11 +93,12 @@ int		search_egal(char *str);
 int     search_home2(t_list *saving_expo, char *node);
 int search_node_1(t_list *saving_expo, char *node);
 t_list	*search_node1(t_list *saving_expo, char *node);
+int search_home_unset(t_list *saving_expo, char *node);
 
 void	Implement_Cmnd(t_data *lst, t_args *p, char **env, t_pipe *pipe);
 int	    if_plus(t_list **saving_expo, t_list **saving_env, char *str);
 void	if_plus2(t_list **saving_expo, t_list **saving_env, char *str);
-void	if_plus3(t_list **saving_expo, t_list **saving_env, char *str);
+void	if_plus3(t_list **saving_env, char *str, char *spl_p);
 
 void	unset(t_list **head, char *key);
 

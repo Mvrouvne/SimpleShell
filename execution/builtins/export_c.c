@@ -6,15 +6,21 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:57:58 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 12:21:07 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:07:41 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
+void	free_print_expo(char *add_quotes, char *add_quotes2, char *add_egal)
+{
+	free(add_quotes);
+	free(add_quotes2);
+	free(add_egal);
+}
+
 void	print_export(t_list **saving_expo)
 {
-	t_list *tmp1;
 	char **sp = NULL;
 	char *add_quotes = NULL;
 	char *add_quotes2 = NULL;
@@ -22,7 +28,6 @@ void	print_export(t_list **saving_expo)
 	char *add_egal = NULL;
 
 	(*saving_expo) = sort_list(saving_expo);
-	tmp1 = (*saving_expo);
 	while ((*saving_expo))
 	{
 		if (search_egal((*saving_expo)->value) == 1)
@@ -34,26 +39,17 @@ void	print_export(t_list **saving_expo)
 				add_quotes2 = ft_strjoin(add_quotes, "\"");
 				add_egal = ft_strjoin("=", add_quotes2);
 				final = ft_strjoin(sp[0], add_egal);
-				free(add_quotes);
-				free(add_quotes2);
-				free(add_egal);
-				// free(final);
+				free_print_expo(add_quotes, add_quotes2, add_egal);
 			}
 			else
-			{
-				final = (*saving_expo)->value;
 				final = ft_strjoin((*saving_expo)->value, "\"");
-				free(final);
-			}
 			ft_free(sp);
 		}
 		else
 			final = (*saving_expo)->value;
 		ft_putstr_fd("declare -x  ", 1);
 		ft_putendl_fd(final, 1);
-		// free(final);
+		free(final);
 		(*saving_expo) = (*saving_expo)->next;
-		// free(final);
 	}
-	(*saving_expo) = tmp1;
 }
