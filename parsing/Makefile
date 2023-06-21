@@ -6,7 +6,7 @@
 #    By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 21:04:40 by machaiba          #+#    #+#              #
-#    Updated: 2023/06/14 22:57:24 by machaiba         ###   ########.fr        #
+#    Updated: 2023/06/21 19:00:15 by machaiba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS = minishell.c\
 		split_args.c\
 		split_args2.c\
 		split_args3.c\
+		heredoc_expand.c\
 	
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 

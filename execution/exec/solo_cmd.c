@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 14:49:47 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:10:17 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
     i = 0;
-	execve(p->args[0], (p)->args, env_copy);
+	if(p->args[0][0] == '.' || p->args[0][0] == '/')
+		execve(p->args[0], (p)->args, env_copy);
 	while (spl_path[i])
 	{
 		command = ft_strjoin(spl_path[i], cmd);

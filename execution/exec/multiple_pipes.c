@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 14:48:16 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:13:57 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,12 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		write (2, ": command not found\n", 21);
 		return (0);
 	}
-	if (!ft_strcmp(p->args[0], "./minishell"))
-		execve(p->args[0], (p)->args, env);
-	else if (p->args[0][0] == '.')
-	{
-		ft_error("", p->args[0], "command not found", 1);
-		return (0);
-	}
 	check_slash(p, env);
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
 	i = 0;
+	if(p->args[0][0] == '.' || p->args[0][0] == '/')
+		execve(p->args[0], (p)->args, env);
 	while (spl_path[i])
 	{
 		command = ft_strjoin(spl_path[i], cmd);

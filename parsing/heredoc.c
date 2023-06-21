@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/21 18:37:51 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:16:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,74 +16,99 @@ void	handler2(int num)
 {
 	(void) num;
 	printf("\n");
-	// while (wait(NULL) != -1)
 	exit (10);
 }
 
-char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
+int	heredoc3(int status, int id, int fd[2])
 {
-	(void) lst;
-	char	*to_expand = NULL;
-    int     x;
-	int		y;
-	int		z;
-	int		j;
-	int		i;
-	char 	*str;
-	char 	*env_split;
+	extern int	g_exit_status;
 
-	str = NULL;
-	env_split = NULL;
-	env_split = malloc(sizeof(char));
-	env_split[0] = '\0';
-    x = 0;
-	z = 0;
-	y = 0;
-	i = 0;
-	str = malloc(sizeof(char));
-	str[0] = '\0';
-	j = 0;
-	while (line[x])
+	waitpid(id, &status, 0);
+	if (WEXITSTATUS(status) == 10)
 	{
-		if (line[x] == '$')
-		{
-			x++;
-			j = x;
-			while (line[j] && ((line[j] >= 'a' && line[j] <= 'z')
-				|| (line[j] >= 'A' && line[j] <= 'Z')
-				|| (line[j] >= '0' && line[j] <= '9')))
-			{
-					j++;
-			}
-			to_expand = ft_substr(line, x, j - 1);
-			while (env_parse)
-			{
-				i = 0;
-				env_split = NULL;
-				env_split = malloc(sizeof(char));
-				env_split[0] = '\0';
-				while (env_parse->value && env_parse->value[i] != '=')
-				{
-					env_split = ft_chrjoin(env_split, env_parse->value[i]);
-					i++;
-				}
-				if (!(ft_strcmp(to_expand, env_split)))
-				{
-					str = ft_substr(env_parse->value, i + 1,
-						ft_strlen(env_parse->value));
-				}
-				free (env_split);
-				env_parse = env_parse->next;
-			}
-			x = j - 1;
-		}
-		else
-			str = ft_chrjoin(str, line[x]);
-		x++;
+		close (fd[1]);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
-	free (to_expand);
-	return (str);
+	else if (WEXITSTATUS(status) == 20)
+	{
+		close (fd[1]);
+		g_exit_status = 0;
+		return (g_exit_status);
+	}
+	close (fd[1]);
+	return (0);
 }
+
+// void	heredoc2(char *line, char *lst)
+// {
+	
+// }
+
+// char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
+// {
+// 	(void) lst;
+// 	char	*to_expand = NULL;
+//     int     x;
+// 	int		y;
+// 	int		z;
+// 	int		j;
+// 	int		i;
+// 	char 	*str;
+// 	char 	*env_split;
+
+// 	str = NULL;
+// 	env_split = NULL;
+// 	env_split = malloc(sizeof(char));
+// 	env_split[0] = '\0';
+//     x = 0;
+// 	z = 0;
+// 	y = 0;
+// 	i = 0;
+// 	str = malloc(sizeof(char));
+// 	str[0] = '\0';
+// 	j = 0;
+// 	while (line[x])
+// 	{
+// 		if (line[x] == '$')
+// 		{
+// 			x++;
+// 			j = x;
+// 			while (line[j] && ((line[j] >= 'a' && line[j] <= 'z')
+// 				|| (line[j] >= 'A' && line[j] <= 'Z')
+// 				|| (line[j] >= '0' && line[j] <= '9')))
+// 			{
+// 					j++;
+// 			}
+// 			to_expand = ft_substr(line, x, j - 1);
+// 			while (env_parse)
+// 			{
+// 				i = 0;
+// 				env_split = NULL;
+// 				env_split = malloc(sizeof(char));
+// 				env_split[0] = '\0';
+// 				while (env_parse->value && env_parse->value[i] != '=')
+// 				{
+// 					env_split = ft_chrjoin(env_split, env_parse->value[i]);
+// 					i++;
+// 				}
+// 				if (!(ft_strcmp(to_expand, env_split)))
+// 				{
+// 					str = ft_substr(env_parse->value, i + 1,
+// 						ft_strlen(env_parse->value));
+// 				}
+// 				free (env_split);
+// 				env_parse = env_parse->next;
+// 			}
+// 			x = j - 1;
+// 		}
+// 		else
+// 			str = ft_chrjoin(str, line[x]);
+// 		x++;
+// 	}
+// 	free (to_expand);
+// 	return (str);
+// }
 
 int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 {
@@ -96,6 +121,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 	extern int	g_exit_status;
     
     x = 0;
+	status = 0;
    	pipe(fd);
 	args->infile = fd[0];
 	args->outfile = 1;
@@ -130,19 +156,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			free (line);
 		}
 	}
-	waitpid(id, &status, 0);
-	if (WEXITSTATUS(status) == 10)
-	{
-		close (fd[1]);
-		g_exit_status = 1;
-		return (g_exit_status);
-	}
-	else if (WEXITSTATUS(status) == 20)
-	{
-		close (fd[1]);
-		g_exit_status = 0;
-		return (g_exit_status);
-	}
-	close (fd[1]);
+	return (heredoc3(status, id, fd));
     return (0);
 }

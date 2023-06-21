@@ -13,7 +13,7 @@ cat | | ls
 double minishell (minishell:$> minishell:$>) ==> cat  wc
 wc ==> exit status 130
 cat ==> exit status 130
-please dont expand herdoc limiter
+please dont expand herdoc delimiter ******************!!!!??!?!?!?!!?!?!?
 
 echo "$US""ER" ===> space what dio you do here?
 
@@ -21,3 +21,7 @@ export a="ab" / export a
 
 if i enter b="value" if b already in env/export dont duplicate b just change value
 unset *** ==> chrck if there is = after *
+
+
+LINE !!!!!!!!!
+$USER$USER in heredoc
