@@ -5,6 +5,8 @@ NAME = minishell
 FILES = main.c\
 		execution/exec/multiple_pipes.c\
 		execution/builtins/builtins.c\
+		execution/builtins/export_b.c\
+		execution/builtins/export_c.c\
 		execution/builtins/echo.c\
 		execution/exec/solo_cmd.c\
 		execution/exec/search_funcs.c\
@@ -39,7 +41,7 @@ FILES = main.c\
 INCLUDES = libft/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 READLINE = -lreadline -L /Users/machaiba/.brew/cellar/readline/8.2.1/lib -I /Users/machaiba/.brew/cellar/readline/8.2.1/include
 
 OBJ = $(FILES:.c=.o)

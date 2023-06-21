@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/19 23:01:04 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 08:59:23 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		env(p, saving_env, i);
 	else if (!ft_strcmp(p->args[0], "unset"))
 	{
-		while (p->args[i])
+		while (search_home2(*saving_expo, p->args[i]))
 		{
 			unset(saving_expo, p->args[i]);
 			unset(saving_env, p->args[i]);

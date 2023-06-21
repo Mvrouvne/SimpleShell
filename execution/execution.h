@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:12:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 15:38:04 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:16:50 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p);
 void    *env_if_egal(char *p, t_list **saving_env);
 t_list	*export(char *p, t_list **saving_expo);
 t_list	*env_i(t_list **saving_env);
+int	error_export(char **str, int i);
+void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str);
+void	print_export(t_list **saving_expo);
 
 char	*search_path(t_list *saving_expo, char *node);
 t_list	*search_node(t_list *saving_env, char *node);
@@ -95,6 +98,9 @@ int search_node_1(t_list *saving_expo, char *node);
 t_list	*search_node1(t_list *saving_expo, char *node);
 
 void	Implement_Cmnd(t_data *lst, t_args *p, char **env, t_pipe *pipe);
+int	    if_plus(t_list **saving_expo, t_list **saving_env, char *str);
+void	if_plus2(t_list **saving_expo, t_list **saving_env, char *str);
+void	if_plus3(t_list **saving_expo, t_list **saving_env, char *str);
 
 void	unset(t_list **head, char *key);
 
