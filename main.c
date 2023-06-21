@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 12:08:34 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/20 20:02:29 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:41:40 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ int	main(int ac, char **av, char **env)
 	y = 0;
 	lst = NULL;
 	args = NULL;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler);
 	while(1)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
@@ -123,6 +123,12 @@ int	main(int ac, char **av, char **env)
 			while (i < pipes->cmds)
 			{
 				waitpid(list->pid[i], &g_exit_status, 0);
+				// printf("pid = %d\n", list->pid[i]);
+				// if (list->pid[i] == 0)
+				// {
+				// 	puts ("HEEEREE");
+				// 	signal(SIGINT, handler3);
+				// }
 				i++;
 			}
 			if (WIFEXITED(g_exit_status))
