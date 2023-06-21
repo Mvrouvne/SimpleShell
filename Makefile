@@ -71,5 +71,5 @@ re : fclean all
 push :
 	git add .
 	git status
-	git commit -m "update!"
+	git commit -m "norm expo"
 	git push
