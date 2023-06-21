@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   solo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/21 20:10:17 by machaiba         ###   ########.fr       */
-=======
-/*   Updated: 2023/06/21 18:14:42 by otitebah         ###   ########.fr       */
->>>>>>> 78a999fb3e7cbbb081fad1cd9f4529ab5d9d973a
+/*   Updated: 2023/06/21 22:10:04 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
+
 
 void	handler3(int num)
 {
@@ -33,10 +30,10 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy, t_data
 	extern int g_exit_status;
 	// (void)lst;
 	lst->pid[lst->id] = fork();
-	// signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	if (lst->pid[lst->id] == 0)
 	{
-		// signal(SIGINT, handler3);
+		signal(SIGINT, handler3);
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);
