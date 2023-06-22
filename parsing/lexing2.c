@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 16:49:46 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/16 16:05:27 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:18:09 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	lexing2_follow(char *line, t_token **lst, int *x, char *str)
 		y++;
 	}
 	str = malloc(sizeof(char) + 3);
-	if (!str)
-		exit (1);
 	str[0] = line[*x];
 	str[1] = line[*x + 1];
 	str[2] = '\0';

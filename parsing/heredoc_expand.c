@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:52:40 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 01:37:59 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:43:37 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@ int	heredoc_expand3(char *line, int *j, int x)
 
 char	*heredoc_expand2(t_env *env_parse, char *to_expand)
 {
-	char	*str = NULL;
+	char	*str;
 	char	*env_split;
 	int		i;
 
 	i = 0;
+	str = NULL;
 	env_split = NULL;
 	env_split = malloc(sizeof(char));
 	env_split[0] = '\0';
@@ -92,13 +93,14 @@ char	*heredoc_expand(char *line, t_env *env_parse)
 			str2 = heredoc_expand4(env_parse, to_expand, str2);
 			x = j - 1;
 			if (str2)
-				str = ft_strjoin(str, str2);
-			free (str2);
+				str = ft_join_free(str, str2);
+			else
+				free (str2);
+			free (to_expand);
 		}
 		else
 			str = ft_chrjoin(str, line[x]);
 		x++;
 	}
-	free (to_expand);
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 22:08:04 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:45:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int ac, char **av, char **env)
 	t_data *list;
 	t_pipe	*pipes;
 	t_env	*env_parse;
-	char **env_copy = NULL;
+	// char **env_copy = NULL;
 
 	list = malloc(sizeof(t_data));
 	pipes = malloc(sizeof(t_pipe));
@@ -70,8 +70,8 @@ int	main(int ac, char **av, char **env)
 	list->saving_env = get_env(env);
 	list->saving_expo = get_expo(env);
 	
-	pipes->cmds = 0;
-	pipes->tmp = dup(0);
+	(pipes->cmds = 0, pipes->tmp = dup(0));
+	
 	env_parse = (t_env *)list->saving_env;
 	int stdin_main = dup(0);
 	ac = 0;
@@ -81,8 +81,8 @@ int	main(int ac, char **av, char **env)
 	args = NULL;
 	while(1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handler);
+		(signal(SIGQUIT, SIG_IGN), signal(SIGINT, handler));
+		
 		lst = NULL;
 		args = NULL;
 		x = 0;
@@ -138,32 +138,56 @@ int	main(int ac, char **av, char **env)
 			ft_free(env_copy);
 		}
 		free (line);
+		// free (args->args[0]);
+		// free (args->args);
 		if (args && args->args)
 		{
-			while (args && args->args[0])
-			{
-				y = 0;
-				while (args->args[y])
+			// if (args->args[0])
+			// {
+				while (args)
 				{
-					free(args->args[y]);
-					y++;
+					y = 0;
+					while (args->args[y])
+					{
+						free(args->args[y]);
+						y++;
+					}
+					free (args->args);
+					args_temp = args;
+					args = args->next;
+					free (args_temp);
 				}
-				free (args->args);
-				args_temp = args;
-				args = args->next;
-				free (args_temp);
-			}
+			// }
+			// else if ((!args->args[0]))
+			// {
+			// 	free (args->args[0]);
+			// 	puts("HEEREE");
+			// 	while (args)
+			// 	{
+			// 		free (args->args);
+			// 		args_temp = args;
+			// 		args = args->next;
+			// 		free (args_temp);
+			// 	}
+			// }
 		}
 		if (lst)
 		{
+			// lst_temp = lst;
+			// while (lst_temp)
+			// {
+			// 	lst_temp = lst_temp->next;
+			// }
 			while (lst)
 			{
 				lst_temp = lst;
 				lst = lst->next;
+				free (lst_temp->data);
 				free(lst_temp);
 			}
 		}
 		// free (pipes);
+		system("leaks minishell");
 	}
 
 	// while (list->saving_env)

@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/21 17:54:54 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:56:36 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	split_args2_follow2(t_token *temp, t_args **args, int *y, int *z)
 	x = 0;
 	*z = 0;
 	x = args_count(temp->next);
+	// if ((!))
 	(*args)->args = malloc(sizeof(char *) * (x + 1));
 	(*args)->args[x] = NULL;
 	(*z)++;
@@ -37,6 +38,7 @@ void	split_args2_follow(t_token *temp, t_args **args, int *y, int *z)
 	if (!*y && !*z)
 	{
 		x = args_count(temp);
+		free ((*args)->args[0]);
 		free ((*args)->args);
 		(*args)->args = malloc(sizeof(char *) * (x + 1));
 		(*args)->args[x] = NULL;
@@ -55,9 +57,7 @@ void	split_args2_follow3(t_token *temp, t_args **args, int *y, int *z)
 
 int	split_args2_follow4(t_token **temp, t_args **args, int *in, int *out)
 {
-	if (split_args3(*temp, args, in, out))
-		return (free ((*temp)->data), free ((*temp)->next->data), 1);
-	free ((*temp)->data);
+	split_args3(*temp, args, in, out);
     *temp = (*temp)->next;
 	return (0);
 }
@@ -75,10 +75,21 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 	out = 0;
     while (temp && *args)
 	{
+		// printf("temp = %s\n", temp->data);
         if (temp->type == INPUT || temp->type == OUTPUT || temp->type == APPEND)
         {
-			if (split_args2_follow4(&temp, args, &in, &out))
-            	return (1);
+			split_args2_follow4(&temp, args, &in, &out);
+				// if ((*args) && !y)
+				// {
+				// 	(*args)->args = malloc(sizeof(char *));
+				// 	(*args)->args[0] = NULL;
+				// }
+            	// return (1);
+			// if ((*args) && !y)
+			// {
+			// 	(*args)->args = malloc(sizeof(char *));
+			// 	(*args)->args[0] = NULL;
+			// }
         }
 		else if ((temp->type == CMD || temp->type == PIPE))
 			split_args2_follow3(temp, args, &y, &z);
@@ -86,10 +97,14 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		{
 			in = 1;
 			if (heredoc(*args, temp->data, env_parse, lst))
-				return (free (temp->data), 1);
+				return (1);
+		// 	if ((*args) && !y)
+		// 	{
+		// 		(*args)->args = malloc(sizeof(char *));
+		// 		(*args)->args[0] = NULL;
+		// 	}
 		}
 		check_in_out(*args, in, out);
-		free (temp->data);
 		temp = temp->next;
 	}
     return (0);
