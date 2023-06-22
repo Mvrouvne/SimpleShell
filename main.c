@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 15:15:34 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:59:51 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(int ac, char **av, char **env)
 				// 	args = args->next;
 				// }
 			env_copy = get_env_copy(list->saving_env);
-			Implement_Cmnd(list, args, env_copy, pipes);
+			implement_cmnd(list, args, env_copy, pipes);
 			tmp = args;
 			while (args->next)
 			{
@@ -157,9 +157,8 @@ int	main(int ac, char **av, char **env)
 				lst = lst->next;
 				free(lst_temp);
 			}
-			system("leaks minishell");
 		}
-		// free (pipes);
+			// system("leaks minishell");
 	}
 
 	// while (list->saving_env)

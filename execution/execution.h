@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 15:01:58 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:52:35 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int					search_node_1(t_list *saving_expo, char *node);
 t_list				*search_node1(t_list *saving_expo, char *node);
 int					search_home_unset(t_list *saving_expo, char *node);
 
-void				Implement_Cmnd(t_data *lst, t_args *p, char **env,
+void				implement_cmnd(t_data *lst, t_args *p, char **env,
 						t_pipe *pipe);
 int					if_plus(t_list **saving_expo, t_list **saving_env,
 						char *str);
@@ -116,6 +116,8 @@ void				if_plus2(t_list **saving_expo, t_list **saving_env,
 void				if_plus3(t_list **saving_env, char *str, char *spl_p);
 
 void				unset(t_list **head, char *key);
+void				unset_util(t_list **saving_env, t_list **saving_expo,
+						char *str);
 
 void				modify_Pwd(t_list **saving_env, char *new_pwd);
 

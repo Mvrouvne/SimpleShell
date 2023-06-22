@@ -8,6 +8,7 @@ FILES = main.c\
 		execution/builtins/builtins.c\
 		execution/builtins/export_b.c\
 		execution/builtins/export_c.c\
+		execution/builtins/unset.c\
 		execution/builtins/echo.c\
 		execution/exec/solo_cmd.c\
 		execution/exec/search_funcs.c\

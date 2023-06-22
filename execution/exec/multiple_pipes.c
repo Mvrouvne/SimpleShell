@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 15:01:12 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:38:33 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		free (command);
 		i++;
 	}
-	free(command);
+	// free(command);
 	free(cmd);
 	ft_free(spl_path);
 	ft_putstr_fd(*p->args, 2);
@@ -70,8 +70,20 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	return(0);
 }
 
+void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
+{
+	if (!str[0])
+		return ;
+	if (check_if_builtins(p) == 1)
+		builtins(p, &lst->saving_env, &lst->saving_expo);
+	else
+	{
+		child_exec_solo_cmd(p, lst->saving_expo, env_copy, lst);
+		lst->id++;
+	}
+}
 
-void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
+void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
 	t_args	*tmp;
 	int		i;
@@ -87,17 +99,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	lst->id = 0;
 	lst->pid = malloc(sizeof(int) * pipes->cmds);
 	if (pipes->cmds == 1)
-	{
-		if (!tmp->args[0])
-			return ;
-		if (check_if_builtins(p) == 1)
-			builtins(p, &lst->saving_env, &lst->saving_expo);
-		else
-		{
-			child_exec_solo_cmd(p, lst->saving_expo, env_copy, lst);
-			lst->id++;
-		}
-	}
+		no_pipe(p->args, env_copy, lst, p);
 	else
 	{
 		i = 0;
@@ -113,7 +115,6 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 				close(pipes->fd[1]);
 				close(pipes->fd[0]);
 				i++;
-				
 			}
 			tmp = tmp->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:40:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:32:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:02:55 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ t_list	*env_i(t_list **saving_env)
 	char	*node;
 	char	filename[256];
 
-	s1 = malloc(sizeof(char) * 4);
-	s1 = "PWD=";
+	s1 = ft_strdup("PWD=");
 	getcwd(filename, 256);
 	node = ft_strjoin(s1, filename);
 	*saving_env = create_node(node);
 	free(node);
+	free(s1);
 	ft_lstadd_back3(saving_env, ft_lstnew3("SHLVL=1"));
 	ft_lstadd_back3(saving_env, ft_lstnew3("_=/usr/bin/env"));
-	// system("leaks minishell");
+	system("leaks minishell");
 	return (*saving_env);
 }

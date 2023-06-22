@@ -6,40 +6,11 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 12:31:51 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:55:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
-
-void	unset(t_list **head, char *key)
-{
-	t_list	*cur;
-	t_list	*prev;
-	char	*join;
-
-	cur = (*head);
-	prev = NULL;
-	join = ft_strjoin(key, "=");
-	while (cur && cur->next != NULL && ft_strncmp(cur->value, join,
-			ft_strlen(join)))
-	{
-		prev = cur;
-		cur = cur->next;
-	}
-	if (prev == NULL && cur)
-	{
-		(*head) = cur->next;
-		free(cur);
-	}
-	else if (cur && prev && ft_strncmp(cur->value, join, ft_strlen(join)) == 0)
-	{
-		prev->next = cur->next;
-		free(cur->value);
-		free(cur);
-	}
-	free(join);
-}
 
 void	env(t_args *p, t_list **saving_env, int i)
 {
@@ -66,7 +37,7 @@ void	env(t_args *p, t_list **saving_env, int i)
 
 int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
-		char filename[256];
+	char	filename[256];
 
 	if (!ft_strcmp(p->args[0], "echo"))
 	{
@@ -124,10 +95,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	{
 		while (p->args[i])
 		{
-			if (search_home_unset(*saving_expo, p->args[i]))
-				unset(saving_expo, p->args[i]);
-			if (search_home_unset(*saving_env, p->args[i]))
-				unset(saving_env, p->args[i]);
+			unset_util(saving_env, saving_expo, p->args[i]);
 			i++;
 		}
 	}
