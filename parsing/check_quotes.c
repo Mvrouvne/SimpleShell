@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 00:50:20 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:38:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ char	*check_quotes4(t_token **lst, char *line, int *x, char *str)
 	return (str);
 }
 
-void	check_quotes3(t_token **lst, t_env *env_parse, char *str)
+void	check_quotes3(t_env *env_parse, char *str)
 {
 	char	*str2;
 
-	str2 = heredoc_expand(ft_strdup("$HOME"), env_parse, *lst);
+	str2 = heredoc_expand(ft_strdup("$HOME"), env_parse);
 	write(2, str2, ft_strlen(str2));
 	write (2, ": is a directory\n", 18);
 	free (str);
@@ -108,7 +108,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	{
 		if (line[0] == '~' && (line[1] == '\0' || line[1] == ' '))
 		{
-			check_quotes3(lst, env_parse, str);
+			check_quotes3(env_parse, str);
 			return (1);
 		}
 		else if (line[0] == '/' && line[1] == '\0')
@@ -119,7 +119,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 		else if (line[*x] == '~' && (line[*x - 1] == ' ' || line[0] == '~')
 			&& (line[*x + 1] == ' ' || line[*x + 1] == '\0'))
 		{
-			str2 = heredoc_expand(ft_strdup("$HOME"), env_parse, *lst);
+			str2 = heredoc_expand(ft_strdup("$HOME"), env_parse);
 			ft_lstadd_back(lst, ft_lstnew(str2));
 			(*x)++;
 			return (free (str), free (str2), 0);
