@@ -6,11 +6,17 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:51:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 16:54:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:19:59 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
+
+void	norm(t_list **head, t_list *cur)
+{
+	(*head) = cur->next;
+	free(cur);
+}
 
 void	unset(t_list **head, char *key)
 {
@@ -21,18 +27,16 @@ void	unset(t_list **head, char *key)
 	cur = (*head);
 	prev = NULL;
 	join = ft_strjoin(key, "=");
-	while (cur && cur->next != NULL && ft_strncmp(cur->value, join,
-			ft_strlen(join)))
+	while ((cur && cur->next != NULL) && (ft_strncmp(cur->value, join,
+				ft_strlen(join)) || search_egal(cur->value) == 0))
 	{
 		prev = cur;
 		cur = cur->next;
 	}
 	if (prev == NULL && cur)
-	{
-		(*head) = cur->next;
-		free(cur);
-	}
-	else if (cur && prev && ft_strncmp(cur->value, join, ft_strlen(join)) == 0)
+		norm(head, cur);
+	else if (cur && prev && (ft_strncmp(cur->value, join, ft_strlen(join)) == 0
+			|| search_egal(cur->value) == 0))
 	{
 		prev->next = cur->next;
 		free(cur->value);
