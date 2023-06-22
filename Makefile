@@ -4,6 +4,7 @@ NAME = minishell
 
 FILES = main.c\
 		execution/exec/multiple_pipes.c\
+		execution/exec/childs.c\
 		execution/builtins/builtins.c\
 		execution/builtins/export_b.c\
 		execution/builtins/export_c.c\

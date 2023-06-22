@@ -6,51 +6,50 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:51:47 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 14:52:41 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:57:30 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-
-void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
+void	child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
 {
-	extern int g_exit_status;
-	
+	extern int	g_exit_status;
+
 	if (tmp->infile == 1)
 	{
 		dup2(pipes->tmp, STDIN_FILENO);
-		close (pipes->tmp);
+		close(pipes->tmp);
 	}
 	if (tmp->outfile != 1)
 		dup2(tmp->outfile, 1);
-	else if(tmp->next)
+	else if (tmp->next)
 		dup2(pipes->fd[1], 1);
 	builtins(tmp, &lst->saving_env, &lst->saving_expo);
-	close (pipes->fd[0]);
+	close(pipes->fd[0]);
 	close(pipes->fd[1]);
 	g_exit_status = 0;
 	exit(g_exit_status);
 }
 
-void child_not_builtins(t_args *tmp, t_pipe *pipes)
+void	child_not_builtins(t_args *tmp, t_pipe *pipes)
 {
 	if (tmp->infile == 1)
 	{
 		dup2(pipes->tmp, STDIN_FILENO);
-		close (pipes->tmp);
+		close(pipes->tmp);
 	}
 	if (tmp->outfile != 1)
 		dup2(tmp->outfile, 1);
-	else if(tmp->next)
+	else if (tmp->next)
 		dup2(pipes->fd[1], 1);
-	close (pipes->fd[0]);
+	close(pipes->fd[0]);
 	close(pipes->fd[1]);
 }
 
-void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
+void	child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 {
-	extern	int g_exit_status;
+	extern int	g_exit_status;
 
 	if (tmp->infile != 0)
 		dup2(tmp->infile, 0);
