@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 14:52:34 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:54:04 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,86 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	// system("leaks minishell");
 }
 
+void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
+{
+	extern int g_exit_status;
+	
+	if (tmp->infile == 1)
+	{
+		dup2(pipes->tmp, STDIN_FILENO);
+		close (pipes->tmp);
+	}
+	if (tmp->outfile != 1)
+		dup2(tmp->outfile, 1);
+	else if(tmp->next)
+		dup2(pipes->fd[1], 1);
+	builtins(tmp, &lst->saving_env, &lst->saving_expo);
+	close (pipes->fd[0]);
+	close(pipes->fd[1]);
+	g_exit_status = 0;
+	exit(g_exit_status);
+}
+
+void child_not_builtins(t_args *tmp, t_pipe *pipes)
+{
+	if (tmp->infile == 1)
+	{
+		dup2(pipes->tmp, STDIN_FILENO);
+		close (pipes->tmp);
+	}
+	if (tmp->outfile != 1)
+		dup2(tmp->outfile, 1);
+	else if(tmp->next)
+		dup2(pipes->fd[1], 1);
+	close (pipes->fd[0]);
+	close(pipes->fd[1]);
+}
+
+void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
+{
+	extern	int g_exit_status;
+
+	if (tmp->infile != 0)
+		dup2(tmp->infile, 0);
+	if (pipe(pipes->fd) == -1)
+	{
+		perror("pipes failed");
+		exit(1);
+	}
+	lst->pid[lst->id] = fork();
+	// signal(SIGINT, SIG_IGN);
+	if (lst->pid[lst->id] == 0)
+	{
+		// signal(SIGINT, handler3);
+		if (check_if_builtins(tmp) == 1)
+			child_builtins(tmp, pipes, lst);
+		child_not_builtins(tmp, pipes);
+		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
+		{
+			g_exit_status = 127;
+			exit(g_exit_status);
+		}
+	}
+}
+
+int	check_if_builtins(t_args *p)
+{
+	if (!ft_strcmp(p->args[0], "echo"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "pwd"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "cd"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "env"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "export"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "unset"))
+		return (1);
+	else if (!ft_strcmp(p->args[0], "exit"))
+		return (1);
+	return (0);
+}
 
 void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
