@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/21 20:16:22 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:14:58 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 			}
 			else if (lst && (!(lst->av_quotes)))
 			{
-				str = heredoc_expand(line, env_parse, lst);
+				str = heredoc_expand(line, env_parse);
 				write(fd[1], str, ft_strlen(str));
 				write (fd[1], "\n", 1);	
 				free (str);

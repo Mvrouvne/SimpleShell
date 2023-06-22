@@ -6,11 +6,28 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:52:40 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 00:35:52 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:37:59 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	heredoc_expand3(char *line, int *j, int x)
+{
+	int	y;
+
+	y = 0;
+	*j = x;
+	y = 0;
+	while (line[*j] && ((line[*j] >= 'a' && line[*j] <= 'z')
+		|| (line[*j] >= 'A' && line[*j] <= 'Z')
+		|| (line[*j] >= '0' && line[*j] <= '9')))
+	{
+			(*j)++;
+			y++;
+	}
+	return (y);
+}
 
 char	*heredoc_expand2(t_env *env_parse, char *to_expand)
 {
@@ -33,55 +50,46 @@ char	*heredoc_expand2(t_env *env_parse, char *to_expand)
 			ft_strlen(env_parse->value));
 	}
 	free (env_split);
-	// (*env_parse) = (*env_parse)->next;
-	if (str)
-		printf("strW = %s\n", str);
 	return (str);
 }
 
-char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
+char	*heredoc_expand4(t_env *env_parse, char *to_expand, char *str2)
 {
-	(void) lst;
-	char	*to_expand = NULL;
+	t_env *temp;
+
+	temp = env_parse;
+	while (env_parse)
+	{
+		str2 = heredoc_expand2(env_parse, to_expand);
+		if (str2)
+			break ;
+		env_parse = env_parse->next;
+	}
+	env_parse = temp;
+	return (str2);
+}
+
+char	*heredoc_expand(char *line, t_env *env_parse)
+{
+	char	*to_expand;
 	int     x;
 	int		y;
-	int		z;
 	int		j;
-	int		i;
 	char 	*str;
 	char 	*str2;
-	t_env *temp = NULL;
 
 	str = NULL;
+	to_expand = NULL;
 	x = 0;
-	z = 0;
-	y = 0;
-	i = 0;
 	j = 0;
 	while (line[x])
 	{
 		if (line[x] == '$')
 		{
 			x++;
-			j = x;
-			y = 0;
-			while (line[j] && ((line[j] >= 'a' && line[j] <= 'z')
-				|| (line[j] >= 'A' && line[j] <= 'Z')
-				|| (line[j] >= '0' && line[j] <= '9')))
-			{
-					j++;
-					y++;
-			}
+			y = heredoc_expand3(line, &j, x);
 			to_expand = ft_substr(line, x, y);
-			temp = env_parse;
-			while (env_parse)
-			{
-				str2 = heredoc_expand2(env_parse, to_expand);
-				if (str2)
-					break ;
-				env_parse = env_parse->next;
-			}
-			env_parse = temp;
+			str2 = heredoc_expand4(env_parse, to_expand, str2);
 			x = j - 1;
 			if (str2)
 				str = ft_strjoin(str, str2);
@@ -92,6 +100,5 @@ char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
 		x++;
 	}
 	free (to_expand);
-	printf("str = %s\n", str);
 	return (str);
 }

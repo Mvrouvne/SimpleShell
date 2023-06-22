@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/21 18:53:08 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:15:39 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,9 @@ char	*ft_chrjoin(char *s1, char c2);
 char	*expand(t_token *lst, char *line, int *x, t_env *env_parse);
 int		errors_check(t_token *lst);
 void	rl_replace_line (const char *text, int clear_undo);
-char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst);
+char	*heredoc_expand(char *line, t_env *env_parse);
 int		split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse);
 int		split_args3(t_token *temp, t_args **args, int *in, int *out);
 void	handler2(int num);
-char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst);
 
 # endif
