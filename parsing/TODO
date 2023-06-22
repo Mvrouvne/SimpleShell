@@ -25,3 +25,5 @@ unset *** ==> chrck if there is = after *
 
 LINE !!!!!!!!!
 $USER$USER in heredoc
+
+exit status dyal cat

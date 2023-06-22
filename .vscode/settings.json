@@ -5,7 +5,8 @@
         "parsing.h": "c",
         "libft.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "stdio.h": "c"
     },
     "[c]": {
         "editor.defaultFormatter": "keyhr.42-c-format"

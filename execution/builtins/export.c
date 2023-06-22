@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 00:17:58 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:54:11 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
     if (p->args[i])
     {
                 // system("leaks minishell");
+		// system("leaks minishell");
         while (p->args[i])
         {
             if (error_export(p->args, i) == 0)
@@ -87,7 +88,10 @@ void    export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
                 (*saving_expo) = export(p->args[i], &(*saving_expo));
             }
             else if (search_egal(p->args[i]) == 1 && search_plus(p->args[i]) == 0)
+            {
                 equal_no_plus(saving_expo, saving_env, p->args[i]);
+                // system("leaks minishell");
+            }
             //equal no plus mafihach leaks
             else if (search_plus(p->args[i]) == 2)
             {
