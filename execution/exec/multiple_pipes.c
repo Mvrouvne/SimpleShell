@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 22:10:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:16:13 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	}
 	check_slash(p, env);
 	spl_path = ft_split(find_path, ':');
+	free(find_path);
 	cmd = ft_strjoin("/", p->args[0]);
 	i = 0;
 	if(p->args[0][0] == '.' || p->args[0][0] == '/')
@@ -61,11 +62,13 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 		free (command);
 		i++;
 	}
+	free(command);
 	free(cmd);
 	ft_free(spl_path);
 	ft_putstr_fd(*p->args, 2);
 	write (2, ": command not foundddd\n", 23);
 	return(0);
+	// system("leaks minishell");
 }
 
 void child_builtins(t_args *tmp, t_pipe *pipes, t_data *lst)
@@ -115,14 +118,13 @@ void child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		exit(1);
 	}
 	lst->pid[lst->id] = fork();
-	signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
 	if (lst->pid[lst->id] == 0)
 	{
-		signal(SIGINT, handler3);
+		// signal(SIGINT, handler3);
 		if (check_if_builtins(tmp) == 1)
 			child_builtins(tmp, pipes, lst);
 		child_not_builtins(tmp, pipes);
-		// system("leaks minishell");
 		if (execute_cmd_pipe(tmp, lst->saving_expo, env) == 0)
 		{
 			g_exit_status = 127;
@@ -165,6 +167,7 @@ void	Implement_Cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	tmp = p;
 	lst->id = 0;
 	lst->pid = malloc(sizeof(int) * pipes->cmds);
+	// system("leaks minishell");
 	if (pipes->cmds == 1)
 	{
 		if (!tmp->args[0])

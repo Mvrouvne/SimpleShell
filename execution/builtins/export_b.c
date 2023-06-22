@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:17:49 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 00:21:28 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:00:01 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,23 @@ void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str)
 		{
 			puts("spl_p[1]  mafihach null");
 			res = ft_strjoin(src, spl_p[1]);
-			// free(node->value);
+			free(node->value);
 			node->value = ft_strdup(res);
 			if (!node2)
 				ft_lstadd_back3(saving_env, ft_lstnew3(res));
 			else
 			{
-				// free(node2->value);
+				free(node2->value);
 				node2->value = ft_strdup(res);
 			}
-			// free(res);
-			// free(src);
+			free(res);
+			free(src);
 		}
 	}
 	 else
 		(*saving_env) = export(str, &(*saving_env));
 	(*saving_expo) = export(str, &(*saving_expo));
-	// ft_free(spl_p);
+	ft_free(spl_p);
 }
 
 int	if_plus(t_list **saving_expo, t_list **saving_env, char *str)

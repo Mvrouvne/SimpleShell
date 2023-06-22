@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 22:08:04 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:30:46 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int g_exit_status = 0;
 
-void	handler(int num)
-{
-	(void) num;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void	handler(int num)
+// {
+// 	(void) num;
+// 	printf("\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -55,6 +55,7 @@ int	main(int ac, char **av, char **env)
 	t_token	*lst;
 	t_token	*lst_temp;
 	t_args	*args;
+	t_args	*tmp;
 	t_args	*args_temp;
 	int		x;
 	int		y;
@@ -81,8 +82,8 @@ int	main(int ac, char **av, char **env)
 	args = NULL;
 	while(1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handler);
+		// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
@@ -111,30 +112,24 @@ int	main(int ac, char **av, char **env)
 				// }
 			env_copy = get_env_copy(list->saving_env);
 			Implement_Cmnd(list, args, env_copy, pipes);
-			// while (1);
-			// system("leaks minishell");
-			while (args->next)
+			tmp = args;
+			while (args)
 			{
 				close(pipes->fd[0]);
 				close(pipes->fd[1]);
 				args = args->next;
 			}
+			args = tmp;
 			int i = 0;
 			while (i < pipes->cmds)
 			{
 				waitpid(list->pid[i], &g_exit_status, 0);
-				// printf("pid = %d\n", list->pid[i]);
-				// if (list->pid[i] == 0)
-				// {
-				// 	puts ("HEEEREE");
-				// 	signal(SIGINT, handler3);
-				// }
 				i++;
 			}
 			if (WIFEXITED(g_exit_status))
 				g_exit_status = WEXITSTATUS(g_exit_status);
 			dup2(pipes->tmp, stdin_main);
-			// ft_free
+			free(list->pid);
 			ft_free(env_copy);
 		}
 		free (line);
@@ -162,6 +157,7 @@ int	main(int ac, char **av, char **env)
 				lst = lst->next;
 				free(lst_temp);
 			}
+			system("leaks minishell");
 		}
 		// free (pipes);
 	}

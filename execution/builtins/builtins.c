@@ -6,10 +6,9 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/21 18:42:44 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:31:51 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../execution.h"
 
@@ -22,24 +21,24 @@ void	unset(t_list **head, char *key)
 	cur = (*head);
 	prev = NULL;
 	join = ft_strjoin(key, "=");
-	while(cur && cur->next != NULL && ft_strncmp(cur->value, join, ft_strlen(join)))
+	while (cur && cur->next != NULL && ft_strncmp(cur->value, join,
+			ft_strlen(join)))
 	{
 		prev = cur;
 		cur = cur->next;
 	}
-	if (prev == NULL && cur )
+	if (prev == NULL && cur)
 	{
 		(*head) = cur->next;
-		free (cur);
+		free(cur);
 	}
 	else if (cur && prev && ft_strncmp(cur->value, join, ft_strlen(join)) == 0)
 	{
 		prev->next = cur->next;
-		// free (cur->value);
+		free(cur->value);
 		free(cur);
 	}
 	free(join);
-	// system("leaks minishell");
 }
 
 void	env(t_args *p, t_list **saving_env, int i)
@@ -48,7 +47,7 @@ void	env(t_args *p, t_list **saving_env, int i)
 
 	tmp = NULL;
 	i = 1;
-	while(p->args[i])
+	while (p->args[i])
 	{
 		if (p->args[i])
 		{
@@ -67,6 +66,8 @@ void	env(t_args *p, t_list **saving_env, int i)
 
 int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
+		char filename[256];
+
 	if (!ft_strcmp(p->args[0], "echo"))
 	{
 		echo(p->args, p);
@@ -74,7 +75,6 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 	}
 	else if (!ft_strcmp(p->args[0], "pwd"))
 	{
-		char filename[256];
 		getcwd(filename, 256);
 		ft_putendl_fd(filename, p->outfile);
 		return (1);
@@ -87,17 +87,37 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 	return (0);
 }
 
+void	exit_func(char **str)
+{
+	extern int		g_exit_status;
+	unsigned char	ex;
+
+	if (str[1] && !str[2])
+	{
+		ex = ft_atoi(str[1]);
+		exit(ex);
+	}
+	if (str[0] && str[1] && str[2])
+	{
+		ft_putstr_fd("minishell : exit: to many arguments\n", 1);
+		g_exit_status = 1;
+		return ;
+	}
+	else
+		exit(g_exit_status);
+}
 
 void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 {
-	int		i;
-	extern int g_exit_status;
+	int			i;
+	extern int	g_exit_status;
 
 	g_exit_status = 0;
 	i = 1;
 	if (!p->args[0])
 		return ;
-	if(builtins_utils(p, saving_env, saving_expo) == 1);
+	if (builtins_utils(p, saving_env, saving_expo) == 1)
+		;
 	else if (!ft_strcmp(p->args[0], "env"))
 		env(p, saving_env, i);
 	else if (!ft_strcmp(p->args[0], "unset"))
@@ -113,21 +133,6 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	}
 	else if (!ft_strcmp(p->args[0], "export"))
 		export_a(saving_env, saving_expo, p);
-		// system("leaks minishell");
 	else if (!ft_strcmp(p->args[0], "exit"))
-	{
-		if (p->args[1] && !p->args[2])
-		{
-			unsigned char ex = ft_atoi(p->args[1]);
-			exit(ex);
-		}
-		if (p->args[0] && p->args[1] && p->args[2])
-		{
-			ft_putstr_fd("minishell : exit: to many arguments\n", 1);
-			g_exit_status = 1;
-			return ;
-		}
-		else
-			exit(g_exit_status);
-	}
+		exit_func(p->args);
 }
