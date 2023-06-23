@@ -50,7 +50,7 @@ FILES = main.c\
 INCLUDES = libft/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror 
 READLINE = -lreadline -L /Users/machaiba/.brew/cellar/readline/8.2.1/lib -I /Users/machaiba/.brew/cellar/readline/8.2.1/include
 
 OBJ = $(FILES:.c=.o)
@@ -63,6 +63,7 @@ $(NAME) : $(OBJ)
 
 clean :
 	rm -f main.o
+	rm -f main2.o
 	rm -f libft/*.o
 	rm -f parsing/*.o
 	rm -f execution/*.o
