@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:22:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 03:08:48 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:00:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,11 @@ int	check_quotes_follow4(int *x, t_token **lst, t_env *env_parse, t_var *var)
 		g_exit_status = 258;
 		return (free (var->str), g_exit_status);
 	}
-	else if (var->line[*x] == '"' && !var->str[0])
+	else if (var->line[*x] == '"' && var->line[*x + 1] == '\0' && var->str)
+	{
 		ft_lstadd_back(lst, ft_lstnew(var->str));
+		var->check++;
+	}
 	return (0);
 }
 
@@ -102,14 +105,14 @@ int	check_quotes_follow6(int *x, t_token **lst, t_env *env_parse, t_var *var)
 		var->str = ft_join_free(var->str, ft_itoa(g_exit_status));
 		(*x)++;
 	}
-	else if (var->line[*x] == '"' )
+	else if (var->line[*x] == '"')
 	{
 		if (check_quotes_follow4(x, lst, env_parse, var))
 			return (1);
 	}
 	else if (var->line[*x] == '\'')
 	{
-		var->str = check_quotes4(lst, var->line, x, var->str);
+		var->str = check_quotes4(lst, var, x, var->str);
 		if (!var->str)
 			return (1);
 	}

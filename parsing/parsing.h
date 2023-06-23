@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 03:20:05 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:01:36 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_var2
 	int				i;
 	char			*str;
 	int				p;
+	int				check;
 }					t_var2;
 
 typedef struct s_env
@@ -93,8 +94,6 @@ void				ft_lstadd_back2(t_args **lst, t_args *new);
 t_token				*ft_lstlast(t_token *lst);
 t_token				*ft_lstnew(char *data);
 t_args				*ft_lstnew2(void);
-// size_t	ft_strlen(const char *str);
-// int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strdup(const char *s1);
 t_args				*ft_lstlast2(t_args *lst);
 int					create_list(t_args **args, t_token *token);
@@ -103,8 +102,6 @@ void				check_in_out(t_args *args, int in, int out);
 int					heredoc(t_args *args, char *delimiter, t_env *env_parse,
 						t_token *lst);
 char				*get_next_line(int fd);
-// char	*ft_strjoin(char *s1, char *s2);
-// char	*ft_strchr(char *str, int c);
 int					ft_strcmp(const char *s1, const char *s2);
 int					check_quotes(t_token **lst, char *line, int *x,
 						t_env *env_parse);
@@ -133,8 +130,7 @@ void				check_quotes_follow5(int *x, t_token **lst,
 						t_env *env_parse, t_var *var);
 int					check_quotes_follow6(int *x, t_token **lst,
 						t_env *env_parse, t_var *var);
-char				*check_quotes4(t_token **lst, char *line, int *x,
-						char *str);
+char				*check_quotes4(t_token **lst, t_var *var, int *x, char *str);
 void				expand6(t_var2 *var2);
 
 /**********/
