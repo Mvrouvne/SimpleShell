@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 03:55:01 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 05:12:37 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,9 @@ void				modify_Pwd(t_list **saving_env, char *new_pwd);
 
 void				handler3(int num);
 
-t_data				g_data;
+void				handler(int num);
+char				**get_env_copy(t_list *saving_env);
+void				free_parser2(t_token *lst);
+void				free_parser(t_args *args, t_token *lst);
 
 #endif

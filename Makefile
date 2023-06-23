@@ -3,6 +3,7 @@ NAME = minishell
 
 
 FILES = main.c\
+		main2.c\
 		execution/exec/multiple_pipes.c\
 		execution/exec/multiple_pipe_utils.c\
 		execution/builtins/srch_func.c\
