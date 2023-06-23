@@ -6,50 +6,18 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 16:38:33 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:53:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-
-
-void	check_slash(t_args *p, char **env)
+void	while_pipe(char **spl_path, char *cmd, t_args *p, char **env)
 {
-	extern int	g_exit_status;
-
-	if (p->args[0][0] == '/')
-	{
-		execve(p->args[0], p->args, env);
-		ft_putstr_fd(*p->args, 2);
-		write (2, ": command not founddd\n", 23);
-		g_exit_status = 127;
-		exit(g_exit_status) ;
-	}
-}
-
-int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
-{
-	char	**spl_path;
-	char	*command;
-	char	*cmd;
-	char	*find_path;
 	int		i;
+	char	*command;
 
-	find_path = search_path(saving_expo, "PATH");
-	if (!find_path)
-	{
-		ft_putstr_fd(*p->args, 2);
-		write (2, ": command not found\n", 21);
-		return (0);
-	}
-	check_slash(p, env);
-	spl_path = ft_split(find_path, ':');
-	free(find_path);
-	cmd = ft_strjoin("/", p->args[0]);
 	i = 0;
-	if(p->args[0][0] == '.' || p->args[0][0] == '/')
-		execve(p->args[0], (p)->args, env);
 	while (spl_path[i])
 	{
 		command = ft_strjoin(spl_path[i], cmd);
@@ -59,15 +27,35 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 			ft_free(spl_path);
 			execve(command, (p)->args, env);
 		}
-		free (command);
+		free(command);
 		i++;
 	}
-	// free(command);
-	free(cmd);
-	ft_free(spl_path);
-	ft_putstr_fd(*p->args, 2);
-	write (2, ": command not foundddd\n", 23);
-	return(0);
+}
+
+int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
+{
+	char	**spl_path;
+	char	*cmd;
+	char	*find_path;
+	int		i;
+
+	find_path = search_path(saving_expo, "PATH");
+	if (!find_path)
+	{
+		ft_putstr_fd(*p->args, 2);
+		write(2, ": command not found\n", 21);
+		return (0);
+	}
+	check_slash(p, env);
+	spl_path = ft_split(find_path, ':');
+	free(find_path);
+	cmd = ft_strjoin("/", p->args[0]);
+	i = 0;
+	if (p->args[0][0] == '.' || p->args[0][0] == '/')
+		execve(p->args[0], (p)->args, env);
+	while_pipe(spl_path, cmd, p, env);
+	free_execut_pipe(p, cmd, spl_path);
+	return (0);
 }
 
 void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
@@ -80,6 +68,28 @@ void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
 	{
 		child_exec_solo_cmd(p, lst->saving_expo, env_copy, lst);
 		lst->id++;
+	}
+}
+
+void	while_implement(t_pipe *pipes, t_data *lst, char **env_copy, t_args *p)
+{
+	int	i;
+
+	i = 0;
+	while (p && i < pipes->cmds)
+	{
+		if (!p->args[0])
+			i++;
+		else
+		{
+			child_process(p, pipes, lst, env_copy);
+			lst->id++;
+			dup2(pipes->fd[0], 0);
+			close(pipes->fd[1]);
+			close(pipes->fd[0]);
+			i++;
+		}
+		p = p->next;
 	}
 }
 
@@ -103,21 +113,8 @@ void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	else
 	{
 		i = 0;
-		while (p && i < pipes->cmds)
-		{
-			if (!tmp->args[0])
-				i++;
-			else
-			{
-				child_process(tmp, pipes, lst, env_copy);
-				lst->id++;
-				dup2(pipes->fd[0], 0);
-				close(pipes->fd[1]);
-				close(pipes->fd[0]);
-				i++;
-			}
-			tmp = tmp->next;
-		}
+		while_implement(pipes, lst, env_copy, p);
+		p = tmp;
 		close(0);
 		dup2(pipes->tmp, 0);
 	}

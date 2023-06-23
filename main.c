@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 18:43:16 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 00:54:00 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	main(int ac, char **av, char **env)
 				free(lst_temp);
 			}
 		}
-			system("leaks minishell");
+		// system("leaks minishell");
 	}
 
 	// while (list->saving_env)

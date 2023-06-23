@@ -4,6 +4,9 @@ NAME = minishell
 
 FILES = main.c\
 		execution/exec/multiple_pipes.c\
+		execution/exec/multiple_pipe_utils.c\
+		execution/builtins/srch_func.c\
+		execution/builtins/export_b_utils.c\
 		execution/exec/childs.c\
 		execution/builtins/builtins.c\
 		execution/builtins/export_b.c\

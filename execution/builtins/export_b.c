@@ -6,155 +6,99 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:17:49 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 18:42:01 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:37:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	error_export(char **str, int i)
+void	l_free(char *final, char **old_value, char **spl_p, char **spl)
 {
-	if ((str[i][0] < 'a' || str[i][0] > 'z') && (str[i][0] < 'A'
-			|| str[i][0] > 'Z'))
-	{
-		ft_error("minishell: ", str[i], "not a valid identifier", 1);
-		return (0);
-	}
-	return (1);
-}
-
-void	equal_no_plus_utils(char **spl_p, t_list **saving_env, t_list *node, t_list *node2)
-{
-	char *src;
-	char *res;
-
-	src = ft_strjoin(spl_p[0], "=");
-	if (spl_p[1])
-	{
-		puts("spl_p[1]  mafihach null");
-		res = ft_strjoin(src, spl_p[1]);
-		free(node->value);
-		node->value = ft_strdup(res);
-		if (!node2)
-			ft_lstadd_back3(saving_env, ft_lstnew3(res));
-		else
-		{
-			free(node2->value);
-			node2->value = ft_strdup(res);
-		}
-		free(res);
-		free(src);
-	}
-}
-
-void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str)
-{
-	t_list	*node;
-	t_list	*node2;        			//no  leaks
-	char	**spl_p;
-	
-	spl_p = ft_split(str, '=');
-	node = search_node(*saving_expo, spl_p[0]);
-	node2 = search_node(*saving_env, spl_p[0]);
-	if (node)
-		equal_no_plus_utils(spl_p, saving_env, node, node2);
-	 else
-		(*saving_env) = export(str, &(*saving_env));
-	(*saving_expo) = export(str, &(*saving_expo));
-	ft_free(spl_p);
-}
-
-int	if_plus(t_list **saving_expo, t_list **saving_env, char *str)
-{
-	char    **spl_p;
-	char **remove_plus;			//leaks done
-	char *res;
-
-	spl_p = ft_split(str, '+');
-	if(!search_node_1(*saving_expo, spl_p[0]))
-	{
-		puts("remove plus");
-		remove_plus = ft_split(str, '+');
-		res = ft_strjoin(remove_plus[0], remove_plus[1]);
-		(*saving_expo) = export(res, &(*saving_expo));
-		(*saving_env) = export(res, &(*saving_env));
-		ft_free(remove_plus);
-		ft_free(spl_p);
-		free(res);
-		return (1);
-	}
-	ft_free(spl_p);
-	return (0);
-}
-
-void	if_plus2(t_list **saving_expo, t_list **saving_env, char *str)
-{
-	t_list	*node;
-	t_list	*node2;
-	char    **spl;
-	char    **spl_p;
-	char	*res;
-	char	*final;
-	char	*add_egal;
-	char	**old_value;
-
-	spl_p = ft_split(str, '+');
-	spl = ft_split(str, '=');
-	node = search_node(*saving_expo, spl_p[0]);
-	node2 = search_node1(*saving_env, spl[0]);
-	old_value = ft_split(node->value, '=');
-	add_egal = ft_strjoin(old_value[0], "=");
-	if (old_value[1])
-	{
-		res = ft_strjoin(add_egal, old_value[1]);
-		free(add_egal);
-		final = ft_strjoin(res, spl[1]);
-		free(res);
-	}
-	else
-	{
-		res = ft_strjoin(node->value, "=");
-		final = ft_strjoin(res, spl[1]);
-		free(res);
-	}
-	free(node->value);
-	node->value = ft_strdup(final);
-	
 	free(final);
 	ft_free(old_value);
 	ft_free(spl_p);
 	ft_free(spl);
 }
 
+char	*if_plus2_utils(t_list *node, char **spl)
+{
+	char	*res;
+	char	*final;
+
+	res = ft_strjoin(node->value, "=");
+	final = ft_strjoin(res, spl[1]);
+	free(res);
+	return (final);
+}
+
+void	if_plus2(t_list **saving_expo, char *str)
+{
+	t_list		*node;
+	char		*res;
+	char		*final;
+	char		*add_egal;
+	t_helper	*help;
+
+	help = malloc(sizeof(t_helper));
+	help->spl_p = ft_split(str, '+');
+	help->spl = ft_split(str, '=');
+	node = search_node(*saving_expo, help->spl_p[0]);
+	help->old_value = ft_split(node->value, '=');
+	add_egal = ft_strjoin(help->old_value[0], "=");
+	if (help->old_value[1])
+	{
+		res = ft_strjoin(add_egal, help->old_value[1]);
+		free(add_egal);
+		final = ft_strjoin(res, help->spl[1]);
+		free(res);
+	}
+	else
+		final = if_plus2_utils(node, help->spl);
+	free(node->value);
+	node->value = ft_strdup(final);
+	l_free(final, help->old_value, help->spl_p, help->spl);
+	free(help);
+}
+
+void	if_plus3_utils(t_list *node2, char **spl_p, char **spl,
+		char **old_value)
+{
+	char	*add_equal;
+	char	*res;
+	char	*final;
+
+	add_equal = ft_strjoin(spl_p[0], "=");
+	res = ft_strjoin(add_equal, old_value[1]);
+	free(add_equal);
+	final = ft_strjoin(res, spl[1]);
+	free(res);
+	free(node2->value);
+	node2->value = ft_strdup(final);
+	free(final);
+}
+
 void	if_plus3(t_list **saving_env, char *str, char *spl_p)
 {
-	char    **spl;
+	char	**spl;
 	t_list	*node2;
-	char *add_equal;
-	char *res;
-	char *final;
-	char **old_value;
+	char	*final;
+	char	**old_value;
 
+	final = NULL;
 	spl = ft_split(str, '=');
 	node2 = search_node1(*saving_env, spl[0]);
 	if (search_node1(*saving_env, spl[0]))
 	{
-		puts("node2");
 		old_value = ft_split(node2->value, '=');
 		if (old_value[1])
-		{
-			puts("old\n");
-			add_equal = ft_strjoin(&spl_p[0], "=");
-			res = ft_strjoin(add_equal, old_value[1]);
-			free(add_equal);
-			final = ft_strjoin(res, spl[1]);
-			free(res);
-		}
+			if_plus3_utils(node2, &spl_p, spl, old_value);
 		else
+		{
 			final = ft_strjoin(node2->value, spl[1]);
-		free(node2->value);
-		node2->value = ft_strdup(final);
-		free(final);
+			free(node2->value);
+			node2->value = ft_strdup(final);
+			free(final);
+		}
 		ft_free(old_value);
 	}
 	ft_free(spl);
