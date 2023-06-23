@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 18:56:36 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:52:21 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	split_args2_follow2(t_token *temp, t_args **args, int *y, int *z)
 {
-	// int	z;
 	int	x;
 
 	*y = 0;
@@ -23,11 +22,9 @@ void	split_args2_follow2(t_token *temp, t_args **args, int *y, int *z)
 	x = 0;
 	*z = 0;
 	x = args_count(temp->next);
-	// if ((!))
 	(*args)->args = malloc(sizeof(char *) * (x + 1));
 	(*args)->args[x] = NULL;
 	(*z)++;
-	// return (z);
 }
 
 void	split_args2_follow(t_token *temp, t_args **args, int *y, int *z)
@@ -75,22 +72,8 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 	out = 0;
     while (temp && *args)
 	{
-		// printf("temp = %s\n", temp->data);
         if (temp->type == INPUT || temp->type == OUTPUT || temp->type == APPEND)
-        {
 			split_args2_follow4(&temp, args, &in, &out);
-				// if ((*args) && !y)
-				// {
-				// 	(*args)->args = malloc(sizeof(char *));
-				// 	(*args)->args[0] = NULL;
-				// }
-            	// return (1);
-			// if ((*args) && !y)
-			// {
-			// 	(*args)->args = malloc(sizeof(char *));
-			// 	(*args)->args[0] = NULL;
-			// }
-        }
 		else if ((temp->type == CMD || temp->type == PIPE))
 			split_args2_follow3(temp, args, &y, &z);
 		else if (temp->type == DELIMITER)
@@ -98,11 +81,6 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 			in = 1;
 			if (heredoc(*args, temp->data, env_parse, lst))
 				return (1);
-		// 	if ((*args) && !y)
-		// 	{
-		// 		(*args)->args = malloc(sizeof(char *));
-		// 		(*args)->args[0] = NULL;
-		// 	}
 		}
 		check_in_out(*args, in, out);
 		temp = temp->next;

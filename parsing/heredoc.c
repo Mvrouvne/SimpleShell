@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 13:12:52 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:30:51 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	handler2(int num)
 	exit (10);
 }
 
-int	heredoc3(int status, int id, int fd[2])
+int	heredoc3(int id, int fd[2])
 {
+	int			status;
 	extern int	g_exit_status;
 
+	status = 0;
 	waitpid(id, &status, 0);
 	if (WEXITSTATUS(status) == 10)
 	{
@@ -40,54 +42,50 @@ int	heredoc3(int status, int id, int fd[2])
 	return (0);
 }
 
-int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
+void	heredoc2(char *line, t_env *env_parse, int fd[2])
 {
-    char    *line = NULL;
-    char    *str = NULL;
-    int     fd[2];
+	char	*str;
 	int		x;
-	int		id;
-	int		status;
-	extern int	g_exit_status;
-    
-    x = 0;
-	status = 0;
-   	pipe(fd);
+
+	str = NULL;
+	x = 0;
+	str = heredoc_expand(line, env_parse, x);
+	write(fd[1], str, ft_strlen(str));
+	write (fd[1], "\n", 1);
+	free (str);
+}
+
+void	heredoc4(t_args *args, int fd[2])
+{
 	args->infile = fd[0];
 	args->outfile = 1;
+}
+
+int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
+{
+	char	*line;
+	int		fd[2];
+	int		id;
+
+	(pipe(fd), signal(SIGINT, SIG_IGN));
+	heredoc4(args, fd);
 	id = fork();
-	signal(SIGINT, SIG_IGN);
 	if (id == 0)
 	{
-		// system("leaks minishell");
-		// while (1);
 		signal(SIGINT, handler2);
 		while (1)
 		{
 			line = readline("> ");
 			if (line && line[0] == '\n')
-				continue;
+				continue ;
 			else if (!line || (!(ft_strcmp(line, delimiter))))
-			{
-				free (line);
-				close (fd[1]);
-				exit (20);
-			}
+				(free (line), close (fd[1]), exit (20));
 			else if (lst && (!(lst->av_quotes)))
-			{
-				str = heredoc_expand(line, env_parse);
-				write(fd[1], str, ft_strlen(str));
-				write (fd[1], "\n", 1);	
-				free (str);
-			}
+				heredoc2(line, env_parse, fd);
 			else
-			{
-				write(fd[1], line, ft_strlen(line));
-				write (fd[1], "\n", 1);
-			}
-			free (line);
+				(write(fd[1], line, ft_strlen(line)), write (fd[1], "\n", 1));
+			// free (line);
 		}
 	}
-	return (heredoc3(status, id, fd));
-    return (0);
+	return (heredoc3(id, fd));
 }

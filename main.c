@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 19:48:59 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:32:37 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int g_exit_status = 0;
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 char **get_env_copy(t_list *saving_env)
 {
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **env)
 	t_data *list;
 	t_pipe	*pipes;
 	t_env	*env_parse;
-	// char **env_copy = NULL;
+	char **env_copy = NULL;
 
 	list = malloc(sizeof(t_data));
 	pipes = malloc(sizeof(t_pipe));
@@ -82,8 +82,8 @@ int	main(int ac, char **av, char **env)
 	args = NULL;
 	while(1)
 	{
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, handler);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handler);
 		lst = NULL;
 		args = NULL;
 		x = 0;
@@ -98,18 +98,6 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
-			// system("leaks minishell");
-				// int	t = 0;
-				// while (args)
-				// {
-				// 		t = 0;
-				// 		while (args->args[t])
-				// 			printf("args = %s\n", args->args[t++]);
-				// 		printf("infile = %d\n", args->infile);
-				// 		printf("outfile = %d\n", args->outfile);
-				// 		printf("****************\n");
-				// 	args = args->next;
-				// }
 			env_copy = get_env_copy(list->saving_env);
 			implement_cmnd(list, args, env_copy, pipes);
 			tmp = args;
@@ -181,7 +169,6 @@ int	main(int ac, char **av, char **env)
 				free(lst_temp);
 			}
 		}
-			system("leaks minishell");
 	}
 
 	// while (list->saving_env)

@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 18:48:18 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:54:52 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,31 @@ typedef struct s_args
     struct s_args *next;
 }   t_args;
 
+typedef struct s_var
+{
+	char	*str;
+	char	*str2;
+	int		y;
+	int		check;
+	int 	*x;
+	char	*line;
+}	t_var;
+
+typedef struct s_var2
+{
+	char	*to_expand;
+	char	*expanded;
+	int		y;
+	int		check1;
+	int		check2;
+	int		check3;
+	int		j;
+	int		i;
+	char 	*str;
+	int		p;
+}	t_var2;
+
+
 typedef struct s_env
 {
 	char			*value;
@@ -90,10 +115,22 @@ char	*ft_chrjoin(char *s1, char c2);
 char	*expand(t_token *lst, char *line, int *x, t_env *env_parse);
 int		errors_check(t_token *lst);
 void	rl_replace_line (const char *text, int clear_undo);
-char	*heredoc_expand(char *line, t_env *env_parse);
+char	*heredoc_expand(char *line, t_env *env_parse, int x);
 int		split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse);
 void	split_args3(t_token *temp, t_args **args, int *in, int *out);
 void	handler2(int num);
 char	*ft_join_free(char *s1, char *s2);
+int		check_quotes_follow(char *line, int *x, t_token **lst);
+void	check_quotes_follow2(int *x, t_token **lst, t_env *env_parse, t_var *var);
+void	check_quotes3(t_env *env_parse, char *str);
+int		check_quotes_follow4(int *x, t_token **lst, t_env *env_parse, t_var *var);
+void	check_quotes_follow5(int *x, t_token **lst, t_env *env_parse, t_var *var);
+int		check_quotes_follow6(int *x, t_token **lst, t_env *env_parse, t_var *var);
+char	*check_quotes4(t_token **lst, char *line, int *x, char *str);
+void	expand6(t_var2 *var2);
+
+
+/**********/
+
 
 # endif

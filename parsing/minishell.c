@@ -6,11 +6,32 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:46:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/20 21:10:20 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:01:22 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+void	lexing_follow3(t_token **temp)
+{
+	(*temp)->type = INPUT;
+	(*temp)->next->type = INPUT;
+	(*temp) = (*temp)->next;
+}
+
+void	lexing_follow2(t_token **temp)
+{
+	(*temp)->type = APPEND;
+	(*temp)->next->type = APPEND;
+	(*temp) = (*temp)->next;
+}
+
+void	lexing_follow(t_token **temp)
+{
+	(*temp)->type = HEREDOC;
+	(*temp)->next->type = DELIMITER;
+	(*temp) = (*temp)->next;
+}
 
 int	lexing3(t_token	**lst)
 {
@@ -20,28 +41,16 @@ int	lexing3(t_token	**lst)
 	while (temp)
 	{
 		if (temp->next && (!(ft_strncmp(temp->data, "<<", 2))))
-		{
-			temp->type = HEREDOC;
-			temp->next->type = DELIMITER;
-			temp = temp->next;
-		}
+			lexing_follow(&temp);
 		else if (temp->next && (!(ft_strncmp(temp->data, ">>", 2))))
-		{
-			temp->type = APPEND;
-			temp->next->type = APPEND;
-			temp = temp->next;
-		}
+			lexing_follow2(&temp);
 		else if (temp->next && (!(ft_strncmp(temp->data, "<", 1))))
-		{
-			temp->type = INPUT;
-			temp->next->type = INPUT;
-			temp = temp->next;
-		}
+			lexing_follow3(&temp);
 		else if (temp->next && (!(ft_strncmp(temp->data, ">", 1))))
 		{
 			temp->type = OUTPUT;
 			temp->next->type = OUTPUT;
-			temp = temp->next;;
+			temp = temp->next;
 		}
 		else if (!(ft_strncmp(temp->data, "|", 1)))
 			temp->type = PIPE;
