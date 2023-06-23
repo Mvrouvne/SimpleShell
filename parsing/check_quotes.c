@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 04:01:14 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:47:42 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*check_quotes4(t_token **lst, t_var *var, int *x, char *str)
 	else if (var->line[*x] == '\'' && str && var->line[*x + 1] == '\0')
 	{
 		ft_lstadd_back(lst, ft_lstnew(str));
-		var->check++;
+		var->lock++;
 	}
 	return (str);
 }
@@ -83,7 +83,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	t_var		var;
 	extern int	g_exit_status;
 
-	var.check = 0;
+	var.lock = 0;
 	var.str = ft_strdup("");
 	var.line = line;
 	var.check = check_quotes_follow(line, x, lst);
@@ -94,7 +94,9 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			return (1);
 		(*x)++;
 	}
-	if (var.str[0] && !var.check)
+	if (var.str[0] && !var.lock)
+	{
 		ft_lstadd_back(lst, ft_lstnew(var.str));
+	}
 	return (free (var.str), 0);
 }
