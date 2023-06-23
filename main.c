@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 05:11:58 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 06:03:26 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_exit_status = 0;
+int	g_exit_status = 0;
 
 void	ft_execution(t_global *global, t_data *list, t_pipe *pipes)
 {
@@ -29,12 +29,12 @@ void	ft_execution(t_global *global, t_data *list, t_pipe *pipes)
 	}
 	global->args = global->tmp;
 	i = 0;
-	while (i < pipes->cmds)
-	{
-		waitpid(list->pid[i], &g_exit_status, 0);
-		i++;
-	}
-	if (WIFEXITED(g_exit_status))
+	waitpid(list->pid[pipes->cmds - 1], &g_exit_status, 0);
+	while (wait(0) != -1)
+		;
+	if (WIFSIGNALED(g_exit_status) == 1)
+		g_exit_status = WTERMSIG(g_exit_status) + 128;
+	else
 		g_exit_status = WEXITSTATUS(g_exit_status);
 	dup2(pipes->tmp, global->stdin_main);
 	free(list->pid);
