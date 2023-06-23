@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 10:37:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 03:13:19 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:25:45 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		j;
 
-
 	if (!s1)
 		return (ft_strdup(s2));
-	// if (!s1 || !s2)
-	// 	return (NULL);
 	i = 0;
 	m = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!m)

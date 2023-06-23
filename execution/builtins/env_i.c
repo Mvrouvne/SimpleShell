@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:40:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 03:18:47 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:36:23 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ void	ft_lstadd_back3(t_list **lst, t_list *new)
 
 t_list	*env_i(t_list **saving_env)
 {
-	char	*s1;
+	// char	*s1;
 	char	*node;
 	char	filename[256];
 
-	s1 = ft_strdup("PWD=");
+	// s1 = ft_strdup("PWD=");
 	getcwd(filename, 256);
-	node = ft_strjoin(s1, filename);
-	free(s1);
+	node = ft_strjoin("PWD=", filename);
 	*saving_env = create_node(node);
 	free(node);
 	ft_lstadd_back3(saving_env, ft_lstnew3("SHLVL=1"));
