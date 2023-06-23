@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:57:58 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:02 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:05:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,24 @@ void	free_print_expo(char *add_quotes, char *add_quotes2, char *add_egal)
 	free(add_egal);
 }
 
+char	*print_export_utils(char **sp, char *final)
+{
+	char	*add_quotes;
+	char	*add_quotes2;
+	char	*add_egal;
+
+	add_quotes = ft_strjoin("\"", sp[1]);
+	add_quotes2 = ft_strjoin(add_quotes, "\"");
+	add_egal = ft_strjoin("=", add_quotes2);
+	final = ft_strjoin(sp[0], add_egal);
+	free_print_expo(add_quotes, add_quotes2, add_egal);
+	return (final);
+}
+
 void	print_export(t_list **saving_expo)
 {
-	char **sp = NULL;
-	char *add_quotes = NULL;
-	char *add_quotes2 = NULL;
-	char *final = NULL;
-	char *add_egal = NULL;
+	char	**sp;
+	char	*final;
 
 	(*saving_expo) = sort_list(saving_expo);
 	while ((*saving_expo))
@@ -34,13 +45,7 @@ void	print_export(t_list **saving_expo)
 		{
 			sp = ft_split((*saving_expo)->value, '=');
 			if (sp[1])
-			{
-				add_quotes = ft_strjoin("\"", sp[1]);
-				add_quotes2 = ft_strjoin(add_quotes, "\"");
-				add_egal = ft_strjoin("=", add_quotes2);
-				final = ft_strjoin(sp[0], add_egal);
-				free_print_expo(add_quotes, add_quotes2, add_egal);
-			}
+				final = print_export_utils(sp, final);
 			else
 				final = ft_strjoin((*saving_expo)->value, "\"");
 			ft_free(sp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   childs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:51:47 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 20:45:47 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:03:09 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	child_process(t_args *tmp, t_pipe *pipes, t_data *lst, char **env)
 		exit(1);
 	}
 	lst->pid[lst->id] = fork();
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_DFL);
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_DFL);
 	if (lst->pid[lst->id] == 0)
 	{
-		signal(SIGINT, handler3);
+		// signal(SIGINT, handler3);
 		if (check_if_builtins(tmp) == 1)
 			child_builtins(tmp, pipes, lst);
 		child_not_builtins(tmp, pipes);

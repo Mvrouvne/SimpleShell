@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 16:52:35 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:14:12 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@ typedef struct s_data
 	int				id;
 }					t_data;
 
+typedef struct s_helper
+{
+	char			**spl;
+	char			**spl_p;
+	char			**old_value;
+}					t_helper;
+
+
 void				add_node(t_list **head, t_list *new_node);
 void				add_OldPwd(t_list **saving_env, char *old_pwd);
 
@@ -60,6 +68,7 @@ void				ft_error(char *entourage, char *input, char *error, int i);
 void				ft_lstadd_back3(t_list **lst, t_list *new);
 void				ft_free(char **str);
 t_list				*ft_lstnew3(char *data);
+void				free_execut_pipe(t_args *p, char *cmd, char **spl_path);
 
 int					check_plus(char **p, t_list *saving_expo);
 int					check_if_builtins(t_args *p);
@@ -111,8 +120,7 @@ void				implement_cmnd(t_data *lst, t_args *p, char **env,
 						t_pipe *pipe);
 int					if_plus(t_list **saving_expo, t_list **saving_env,
 						char *str);
-void				if_plus2(t_list **saving_expo, t_list **saving_env,
-						char *str);
+void				if_plus2(t_list **saving_expo, char *str);
 void				if_plus3(t_list **saving_env, char *str, char *spl_p);
 
 void				unset(t_list **head, char *key);

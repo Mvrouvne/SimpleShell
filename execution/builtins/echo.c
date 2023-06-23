@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 08:27:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 22:36:15 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:05:10 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	echo(char **p, t_args *out)
 	int	i;
 
 	i = 1;
-	if(out->infile == -1)
+	if (out->infile == -1)
 		return ;
 	if (p[i] == NULL)
 	{

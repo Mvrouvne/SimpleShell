@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:26:45 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 13:13:36 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:31:15 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 char	*search_path(t_list *saving_expo, char *node)
 {
 	t_list	*tmp;
-	char **spl;
+	char	**spl;
 	char	*spl_p;
-	
+
 	tmp = saving_expo;
 	while (tmp)
 	{
@@ -33,7 +33,7 @@ char	*search_path(t_list *saving_expo, char *node)
 	return (NULL);
 }
 
-int search_home(t_list *saving_expo, char *node)
+int	search_home(t_list *saving_expo, char *node)
 {
 	t_list	*tmp;
 
@@ -46,7 +46,8 @@ int search_home(t_list *saving_expo, char *node)
 	}
 	return (0);
 }
-int search_home_unset(t_list *saving_expo, char *node)
+
+int	search_home_unset(t_list *saving_expo, char *node)
 {
 	t_list	*tmp;
 
@@ -60,7 +61,7 @@ int search_home_unset(t_list *saving_expo, char *node)
 	return (0);
 }
 
-int search_home2(t_list *saving_expo, char *node)
+int	search_home2(t_list *saving_expo, char *node)
 {
 	t_list	*tmp;
 
@@ -81,32 +82,12 @@ int	search_egal(char *str)
 	i = 0;
 	while (str[i])
 	{
-        if (str[i] == ' ')
-            return (2);
+		if (str[i] == ' ')
+			return (2);
 		if (str[i] == '=' && !str[i + 1])
 			return (3);
 		if (str[i] == '=')
 			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	search_plus(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if ((str[i] == '+' && str[i + 1] == '=' && !str[i + 2])
-			|| (str[i] == '+' && str[i + 1] == '=' && str[i + 2]))
-		{
-			if (str[i] == '+' && str[i + 1] == '=' && str[i + 2])
-				return (2);
-			else if (str[i] == '+' && str[i + 1] == '=' && !str[i + 2])
-				return(1);
-		}
 		i++;
 	}
 	return (0);
