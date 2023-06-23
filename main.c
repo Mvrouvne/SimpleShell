@@ -6,13 +6,13 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 04:18:49 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:45:41 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_exit_status = 0;
+int		g_exit_status = 0;
 
 // void	handler(int num)
 // {
@@ -23,13 +23,14 @@ int g_exit_status = 0;
 // 	rl_redisplay();
 // }
 
-char **get_env_copy(t_list *saving_env)
+char	**get_env_copy(t_list *saving_env)
 {
-	t_list *tmp;
-	char **env_copy;
-	
+	t_list	*tmp;
+	char	**env_copy;
+	int		i;
+
 	tmp = saving_env;
-	int i = 0;
+	i = 0;
 	while (saving_env)
 	{
 		i++;
@@ -65,10 +66,10 @@ void	free_parser(t_args *args, t_token *lst)
 				free(args->args[y]);
 				y++;
 			}
-			free (args->args);
+			free(args->args);
 			args_temp = args;
 			args = args->next;
-			free (args_temp);
+			free(args_temp);
 		}
 	}
 	if (lst)
@@ -77,75 +78,87 @@ void	free_parser(t_args *args, t_token *lst)
 		{
 			lst_temp = lst;
 			lst = lst->next;
-			free (lst_temp->data);
+			free(lst_temp->data);
 			free(lst_temp);
 		}
 	}
 }
 
-void	initialization(t_global *global, char **env)
+void	ft_execution(t_global *global, t_data *list, t_pipe *pipes)
 {
-	global->list = malloc(sizeof(t_data));
-	global->pipes = malloc(sizeof(t_pipe));
-	global->list->saving_env = get_env(env);
-	global->list->saving_expo = get_expo(env);
-	(global->pipes->cmds = 0, global->pipes->tmp = dup(0));
-	global->env_parse = (t_env *)global->list->saving_env;
+	int	i;
+
+	global->env_copy = get_env_copy(list->saving_env);
+	implement_cmnd(list, global->args, global->env_copy, pipes);
+	global->tmp = global->args;
+	while (global->args->next)
+	{
+		close(pipes->fd[0]);
+		close(pipes->fd[1]);
+		global->args = global->args->next;
+	}
+	global->args = global->tmp;
+	i = 0;
+	while (i < pipes->cmds)
+	{
+		waitpid(list->pid[i], &g_exit_status, 0);
+		i++;
+	}
+	if (WIFEXITED(g_exit_status))
+		g_exit_status = WEXITSTATUS(g_exit_status);
+	dup2(pipes->tmp, global->stdin_main);
+	free(list->pid);
+	ft_free(global->env_copy);
+}
+void	initialization(t_global *global, char **env, t_data *list,
+		t_pipe *pipes)
+{
+	global->stdin_main = dup(0);
+	list->saving_env = get_env(env);
+	list->saving_expo = get_expo(env);
+	(pipes->cmds = 0, pipes->tmp = dup(0));
+	global->env_parse = (t_env *)list->saving_env;
 	global->lst = NULL;
 	global->args = NULL;
 	global->env_copy = NULL;
 }
 
+void	initia_exec(t_global *global)
+{
+	global->lst = NULL;
+	global->args = NULL;
+	global->x = 0;
+	global->line = readline("minishell:$> ");
+}
+
 int	main(int ac, char **av, char **env)
 {
-	(void) av;
-	t_global global;
-	int stdin_main = dup(0);
+	t_global	global;
+	t_data		*list;
+	t_pipe		*pipes;
 
+	(void)av;
 	ac = 0;
-	initialization(&global, env);
-	while(1)
+	list = malloc(sizeof(t_data));
+	pipes = malloc(sizeof(t_pipe));
+	initialization(&global, env, list, pipes);
+	while (1)
 	{
 		// signal(SIGQUIT, SIG_IGN);
 		// signal(SIGINT, handler);
-		global.lst = NULL;
-		global.args = NULL;
-		global.x = 0;
-		global.line = readline("minishell:$> ");
+		initia_exec(&global);
 		if (!global.line)
 		{
-			printf("exit\n"); 
-			exit (0);
+			printf("exit\n");
+			exit(0);
 		}
 		add_history(global.line);
 		if (!(lexing(global.line, &global.lst, &global.x, global.env_parse))
-			&& (!(errors_check(global.lst)) && (!(split_args(global.lst, &global.args, global.env_parse)))))
-		{
-			
-			global.env_copy = get_env_copy(global.list->saving_env);
-			implement_cmnd(global.list, global.args, global.env_copy, global.pipes);
-			global.tmp = global.args;
-			while (global.args->next)
-			{
-				close(global.pipes->fd[0]);
-				close(global.pipes->fd[1]);
-				global.args = global.args->next;
-			}
-			global.args = global.tmp;
-			int i = 0;
-			while (i < global.pipes->cmds)
-			{
-				waitpid(global.list->pid[i], &g_exit_status, 0);
-				i++;
-			}
-			if (WIFEXITED(g_exit_status))
-				g_exit_status = WEXITSTATUS(g_exit_status);
-			dup2(global.pipes->tmp, stdin_main);
-			free(global.list->pid);
-			ft_free(global.env_copy);
-		}
-		free (global.line);
+			&& (!(errors_check(global.lst)) && (!(split_args(global.lst,
+							&global.args, global.env_parse)))))
+			ft_execution(&global, list, pipes);
+		free(global.line);
 		free_parser(global.args, global.lst);
 	}
-	free(global.pipes);
+	free(pipes);
 }

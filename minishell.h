@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:13:07 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 04:10:20 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:39:54 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ typedef struct s_global
 	t_args	*args;
 	t_args	*tmp;
 	int		x;
-	t_data *list;
-	t_pipe	*pipes;
 	t_env	*env_parse;
 	char **env_copy;
+    int stdin_main;
 }   t_global;
 
 # endif

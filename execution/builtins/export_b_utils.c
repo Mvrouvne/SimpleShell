@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:06:36 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 23:30:48 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:44:18 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	equal_no_plus_utils(char **spl_p, t_list **saving_env, t_list *node,
 		free(node->value);
 		node->value = ft_strdup(res);
 		if (!node2)
-		{
-			puts(res);
 			ft_lstadd_back3(saving_env, ft_lstnew3(ft_strdup(res)));
-		}
 		else
 		{
 			free(node2->value);
@@ -76,7 +73,6 @@ int	if_plus(t_list **saving_expo, t_list **saving_env, char *str)
 	spl_p = ft_split(str, '+');
 	if (!search_node_1(*saving_expo, spl_p[0]))
 	{
-		puts("remove plus");
 		remove_plus = ft_split(str, '+');
 		res = ft_strjoin(remove_plus[0], remove_plus[1]);
 		(*saving_expo) = export(res, &(*saving_expo));
