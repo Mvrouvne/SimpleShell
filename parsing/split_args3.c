@@ -6,13 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:53:36 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/21 17:05:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:54:35 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	split_args3_follow2(t_token *temp, t_args **args, int *in)
+void	split_args3_follow2(t_token *temp, t_args **args, int *in)
 {
 	extern int	g_exit_status;
 
@@ -21,12 +21,10 @@ int	split_args3_follow2(t_token *temp, t_args **args, int *in)
 	{
 		perror(temp->next->data);
 		g_exit_status = 1;
-		return (g_exit_status);
 	}
-	return (0);
 }
 
-int	split_args3_follow(t_token *temp, t_args **args, int *out)
+void	split_args3_follow(t_token *temp, t_args **args, int *out)
 {
 	extern int	g_exit_status;
 
@@ -35,36 +33,30 @@ int	split_args3_follow(t_token *temp, t_args **args, int *out)
 	{
 		perror(temp->next->data);
 		g_exit_status = 1;
-		return (g_exit_status);
 	}
-	return (0);
 }
 
-int	split_args3(t_token *temp, t_args **args, int *in, int *out)
+void	split_args3(t_token *temp, t_args **args, int *in, int *out)
 {
 	extern int	g_exit_status;
 
 	if (temp->next && temp->type == INPUT)
 	{
 		(*args)->infile = open(temp->next->data, O_RDWR);
-		if (split_args3_follow2(temp, args, in))
-			return (g_exit_status);
+		split_args3_follow2(temp, args, in);
 	}
 	else if (temp->next && temp->type == OUTPUT)
 	{
 		if (!g_exit_status)
 			(*args)->outfile = open(temp->next->data,
 					O_RDWR | O_CREAT | O_TRUNC, 0777);
-		if (split_args3_follow(temp, args, out))
-			return (g_exit_status);
+		split_args3_follow(temp, args, out);
 	}
 	else if (temp->next && temp->type == APPEND)
 	{
 		if (!g_exit_status)
 			(*args)->outfile = open(temp->next->data,
 					O_RDWR | O_CREAT | O_APPEND, 0777);
-		if (split_args3_follow(temp, args, out))
-			return (g_exit_status);
+		split_args3_follow(temp, args, out);
 	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 01:14:58 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:30:51 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	handler2(int num)
 	exit (10);
 }
 
-int	heredoc3(int status, int id, int fd[2])
+int	heredoc3(int id, int fd[2])
 {
+	int			status;
 	extern int	g_exit_status;
 
+	status = 0;
 	waitpid(id, &status, 0);
 	if (WEXITSTATUS(status) == 10)
 	{
@@ -40,93 +42,34 @@ int	heredoc3(int status, int id, int fd[2])
 	return (0);
 }
 
-// void	heredoc2(char *line, char *lst)
-// {
-	
-// }
+void	heredoc2(char *line, t_env *env_parse, int fd[2])
+{
+	char	*str;
+	int		x;
 
-// char	*heredoc_expand(char *line, t_env *env_parse, t_token *lst)
-// {
-// 	(void) lst;
-// 	char	*to_expand = NULL;
-//     int     x;
-// 	int		y;
-// 	int		z;
-// 	int		j;
-// 	int		i;
-// 	char 	*str;
-// 	char 	*env_split;
+	str = NULL;
+	x = 0;
+	str = heredoc_expand(line, env_parse, x);
+	write(fd[1], str, ft_strlen(str));
+	write (fd[1], "\n", 1);
+	free (str);
+}
 
-// 	str = NULL;
-// 	env_split = NULL;
-// 	env_split = malloc(sizeof(char));
-// 	env_split[0] = '\0';
-//     x = 0;
-// 	z = 0;
-// 	y = 0;
-// 	i = 0;
-// 	str = malloc(sizeof(char));
-// 	str[0] = '\0';
-// 	j = 0;
-// 	while (line[x])
-// 	{
-// 		if (line[x] == '$')
-// 		{
-// 			x++;
-// 			j = x;
-// 			while (line[j] && ((line[j] >= 'a' && line[j] <= 'z')
-// 				|| (line[j] >= 'A' && line[j] <= 'Z')
-// 				|| (line[j] >= '0' && line[j] <= '9')))
-// 			{
-// 					j++;
-// 			}
-// 			to_expand = ft_substr(line, x, j - 1);
-// 			while (env_parse)
-// 			{
-// 				i = 0;
-// 				env_split = NULL;
-// 				env_split = malloc(sizeof(char));
-// 				env_split[0] = '\0';
-// 				while (env_parse->value && env_parse->value[i] != '=')
-// 				{
-// 					env_split = ft_chrjoin(env_split, env_parse->value[i]);
-// 					i++;
-// 				}
-// 				if (!(ft_strcmp(to_expand, env_split)))
-// 				{
-// 					str = ft_substr(env_parse->value, i + 1,
-// 						ft_strlen(env_parse->value));
-// 				}
-// 				free (env_split);
-// 				env_parse = env_parse->next;
-// 			}
-// 			x = j - 1;
-// 		}
-// 		else
-// 			str = ft_chrjoin(str, line[x]);
-// 		x++;
-// 	}
-// 	free (to_expand);
-// 	return (str);
-// }
+void	heredoc4(t_args *args, int fd[2])
+{
+	args->infile = fd[0];
+	args->outfile = 1;
+}
 
 int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 {
-    char    *line = NULL;
-    char    *str = NULL;
-    int     fd[2];
-	int		x;
+	char	*line;
+	int		fd[2];
 	int		id;
-	int		status;
-	extern int	g_exit_status;
-    
-    x = 0;
-	status = 0;
-   	pipe(fd);
-	args->infile = fd[0];
-	args->outfile = 1;
+
+	(pipe(fd), signal(SIGINT, SIG_IGN));
+	heredoc4(args, fd);
 	id = fork();
-	signal(SIGINT, SIG_IGN);
 	if (id == 0)
 	{
 		signal(SIGINT, handler2);
@@ -134,28 +77,15 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 		{
 			line = readline("> ");
 			if (line && line[0] == '\n')
-				continue;
+				continue ;
 			else if (!line || (!(ft_strcmp(line, delimiter))))
-			{
-				free (line);
-				close (fd[1]);
-				exit (20);
-			}
+				(free (line), close (fd[1]), exit (20));
 			else if (lst && (!(lst->av_quotes)))
-			{
-				str = heredoc_expand(line, env_parse);
-				write(fd[1], str, ft_strlen(str));
-				write (fd[1], "\n", 1);	
-				free (str);
-			}
+				heredoc2(line, env_parse, fd);
 			else
-			{
-				write(fd[1], line, ft_strlen(line));
-				write (fd[1], "\n", 1);
-			}
-			free (line);
+				(write(fd[1], line, ft_strlen(line)), write (fd[1], "\n", 1));
+			// free (line);
 		}
 	}
-	return (heredoc3(status, id, fd));
-    return (0);
+	return (heredoc3(id, fd));
 }

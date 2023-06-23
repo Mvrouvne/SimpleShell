@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 02:55:49 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:14:12 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_helper
 	char			**spl_p;
 	char			**old_value;
 }					t_helper;
+
 
 void				add_node(t_list **head, t_list *new_node);
 void				add_OldPwd(t_list **saving_env, char *old_pwd);

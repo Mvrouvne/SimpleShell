@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:51:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 02:56:29 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:08:34 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	unset(t_list **head, char *key)
 			|| search_egal(cur->value) == 0))
 	{
 		prev->next = cur->next;
-		free(cur->value);
+        if(cur->next)
+		    free(cur->value);
 		free(cur);
 	}
 	free(join);

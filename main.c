@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 00:54:00 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:03:03 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	main(int ac, char **av, char **env)
 	list->saving_env = get_env(env);
 	list->saving_expo = get_expo(env);
 	
-	pipes->cmds = 0;
-	pipes->tmp = dup(0);
+	(pipes->cmds = 0, pipes->tmp = dup(0));
+	
 	env_parse = (t_env *)list->saving_env;
 	int stdin_main = dup(0);
 	ac = 0;
@@ -98,18 +98,6 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(line, &lst, &x, env_parse))
 			&& (!(errors_check(lst)) && (!(split_args(lst, &args, env_parse)))))
 		{
-			// system("leaks minishell");
-				// int	t = 0;
-				// while (args)
-				// {
-				// 		t = 0;
-				// 		while (args->args[t])
-				// 			printf("args = %s\n", args->args[t++]);
-				// 		printf("infile = %d\n", args->infile);
-				// 		printf("outfile = %d\n", args->outfile);
-				// 		printf("****************\n");
-				// 	args = args->next;
-				// }
 			env_copy = get_env_copy(list->saving_env);
 			implement_cmnd(list, args, env_copy, pipes);
 			tmp = args;
@@ -133,32 +121,54 @@ int	main(int ac, char **av, char **env)
 			ft_free(env_copy);
 		}
 		free (line);
+		// free (args->args[0]);
+		// free (args->args);
 		if (args && args->args)
 		{
-			while (args && args->args[0])
-			{
-				y = 0;
-				while (args->args[y])
+			// if (args->args[0])
+			// {
+				while (args)
 				{
-					free(args->args[y]);
-					y++;
+					y = 0;
+					while (args->args[y])
+					{
+						free(args->args[y]);
+						y++;
+					}
+					free (args->args);
+					args_temp = args;
+					args = args->next;
+					free (args_temp);
 				}
-				free (args->args);
-				args_temp = args;
-				args = args->next;
-				free (args_temp);
-			}
+			// }
+			// else if ((!args->args[0]))
+			// {
+			// 	free (args->args[0]);
+			// 	puts("HEEREE");
+			// 	while (args)
+			// 	{
+			// 		free (args->args);
+			// 		args_temp = args;
+			// 		args = args->next;
+			// 		free (args_temp);
+			// 	}
+			// }
 		}
 		if (lst)
 		{
+			// lst_temp = lst;
+			// while (lst_temp)
+			// {
+			// 	lst_temp = lst_temp->next;
+			// }
 			while (lst)
 			{
 				lst_temp = lst;
 				lst = lst->next;
+				free (lst_temp->data);
 				free(lst_temp);
 			}
 		}
-		// system("leaks minishell");
 	}
 
 	// while (list->saving_env)

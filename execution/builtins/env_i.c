@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:40:48 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 02:56:03 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:18:47 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_list	*env_i(t_list **saving_env)
 	s1 = ft_strdup("PWD=");
 	getcwd(filename, 256);
 	node = ft_strjoin(s1, filename);
+	free(s1);
 	*saving_env = create_node(node);
 	free(node);
-	free(s1);
 	ft_lstadd_back3(saving_env, ft_lstnew3("SHLVL=1"));
 	ft_lstadd_back3(saving_env, ft_lstnew3("_=/usr/bin/env"));
 	return (*saving_env);

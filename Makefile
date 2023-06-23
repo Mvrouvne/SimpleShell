@@ -42,7 +42,9 @@ FILES = main.c\
 		parsing/split_args2.c\
 		parsing/split_args3.c\
 		parsing/heredoc_expand.c\
-		
+		parsing/ft_join_free.c\
+		parsing/check_quotes_follow.c\
+		parsing/expand2.c\
 
 INCLUDES = libft/libft.a
 

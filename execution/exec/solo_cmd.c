@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 23:32:01 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:03:22 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy,
 	if (lst->pid[lst->id] == 0)
 	{
 		// signal(SIGINT, handler3);
+		// signal(SIGQUIT, SIG_DFL);
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);
