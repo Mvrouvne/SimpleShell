@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 10:37:21 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 04:04:36 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:06:19 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*m;
 	int		i;
 	int		j;
-
 
 	if (!s1)
 		return (ft_strdup(s2));
