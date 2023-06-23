@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 02:54:41 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:14:10 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	expand4(char *line, int *y)
 
 	j = 0;
 	while (line[*y] && ((line[*y] >= 'a' && line[*y] <= 'z')
-		|| (line[*y] >= 'A' && line[*y] <= 'Z')
-		|| (line[*y] >= '0' && line[*y] <= '9')))
+			|| (line[*y] >= 'A' && line[*y] <= 'Z')
+			|| (line[*y] >= '0' && line[*y] <= '9')))
 	{
 		(*y)++;
 		j++;
@@ -39,30 +39,30 @@ int	expand4(char *line, int *y)
 	return (j);
 }
 
-int expand3(t_token *lst)
+int	expand3(t_token *lst)
 {
-    t_token *temp;
-    int     check1;
+	t_token	*temp;
+	int		check1;
 
 	check1 = 0;
-    temp = lst;
-    while (temp)
-    {
-        if ((!(ft_strcmp(temp->data, ">")) || (!(ft_strcmp(temp->data, ">>"))
-            || (!(ft_strcmp(temp->data, "<"))))))
-        {
-            check1++;
-            break ;
-        }
-        temp = temp->next;
-    }
-    return (check1);
+	temp = lst;
+	while (temp)
+	{
+		if ((!(ft_strcmp(temp->data, ">")) || (!(ft_strcmp(temp->data, ">>"))
+					|| (!(ft_strcmp(temp->data, "<"))))))
+		{
+			check1++;
+			break ;
+		}
+		temp = temp->next;
+	}
+	return (check1);
 }
 
 char	*expand2(char *to_expand, t_env *env_parse)
 {
-	char 	*env_split;
-	char 	*expanded;
+	char	*env_split;
+	char	*expanded;
 	int		i;
 
 	env_split = NULL;
@@ -78,7 +78,7 @@ char	*expand2(char *to_expand, t_env *env_parse)
 		if (!(ft_strcmp(to_expand, env_split)))
 		{
 			expanded = ft_substr(env_parse->value, i + 1,
-				ft_strlen(env_parse->value));
+					ft_strlen(env_parse->value));
 		}
 		free (env_split);
 		env_parse = env_parse->next;

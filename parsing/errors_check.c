@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/18 15:35:48 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:20:45 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,33 @@ int	filenames_check(char *str)
 	return (0);
 }
 
-int	errors_check(t_token *lst)
+int	errors_check4(t_token *lst)
 {
-	int	x;
-	extern int g_exit_status;
+	extern int	g_exit_status;
 
-	x = 0;
-	if (lst && (lst->next) && (lst->av_quotes != 1) && (!(ft_strcmp(lst->data, "|"))))
+	if ((lst->next) && ((!(ft_strcmp(lst->data, "<")))
+			|| (!(ft_strcmp(lst->data, "<<")))
+			|| (!(ft_strcmp(lst->data, ">"))
+				|| (!(ft_strcmp(lst->data, ">>"))))))
+	{
+		if (filenames_check(lst->next->data))
+		{
+			write (2, "syntax error near unexpected token `", 37);
+			write (2, lst->next->data, 1);
+			write (2, "\'\n", 2);
+			g_exit_status = 258;
+			return (g_exit_status);
+		}
+	}
+	return (0);
+}
+
+int	error_check3(t_token *lst)
+{
+	extern int	g_exit_status;
+
+	if (lst && (lst->next) && (lst->av_quotes != 1)
+		&& (!(ft_strcmp(lst->data, "|"))))
 	{
 		write(2, "syntax error near unexpected token `|'\n", 40);
 		g_exit_status = 258;
@@ -40,29 +60,42 @@ int	errors_check(t_token *lst)
 		g_exit_status = 258;
 		return (g_exit_status);
 	}
+	return (0);
+}
+
+int	errors_check2(t_token *lst)
+{
+	extern int	g_exit_status;
+
+	if ((!(lst->next)) && ((!(ft_strcmp(lst->data, "<")))
+			|| (!(ft_strcmp(lst->data, "<<")))
+			|| (!(ft_strcmp(lst->data, ">"))
+				|| (!(ft_strcmp(lst->data, ">>"))))
+			|| (!(ft_strcmp(lst->data, "|")))))
+	{
+		write (2, "syntax error near unexpected token `newline'\n", 46);
+		g_exit_status = 258;
+		return (g_exit_status);
+	}
+	return (0);
+}
+
+int	errors_check(t_token *lst)
+{
+	int			x;
+	extern int	g_exit_status;
+
+	x = 0;
+	if (error_check3(lst))
+		return (1);
 	while (lst)
 	{
-		if ((!(lst->next)) && ((!(ft_strcmp(lst->data, "<")))
-			|| (!(ft_strcmp(lst->data, "<<"))) || (!(ft_strcmp(lst->data, ">"))
-			|| (!(ft_strcmp(lst->data, ">>")))) || (!(ft_strcmp(lst->data, "|")))))
-		{
-			write (2, "syntax error near unexpected token `newline'\n", 46);
-			g_exit_status = 258;
-			return (g_exit_status);
-		}
-		if ((lst->next) && ((!(ft_strcmp(lst->data, "<"))) || (!(ft_strcmp(lst->data, "<<")))
-			|| (!(ft_strcmp(lst->data, ">")) || (!(ft_strcmp(lst->data, ">>"))))))
-		{
-			if (filenames_check(lst->next->data))
-			{
-				write (2, "syntax error near unexpected token `", 37);
-				write (2, lst->next->data, 1);
-				write (2, "\'\n", 2);
-				g_exit_status = 258;
-				return (g_exit_status);
-			}
-		}
-		if ((lst->next) && (!(ft_strcmp(lst->data, "|"))) && (!(ft_strcmp(lst->next->data, "|"))))
+		if (errors_check2(lst))
+			return (1);
+		if (errors_check4(lst))
+			return (1);
+		if ((lst->next) && (!(ft_strcmp(lst->data, "|")))
+			&& (!(ft_strcmp(lst->next->data, "|"))))
 		{
 			write (2, "syntax error near unexpected token `|'\n", 39);
 			g_exit_status = 258;

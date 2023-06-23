@@ -6,12 +6,11 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 20:48:28 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 21:52:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:19:44 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
 
 void	split_args2_follow2(t_token *temp, t_args **args, int *y, int *z)
 {
@@ -41,6 +40,7 @@ void	split_args2_follow(t_token *temp, t_args **args, int *y, int *z)
 		(*args)->args[x] = NULL;
 	}
 }
+
 void	split_args2_follow3(t_token *temp, t_args **args, int *y, int *z)
 {
 	if (temp->type == PIPE)
@@ -55,24 +55,24 @@ void	split_args2_follow3(t_token *temp, t_args **args, int *y, int *z)
 int	split_args2_follow4(t_token **temp, t_args **args, int *in, int *out)
 {
 	split_args3(*temp, args, in, out);
-    *temp = (*temp)->next;
+	*temp = (*temp)->next;
 	return (0);
 }
 
-int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
+int	split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 {
-	int		y;
-	int		z;
-    int     in;
-    int     out;
+	int	y;
+	int	z;
+	int	in;
+	int	out;
 
 	y = 0;
 	z = 0;
 	in = 0;
 	out = 0;
-    while (temp && *args)
+	while (temp && *args)
 	{
-        if (temp->type == INPUT || temp->type == OUTPUT || temp->type == APPEND)
+		if (temp->type == INPUT || temp->type == OUTPUT || temp->type == APPEND)
 			split_args2_follow4(&temp, args, &in, &out);
 		else if ((temp->type == CMD || temp->type == PIPE))
 			split_args2_follow3(temp, args, &y, &z);
@@ -85,5 +85,5 @@ int split_args2(t_token *temp, t_args **args, t_token *lst, t_env *env_parse)
 		check_in_out(*args, in, out);
 		temp = temp->next;
 	}
-    return (0);
+	return (0);
 }

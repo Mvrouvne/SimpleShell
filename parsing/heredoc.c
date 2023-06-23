@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 02:30:51 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:16:31 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	heredoc(t_args *args, char *delimiter, t_env *env_parse, t_token *lst)
 				heredoc2(line, env_parse, fd);
 			else
 				(write(fd[1], line, ft_strlen(line)), write (fd[1], "\n", 1));
-			// free (line);
 		}
 	}
 	return (heredoc3(id, fd));

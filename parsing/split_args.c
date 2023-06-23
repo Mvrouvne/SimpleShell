@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:09:11 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 21:51:14 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:18:03 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	split_args_follow(t_token *lst)
 {
 	int		max;
-	t_token *tmp;
+	t_token	*tmp;
 
 	max = 0;
 	tmp = lst;
@@ -32,9 +32,9 @@ int	split_args_follow(t_token *lst)
 
 int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 {
-	int		max;
-	t_token	*temp;
-	t_args	*temp2;
+	int			max;
+	t_token		*temp;
+	t_args		*temp2;
 	extern int	g_exit_status;
 
 	max = split_args_follow(lst);
@@ -49,8 +49,8 @@ int	split_args(t_token *lst, t_args **args, t_env *env_parse)
 	(*args)->args = malloc(sizeof(char *));
 	(*args)->args[0] = NULL;
 	temp2 = *args;
-    if (split_args2(temp, args, lst, env_parse))
-        return (1);
+	if (split_args2(temp, args, lst, env_parse))
+		return (1);
 	*args = temp2;
 	return (0);
 }

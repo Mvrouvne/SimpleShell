@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 22:14:32 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/12 23:18:55 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 03:21:21 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ char	*ft_chrjoin(char *s1, char c2)
 		join[x] = s1[x];
 		x++;
 	}
-    join[x] = c2;
+	join[x] = c2;
 	join[x + 1] = '\0';
 	free (s1);
 	return (join);
 }
-
