@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 04:45:41 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:59:32 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,15 @@ void	ft_execution(t_global *global, t_data *list, t_pipe *pipes)
 	free(list->pid);
 	ft_free(global->env_copy);
 }
+
 void	initialization(t_global *global, char **env, t_data *list,
 		t_pipe *pipes)
 {
 	global->stdin_main = dup(0);
 	list->saving_env = get_env(env);
 	list->saving_expo = get_expo(env);
-	(pipes->cmds = 0, pipes->tmp = dup(0));
+	pipes->cmds = 0;
+	pipes->tmp = dup(0);
 	global->env_parse = (t_env *)list->saving_env;
 	global->lst = NULL;
 	global->args = NULL;
@@ -148,17 +150,12 @@ int	main(int ac, char **av, char **env)
 		// signal(SIGINT, handler);
 		initia_exec(&global);
 		if (!global.line)
-		{
-			printf("exit\n");
-			exit(0);
-		}
+			(printf("exit\n"), exit(0));
 		add_history(global.line);
 		if (!(lexing(global.line, &global.lst, &global.x, global.env_parse))
 			&& (!(errors_check(global.lst)) && (!(split_args(global.lst,
 							&global.args, global.env_parse)))))
 			ft_execution(&global, list, pipes);
-		free(global.line);
-		free_parser(global.args, global.lst);
+		(free(global.line), free_parser(global.args, global.lst));
 	}
-	free(pipes);
 }
