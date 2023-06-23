@@ -6,30 +6,33 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 03:07:31 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/23 04:01:14 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*check_quotes4(t_token **lst, char *line, int *x, char *str)
+char	*check_quotes4(t_token **lst, t_var *var, int *x, char *str)
 {
 	extern int	g_exit_status;
 
 	(*x)++;
-	while (line[*x] && line[*x] != '\'')
+	while (var->line[*x] && var->line[*x] != '\'')
 	{
-		str = ft_chrjoin(str, line[*x]);
+		str = ft_chrjoin(str, var->line[*x]);
 		(*x)++;
 	}
-	if (line[*x] != '\'')
+	if (var->line[*x] != '\'')
 	{
 		write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 		g_exit_status = 258;
 		return (NULL);
 	}
-	else if (line[*x] == '\'' && !str[0])
+	else if (var->line[*x] == '\'' && str && var->line[*x + 1] == '\0')
+	{
 		ft_lstadd_back(lst, ft_lstnew(str));
+		var->check++;
+	}
 	return (str);
 }
 
@@ -80,6 +83,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	t_var		var;
 	extern int	g_exit_status;
 
+	var.check = 0;
 	var.str = ft_strdup("");
 	var.line = line;
 	var.check = check_quotes_follow(line, x, lst);
@@ -90,7 +94,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 			return (1);
 		(*x)++;
 	}
-	if (var.str[0])
+	if (var.str[0] && !var.check)
 		ft_lstadd_back(lst, ft_lstnew(var.str));
 	return (free (var.str), 0);
 }
