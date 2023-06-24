@@ -6,11 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/24 18:37:56 by otitebah         ###   ########.fr       */
-=======
-/*   Updated: 2023/06/24 18:03:36 by machaiba         ###   ########.fr       */
->>>>>>> 68a08215004f05b83a7ea985c1cc68bda24152d0
+/*   Updated: 2023/06/24 20:13:56 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +32,7 @@ void	ft_execution(t_global *global, t_data *list, t_pipe *pipes, t_args *p)
 		;
 	if (WIFSIGNALED(g_exit_status) == 1 && g_exit_status != 1)
 		g_exit_status = WTERMSIG(g_exit_status) + 128;
-	else if(g_exit_status != 1)
+	else if (g_exit_status != 1)
 		g_exit_status = WEXITSTATUS(g_exit_status);
 	dup2(pipes->tmp, global->stdin_main);
 	free(list->pid);

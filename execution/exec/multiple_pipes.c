@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 18:40:31 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:15:46 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
 
 void	while_implement(t_pipe *pipes, t_data *lst, char **env_copy, t_args *p)
 {
-	int	i;
+	int			i;
 	extern int	g_exit_status;
 
 	i = 0;
@@ -99,8 +99,8 @@ void	while_implement(t_pipe *pipes, t_data *lst, char **env_copy, t_args *p)
 
 void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
-	t_args	*tmp;
-	extern int g_exit_status;
+	t_args		*tmp;
+	extern int	g_exit_status;
 
 	pipes->cmds = 0;
 	tmp = p;
@@ -122,9 +122,5 @@ void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		dup2(pipes->tmp, 0);
 	}
 	else if (pipes->cmds == 1 && p->infile == -1)
-	{
-		perror("");
-		g_exit_status = 1;
-		
-	}
+		nosushfile();
 }
