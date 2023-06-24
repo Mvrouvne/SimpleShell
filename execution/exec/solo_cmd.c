@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   solo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 05:10:52 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:55:59 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-// void	handler3(int num)
-// {
-// 	extern int	g_exit_status;
+void	handler3(int num)
+{
+	extern int	g_exit_status;
 
-// 	(void)num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// 	g_exit_status = 130;
-// 	exit(g_exit_status);
-// }
+	(void)num;
+	printf("\n");
+	rl_on_new_line();
+	// rl_replace_line("", 0);
+	rl_redisplay();
+	g_exit_status = 130;
+	exit(g_exit_status);
+}
 
 void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy,
 		t_data *lst)
@@ -32,11 +32,11 @@ void	child_exec_solo_cmd(t_args *p, t_list *saving_expo, char **env_copy,
 
 	(void)lst;
 	lst->pid[lst->id] = fork();
-	// signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	if (lst->pid[lst->id] == 0)
 	{
-		// signal(SIGINT, handler3);
-		// signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, handler3);
+		signal(SIGQUIT, SIG_DFL);
 		check_slash(p, env_copy);
 		dup2(p->infile, 0);
 		dup2(p->outfile, 1);

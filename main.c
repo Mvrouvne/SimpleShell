@@ -6,13 +6,13 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 16:07:47 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:24:36 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_status = 0;
+int		g_exit_status = 0;
 
 void	ft_execution(t_global *global, t_data *list, t_pipe *pipes, t_args *p)
 {
@@ -31,15 +31,14 @@ void	ft_execution(t_global *global, t_data *list, t_pipe *pipes, t_args *p)
 		waitpid(list->pid[pipes->cmds - 1], &g_exit_status, 0);
 		while (wait(0) != -1)
 			;
-		if (WIFSIGNALED(g_exit_status) == 1)
+		if (WIFSIGNALED(g_exit_status) == 1 && g_exit_status != 1)
 			g_exit_status = WTERMSIG(g_exit_status) + 128;
-		else
+		else if(g_exit_status != 1)
 			g_exit_status = WEXITSTATUS(g_exit_status);
 		dup2(pipes->tmp, global->stdin_main);
 		free(list->pid);
 		ft_free(global->env_copy);
 	}
-	
 }
 
 void	initialization(t_global *global, char **env, t_data *list,
@@ -77,8 +76,8 @@ int	main(int ac, char **av, char **env)
 	initialization(&global, env, list, pipes);
 	while (1)
 	{
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, handler);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handler);
 		initia_exec(&global);
 		if (!global.line)
 			(printf("exit\n"), exit(0));
@@ -86,18 +85,7 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(global.line, &global.lst, &global.x, global.env_parse))
 			&& (!(errors_check(global.lst)) && (!(split_args(global.lst,
 							&global.args, global.env_parse)))))
-		{
-			// while (global.args)
-			// {
-			// 	int t = 0;
-			// 	while (global.args->args[t])
-			// 		printf("args = %s\n", global.args->args[t++]);
-			// 	printf("*******\n*");
-			// 	global.args = global.args->next;
-			// }
-			// exit (1);
 			ft_execution(&global, list, pipes, global.args);
-		}
 		(free(global.line), free_parser(global.args, global.lst));
 	}
 }
