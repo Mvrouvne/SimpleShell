@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:09:11 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 03:18:03 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:59:49 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	split_args_follow(t_token *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		if (tmp->av_quotes != 1)
-			tmp->av_quotes = 0;
 		if (!(ft_strcmp(tmp->data, "<<")))
 			max++;
 		tmp = tmp->next;

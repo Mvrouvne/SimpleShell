@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 20:14:32 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 00:15:27 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 	}
 	else if (!ft_strcmp(p->args[0], "pwd"))
 	{
-		getcwd(filename, 256);
-		ft_putendl_fd(filename, p->outfile);
+		if (getcwd(filename, 256) != NULL)
+			ft_putendl_fd(filename, p->outfile);
 		return (1);
 	}
 	else if (!ft_strcmp(p->args[0], "cd"))
