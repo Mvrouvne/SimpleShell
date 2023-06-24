@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 17:57:52 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:40:31 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,7 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
 {
 	if (!str[0])
-	{
-		// puts("hana");
-		// if (p->infile == -1)
-		// 	ft_putstr_fd("no such file or directory\n", 2);
 		return ;
-	}
 	if (check_if_builtins(p) == 1)
 		builtins(p, &lst->saving_env, &lst->saving_expo);
 	else
@@ -77,12 +72,18 @@ void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
 void	while_implement(t_pipe *pipes, t_data *lst, char **env_copy, t_args *p)
 {
 	int	i;
+	extern int	g_exit_status;
 
 	i = 0;
 	while (p && i < pipes->cmds)
 	{
+		g_exit_status = 0;
 		if (!p->args[0])
+		{
+			if (p->infile == -1)
+				perror("");
 			i++;
+		}
 		else
 		{
 			child_process(p, pipes, lst, env_copy);
@@ -99,6 +100,7 @@ void	while_implement(t_pipe *pipes, t_data *lst, char **env_copy, t_args *p)
 void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
 	t_args	*tmp;
+	extern int g_exit_status;
 
 	pipes->cmds = 0;
 	tmp = p;
@@ -110,13 +112,19 @@ void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	tmp = p;
 	lst->id = 0;
 	lst->pid = malloc(sizeof(int) * pipes->cmds);
-	if (pipes->cmds == 1)
+	if (pipes->cmds == 1 && p->infile != -1)
 		no_pipe(p->args, env_copy, lst, p);
-	else
+	else if (pipes->cmds != 1)
 	{
 		while_implement(pipes, lst, env_copy, p);
 		p = tmp;
 		close(0);
 		dup2(pipes->tmp, 0);
+	}
+	else if (pipes->cmds == 1 && p->infile == -1)
+	{
+		perror("");
+		g_exit_status = 1;
+		
 	}
 }
