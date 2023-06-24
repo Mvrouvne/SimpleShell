@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 16:55:32 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 05:07:15 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	env(t_args *p, t_list **saving_env, int i)
 
 	tmp = NULL;
 	i = 1;
+	if (p->infile == -1)
+		return ;
 	while (p->args[i])
 	{
 		if (p->args[i])
@@ -58,24 +60,49 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 	return (0);
 }
 
+void	check_num(char *str)
+{
+	int	i;
+	extern int g_exit_status;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+		{
+			ft_putstr_fd("exit :", 1);
+			ft_putstr_fd(str, 1);
+			ft_putstr_fd(": numeric argument required\n", 1);
+			g_exit_status = 255;
+			exit(g_exit_status);
+		}
+		i++;
+	}
+}
+
 void	exit_func(char **str)
 {
 	extern int		g_exit_status;
 	unsigned char	ex;
-
-	if (str[1] && !str[2])
-	{
-		ex = ft_atoi(str[1]);
-		exit(ex);
-	}
+	
 	if (str[0] && str[1] && str[2])
 	{
 		ft_putstr_fd("minishell : exit: to many arguments\n", 1);
 		g_exit_status = 1;
 		return ;
 	}
+	else if (str[1] && !str[2])
+	{
+		check_num(str[1]);
+		ex = ft_atoi(str[1]);
+		exit(ex);
+	}
 	else
+	{
+		puts("hana");
+		g_exit_status = 1;	
 		exit(g_exit_status);
+	}
 }
 
 void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
@@ -93,6 +120,8 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 		env(p, saving_env, i);
 	else if (!ft_strcmp(p->args[0], "unset"))
 	{
+		if (p->infile == -1)
+			return ;
 		while (p->args[i])
 		{
 			unset_util(saving_env, saving_expo, p->args[i]);

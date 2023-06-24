@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 04:44:15 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:40:36 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_var
 	int				check;
 	int				*x;
 	char			*line;
+	int				quotes_check;
 }					t_var;
 
 typedef struct s_var2

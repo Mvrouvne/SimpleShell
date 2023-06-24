@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 04:35:31 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 04:07:42 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ int	errors_check2(t_token *lst)
 
 int	errors_check(t_token *lst)
 {
-	int			x;
 	extern int	g_exit_status;
 
-	x = 0;
 	if (error_check3(lst))
 		return (1);
 	while (lst)

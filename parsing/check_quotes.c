@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 04:47:42 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 13:03:28 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*check_quotes4(t_token **lst, t_var *var, int *x, char *str)
 	{
 		write(2, "syntax error near unexpected token`unclosed quote'\n", 52);
 		g_exit_status = 258;
-		return (NULL);
+		return (free (var->str), NULL);
 	}
 	else if (var->line[*x] == '\'' && str && var->line[*x + 1] == '\0')
 	{
@@ -82,8 +82,10 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 {
 	t_var		var;
 	extern int	g_exit_status;
+	t_token		*temp;
 
 	var.lock = 0;
+	var.quotes_check = 0;
 	var.str = ft_strdup("");
 	var.line = line;
 	var.check = check_quotes_follow(line, x, lst);
@@ -97,6 +99,16 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	if (var.str[0] && !var.lock)
 	{
 		ft_lstadd_back(lst, ft_lstnew(var.str));
+		if ((!ft_strcmp(var.str, "|")) && var.quotes_check)
+		{
+			temp = *lst;
+			while (temp)
+			{
+				if (!temp->next)
+					temp->av_quotes = 1;
+				temp = temp->next;
+			}
+		}
 	}
 	return (free (var.str), 0);
 }
