@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 22:53:43 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 03:50:03 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	char	**spl_path;
 	char	*cmd;
 	char	*find_path;
-	int		i;
 
 	find_path = search_path(saving_expo, "PATH");
 	if (!find_path)
@@ -50,7 +49,6 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 	spl_path = ft_split(find_path, ':');
 	free(find_path);
 	cmd = ft_strjoin("/", p->args[0]);
-	i = 0;
 	if (p->args[0][0] == '.' || p->args[0][0] == '/')
 		execve(p->args[0], (p)->args, env);
 	while_pipe(spl_path, cmd, p, env);
@@ -96,7 +94,6 @@ void	while_implement(t_pipe *pipes, t_data *lst, char **env_copy, t_args *p)
 void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 {
 	t_args	*tmp;
-	int		i;
 
 	pipes->cmds = 0;
 	tmp = p;
@@ -112,7 +109,6 @@ void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 		no_pipe(p->args, env_copy, lst, p);
 	else
 	{
-		i = 0;
 		while_implement(pipes, lst, env_copy, p);
 		p = tmp;
 		close(0);

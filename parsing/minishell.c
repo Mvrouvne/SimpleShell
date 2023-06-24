@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:46:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/22 22:01:22 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 04:03:14 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ int	lexing3(t_token	**lst)
 
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
-	int		z;
-	int		w;
-
-	z = 0;
-	w = 0;
 	if (!(ft_strcmp(line, "\0")))
 		return (1);
 	while (line[*x] == ' ' || line[*x] == '\t')

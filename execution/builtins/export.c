@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 23:35:12 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 04:26:39 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	export_a(t_list **saving_env, t_list **saving_expo, t_args *p)
 	t_list	*tmp1;
 
 	i = 1;
+	if (p->infile == -1)
+		return;
 	if (p->args[i])
 	{
 		while (p->args[i])
