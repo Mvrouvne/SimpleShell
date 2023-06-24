@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 06:02:21 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 05:05:27 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 	char	**spl_path;
 	char	*cmd;
 	char	*find_path;
-	int		i;
 
 	find_path = search_path(saving_expo, "PATH");
 	if (!find_path)
@@ -86,7 +85,6 @@ int	execute_cmd(t_args *p, t_list *saving_expo, char **env_copy)
 	}
 	spl_path = ft_split(find_path, ':');
 	cmd = ft_strjoin("/", p->args[0]);
-	i = 0;
 	if (p->args[0][0] == '.' || p->args[0][0] == '/')
 		execve(p->args[0], (p)->args, env_copy);
 	while_solo_cmd(spl_path, env_copy, p, cmd);
