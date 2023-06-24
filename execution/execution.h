@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:43 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 05:05:59 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:15:35 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ void				handler(int num);
 char				**get_env_copy(t_list *saving_env);
 void				free_parser2(t_token *lst);
 void				free_parser(t_args *args, t_token *lst);
+void				nosushfile(void);
 
 #endif

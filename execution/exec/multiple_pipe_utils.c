@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 21:55:43 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 22:56:51 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:15:41 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,12 @@ int	search_plus(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	nosushfile(void)
+{
+	extern int	g_exit_status;
+
+	perror("");
+	g_exit_status = 1;
 }
