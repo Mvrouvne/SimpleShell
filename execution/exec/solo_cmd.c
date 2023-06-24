@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 16:14:18 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 20:16:18 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:21:20 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handler3(int num)
 	(void)num;
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 	g_exit_status = 130;
 	exit(g_exit_status);
