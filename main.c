@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 16:30:14 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:01:49 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,27 @@ int		g_exit_status = 0;
 
 void	ft_execution(t_global *global, t_data *list, t_pipe *pipes, t_args *p)
 {
-	if (p->infile != -1)
+	(void)p;
+	global->env_copy = get_env_copy(list->saving_env);
+	implement_cmnd(list, global->args, global->env_copy, pipes);
+	global->tmp = global->args;
+	while (global->args->next)
 	{
-		global->env_copy = get_env_copy(list->saving_env);
-		implement_cmnd(list, global->args, global->env_copy, pipes);
-		global->tmp = global->args;
-		while (global->args->next)
-		{
-			close(pipes->fd[0]);
-			close(pipes->fd[1]);
-			global->args = global->args->next;
-		}
-		global->args = global->tmp;
-		waitpid(list->pid[pipes->cmds - 1], &g_exit_status, 0);
-		while (wait(0) != -1)
-			;
-		if (WIFSIGNALED(g_exit_status) == 1 && g_exit_status != 1)
-			g_exit_status = WTERMSIG(g_exit_status) + 128;
-		else if(g_exit_status != 1)
-			g_exit_status = WEXITSTATUS(g_exit_status);
-		dup2(pipes->tmp, global->stdin_main);
-		free(list->pid);
-		ft_free(global->env_copy);
+		close(pipes->fd[0]);
+		close(pipes->fd[1]);
+		global->args = global->args->next;
 	}
+	global->args = global->tmp;
+	waitpid(list->pid[pipes->cmds - 1], &g_exit_status, 0);
+	while (wait(0) != -1)
+		;
+	if (WIFSIGNALED(g_exit_status) == 1 && g_exit_status != 1)
+		g_exit_status = WTERMSIG(g_exit_status) + 128;
+	else if(g_exit_status != 1)
+		g_exit_status = WEXITSTATUS(g_exit_status);
+	dup2(pipes->tmp, global->stdin_main);
+	free(list->pid);
+	ft_free(global->env_copy);
 }
 
 void	initialization(t_global *global, char **env, t_data *list,

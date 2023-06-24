@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 16:15:50 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:03:16 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	implement_cmnd(t_data *lst, t_args *p, char **env_copy, t_pipe *pipes)
 	tmp = p;
 	lst->id = 0;
 	lst->pid = malloc(sizeof(int) * pipes->cmds);
-	if (pipes->cmds == 1)
+	if (pipes->cmds == 1 && p->infile != -1)
 		no_pipe(p->args, env_copy, lst, p);
-	else
+	else if(pipes->cmds != 1)
 	{
 		while_implement(pipes, lst, env_copy, p);
 		p = tmp;
