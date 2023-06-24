@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:45:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 03:16:31 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:26:20 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	heredoc2(char *line, t_env *env_parse, int fd[2])
 
 void	heredoc4(t_args *args, int fd[2])
 {
-	args->infile = fd[0];
+	if (args->infile != -1)
+		args->infile = fd[0];
 	args->outfile = 1;
 }
 
