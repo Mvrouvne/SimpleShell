@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 05:04:55 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 05:09:07 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	main(int ac, char **av, char **env)
 	initialization(&global, env, list, pipes);
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handler);
+		// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, handler);
 		initia_exec(&global);
 		if (!global.line)
 			(printf("exit\n"), exit(0));
