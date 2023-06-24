@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 15:17:05 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 16:15:50 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:57:52 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,12 @@ int	execute_cmd_pipe(t_args *p, t_list *saving_expo, char **env)
 void	no_pipe(char **str, char **env_copy, t_data *lst, t_args *p)
 {
 	if (!str[0])
+	{
+		// puts("hana");
+		// if (p->infile == -1)
+		// 	ft_putstr_fd("no such file or directory\n", 2);
 		return ;
+	}
 	if (check_if_builtins(p) == 1)
 		builtins(p, &lst->saving_env, &lst->saving_expo);
 	else
