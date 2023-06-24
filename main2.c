@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 05:01:40 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 13:13:01 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:57:15 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	handler(int num)
-// {
-// 	(void) num;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void	handler(int num)
+{
+	(void) num;
+	printf("\n");
+	rl_on_new_line();
+	// rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 char	**get_env_copy(t_list *saving_env)
 {

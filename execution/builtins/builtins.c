@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 10:22:04 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 05:07:15 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:19:43 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	builtins_utils(t_args *p, t_list **saving_env, t_list **saving_expo)
 
 void	check_num(char *str)
 {
-	int	i;
-	extern int g_exit_status;
+	int			i;
+	extern int	g_exit_status;
 
 	i = 0;
 	while (str[i])
@@ -84,7 +84,7 @@ void	exit_func(char **str)
 {
 	extern int		g_exit_status;
 	unsigned char	ex;
-	
+
 	if (str[0] && str[1] && str[2])
 	{
 		ft_putstr_fd("minishell : exit: to many arguments\n", 1);
@@ -99,8 +99,7 @@ void	exit_func(char **str)
 	}
 	else
 	{
-		puts("hana");
-		g_exit_status = 1;	
+		g_exit_status = 1;
 		exit(g_exit_status);
 	}
 }
@@ -110,7 +109,7 @@ void	builtins(t_args *p, t_list **saving_env, t_list **saving_expo)
 	int			i;
 	extern int	g_exit_status;
 
-	g_exit_status = 0;
+	// g_exit_status = 0;
 	i = 1;
 	if (!p->args[0])
 		return ;
