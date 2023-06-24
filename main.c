@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 20:13:56 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:00:06 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,19 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(global.line, &global.lst, &global.x, global.env_parse))
 			&& (!(errors_check(global.lst)) && (!(split_args(global.lst,
 							&global.args, global.env_parse)))))
+		{
+			// t_args *temp = global.args;
+			// while (global.args)
+			// {
+			// 	int t = 0;
+			// 	while  (global.args->args[t])
+			// 		printf("args = %s\n", global.args->args[t++]);
+			// 	puts("********************");
+			// 	global.args = global.args->next;
+			// }
+			// global.args = temp;
 			ft_execution(&global, list, pipes, global.args);
+		}
 		(free(global.line), free_parser(global.args, global.lst));
 	}
 }
