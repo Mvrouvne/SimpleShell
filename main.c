@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 06:03:26 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 13:01:24 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,18 @@ int	main(int ac, char **av, char **env)
 		if (!(lexing(global.line, &global.lst, &global.x, global.env_parse))
 			&& (!(errors_check(global.lst)) && (!(split_args(global.lst,
 							&global.args, global.env_parse)))))
+		{
+			while (global.args)
+			{
+				int t = 0;
+				while (global.args->args[t])
+					printf("args = %s\n", global.args->args[t++]);
+				printf("*******\n*");
+				global.args = global.args->next;
+			}
+			exit (1);
 			ft_execution(&global, list, pipes);
+		}
 		(free(global.line), free_parser(global.args, global.lst));
 	}
 }

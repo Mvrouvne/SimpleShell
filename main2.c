@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 05:01:40 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/23 05:11:44 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:47:51 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	handler(int num)
 {
+	extern int	g_exit_status;
+
 	(void) num;
+	g_exit_status = 1;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
