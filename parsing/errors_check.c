@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 16:43:00 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:07:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	error_check3(t_token *lst)
 	}
 	else if (lst && (!lst->next) && (lst->av_quotes == 1) && (ft_strcmp(lst->data, "|")))
 	{
-		write (2, "No such file or directory\n", 27);
+		write (2, "No such file or directory\n", 26);
 		g_exit_status = 258;
 		return (g_exit_status);
 	}
