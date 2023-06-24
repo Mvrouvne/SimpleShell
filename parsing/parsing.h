@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:57:25 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 12:40:36 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:20:18 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int					check_quotes_follow6(int *x, t_token **lst,
 char				*check_quotes4(t_token **lst,
 						t_var *var, int *x, char *str);
 void				expand6(t_var2 *var2);
+void				check_quotes5(t_var *var, t_token *lst, char *str);
 
 /**********/
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:32:35 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 04:07:42 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:43:00 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	error_check3(t_token *lst)
 		g_exit_status = 258;
 		return (g_exit_status);
 	}
-	else if (lst && (!lst->next) && (lst->av_quotes == 1))
+	else if (lst && (!lst->next) && (lst->av_quotes == 1) && (ft_strcmp(lst->data, "|")))
 	{
 		write (2, "No such file or directory\n", 27);
 		g_exit_status = 258;
@@ -71,7 +71,7 @@ int	errors_check2(t_token *lst)
 			|| (!(ft_strcmp(lst->data, "<<")))
 			|| (!(ft_strcmp(lst->data, ">"))
 				|| (!(ft_strcmp(lst->data, ">>"))))
-			|| (!(ft_strcmp(lst->data, "|")))))
+			|| ((!(ft_strcmp(lst->data, "|"))) && !lst->av_quotes)))
 	{
 		write (2, "syntax error near unexpected token `newline'\n", 46);
 		g_exit_status = 258;

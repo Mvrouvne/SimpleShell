@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:22:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 13:08:26 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:23:56 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	check_quotes_follow4(int *x, t_token **lst, t_env *env_parse, t_var *var)
 	else if (var->line[*x] == '"' && var->line[*x + 1] == '\0' && var->str)
 	{
 		ft_lstadd_back(lst, ft_lstnew(var->str));
+		check_quotes5(var, *lst, var->str);
 		var->lock++;
 	}
 	return (0);

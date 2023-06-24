@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:13:26 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 14:19:50 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:07:47 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	main(int ac, char **av, char **env)
 			// exit (1);
 			ft_execution(&global, list, pipes, global.args);
 		}
-			ft_execution(&global, list, pipes, global.args);
 		(free(global.line), free_parser(global.args, global.lst));
 	}
 }

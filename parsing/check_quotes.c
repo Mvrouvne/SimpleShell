@@ -6,11 +6,27 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 13:03:28 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:23:43 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+void	check_quotes5(t_var *var, t_token *lst, char *str)
+{
+	t_token	*temp;
+
+	if ((!ft_strcmp(str, "|")) && var->quotes_check)
+	{
+		temp = lst;
+		while (temp)
+		{
+			if (!temp->next)
+				temp->av_quotes = 1;
+			temp = temp->next;
+		}
+	}
+}
 
 char	*check_quotes4(t_token **lst, t_var *var, int *x, char *str)
 {
@@ -19,6 +35,8 @@ char	*check_quotes4(t_token **lst, t_var *var, int *x, char *str)
 	(*x)++;
 	while (var->line[*x] && var->line[*x] != '\'')
 	{
+		if (var->line[*x] == '|')
+			var->quotes_check++;
 		str = ft_chrjoin(str, var->line[*x]);
 		(*x)++;
 	}
@@ -31,6 +49,7 @@ char	*check_quotes4(t_token **lst, t_var *var, int *x, char *str)
 	else if (var->line[*x] == '\'' && str && var->line[*x + 1] == '\0')
 	{
 		ft_lstadd_back(lst, ft_lstnew(str));
+		check_quotes5(var, *lst, str);
 		var->lock++;
 	}
 	return (str);
@@ -82,7 +101,6 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 {
 	t_var		var;
 	extern int	g_exit_status;
-	t_token		*temp;
 
 	var.lock = 0;
 	var.quotes_check = 0;
@@ -99,16 +117,7 @@ int	check_quotes(t_token **lst, char *line, int *x, t_env *env_parse)
 	if (var.str[0] && !var.lock)
 	{
 		ft_lstadd_back(lst, ft_lstnew(var.str));
-		if ((!ft_strcmp(var.str, "|")) && var.quotes_check)
-		{
-			temp = *lst;
-			while (temp)
-			{
-				if (!temp->next)
-					temp->av_quotes = 1;
-				temp = temp->next;
-			}
-		}
+		check_quotes5(&var, *lst, var.str);
 	}
 	return (free (var.str), 0);
 }
