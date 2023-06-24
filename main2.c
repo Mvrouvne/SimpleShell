@@ -6,29 +6,12 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 05:01:40 by otitebah          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/24 13:09:40 by machaiba         ###   ########.fr       */
-=======
-/*   Updated: 2023/06/24 05:10:43 by otitebah         ###   ########.fr       */
->>>>>>> 9be0bdc2ab4fee236364caea82e2ec4046f74b3b
+/*   Updated: 2023/06/24 13:13:01 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-<<<<<<< HEAD
-void	handler(int num)
-{
-	extern int	g_exit_status;
-
-	(void) num;
-	g_exit_status = 1;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-=======
 // void	handler(int num)
 // {
 // 	(void) num;
@@ -37,7 +20,6 @@ void	handler(int num)
 // 	rl_replace_line("", 0);
 // 	rl_redisplay();
 // }
->>>>>>> 9be0bdc2ab4fee236364caea82e2ec4046f74b3b
 
 char	**get_env_copy(t_list *saving_env)
 {
