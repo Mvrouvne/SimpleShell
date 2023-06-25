@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:06:36 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/25 18:03:04 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:28:46 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	equal_no_plus(t_list **saving_expo, t_list **saving_env, char *str)
 	char	**spl_p;
 
 	spl_p = ft_split(str, '=');
-	node = search_node(*saving_expo, spl_p[0]);
+	node = search_node1(*saving_expo, spl_p[0]);
 	node2 = search_node(*saving_env, spl_p[0]);
 	if (node)
 		equal_no_plus_utils(spl_p, saving_env, node, node2);

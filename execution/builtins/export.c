@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/25 18:45:07 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:40:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	export_a_utils(t_list **saving_env, t_list **saving_expo, t_args *p,
 {
 	char	**spl_p;
 
-	if (search_egal(p->args[i]) == 1 && search_plus(p->args[i]) == 0)
-		equal_no_plus(saving_expo, saving_env, p->args[i]);
-	else if (search_plus(p->args[i]) == 0 && search_egal(p->args[i]) == 0
+	if (search_egal(p->args[i]) == 1 && search_plus(p->args[i]) == 0
 		&& !search_node(*saving_expo, p->args[i]))
+		equal_no_plus(saving_expo, saving_env, p->args[i]);
+	else if (search_plus(p->args[i]) == 0 && search_egal(p->args[i]) == 0)
 		(*saving_expo) = export(p->args[i], &(*saving_expo));
 	else if (search_egal(p->args[i]) == 3 && search_node1((*saving_expo), p->args[i]) == NULL)
 	{
