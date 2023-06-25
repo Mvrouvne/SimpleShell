@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:45:56 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/23 03:14:10 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:48:21 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ char	*expand(t_token *lst, char *line, int *x, t_env *env_parse)
 	if (var2.expanded)
 		var2.check2++;
 	expand6(&var2);
-	if ((var2.check1 && !var2.check2) || var2.check3)
-		return (expanded5(var2.to_expand, var2.str), NULL);
+	if ((var2.check1 && !var2.check2) || (var2.check3 && var2.check1))
+		return (expanded5(var2.to_expand, var2.str), free(var2.expanded), NULL);
 	*x = var2.y;
 	(free (var2.to_expand), free (var2.str));
 	return (var2.expanded);

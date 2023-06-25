@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:46:19 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 20:59:14 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:22:41 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	lexing3(t_token	**lst)
 int	lexing(char *line, t_token **lst, int *x, t_env *env_parse)
 {
 	t_token	*temp;
+
 	if (!(ft_strcmp(line, "\0")))
 		return (1);
 	while (line[*x] == ' ' || line[*x] == '\t')

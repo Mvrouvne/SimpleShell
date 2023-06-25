@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 05:01:40 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/25 15:11:54 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:53:30 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handler(int num)
 {
 	extern int	g_exit_status;
-	
+
 	g_exit_status = 1;
 	(void) num;
 	printf("\n");

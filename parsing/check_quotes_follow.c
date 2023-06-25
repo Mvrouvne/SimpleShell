@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:22:22 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 17:23:56 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:44:54 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@ void	check_quotes_follow2(int *x, t_token **lst,
 		{
 			var->str2 = expand(*lst, var->line, x, env_parse);
 			if (var->str2)
-			{
-				free (var->str);
-				var->str = ft_strjoin(var->str, var->str2);
-				free (var->str2);
-			}
+				var->str = ft_join_free(var->str, var->str2);
 			else
 				free (var->str2);
 		}
