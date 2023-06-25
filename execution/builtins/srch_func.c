@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:19:14 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/22 22:51:31 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:56:20 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	search_node_1(t_list *saving_expo, char *node)
 	tmp = saving_expo;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->value, node, (ft_strlen(node) - 1)) == 0)
+		if (ft_strncmp(tmp->value, node, (ft_strlen(node))) == 0)
 		{
 			return (1);
 		}

@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:13:57 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/24 15:01:08 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:55:08 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	export_a_utils(t_list **saving_env, t_list **saving_expo, t_args *p,
 		equal_no_plus(saving_expo, saving_env, p->args[i]);
 	else if (search_plus(p->args[i]) == 2)
 	{
+		puts("hana");
 		spl_p = ft_split(p->args[i], '+');
 		if (if_plus(saving_expo, saving_env, p->args[i]) == 1)
 			;
