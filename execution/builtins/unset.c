@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:51:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/25 15:08:48 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:19:07 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	unset(t_list **head, char *key)
 
 void	unset_util(t_list **saving_env, t_list **saving_expo, char *str)
 {
-	if (search_home(*saving_expo, str))
+	if (search_home_unset(*saving_expo, str))
 		unset(saving_expo, str);
-	if (search_home(*saving_env, str))
+	if (search_home_unset(*saving_env, str))
 		unset(saving_env, str);
 }
