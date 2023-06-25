@@ -6,7 +6,7 @@
 /*   By: otitebah <otitebah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:51:02 by otitebah          #+#    #+#             */
-/*   Updated: 2023/06/25 00:16:41 by otitebah         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:08:48 by otitebah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,27 @@ void	unset(t_list **head, char *key)
 {
 	t_list	*cur;
 	t_list	*prev;
-	char	*join;
 
 	cur = (*head);
 	prev = NULL;
-	join = ft_strjoin(key, "=");
-	while ((cur && cur->next != NULL) && (ft_strncmp(cur->value, join,
-				ft_strlen(join)) || search_egal(cur->value) == 0))
+	while (cur && cur->next != NULL && ft_strncmp(cur->value, key,
+			ft_strlen(key)))
 	{
 		prev = cur;
 		cur = cur->next;
 	}
 	if (prev == NULL && cur)
-		norm(head, cur);
-	else if (cur && prev && (ft_strncmp(cur->value, join, ft_strlen(join)) == 0
-			|| search_egal(cur->value) == 0))
 	{
-		prev->next = cur->next;
-		free (cur->value);
+		(*head) = cur->next;
+		free(cur->value);
 		free(cur);
 	}
-	free(join);
+	else if (cur && prev && ft_strncmp(cur->value, key, ft_strlen(key)) == 0)
+	{
+		prev->next = cur->next;
+		free(cur->value);
+		free(cur);
+	}
 }
 
 void	unset_util(t_list **saving_env, t_list **saving_expo, char *str)
