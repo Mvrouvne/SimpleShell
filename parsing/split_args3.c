@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:53:36 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/25 15:22:30 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:52:09 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	split_args3_follow2(t_token *temp, t_args **args, int *in)
 {
 	(void)temp;
 	(void)args;
-	extern int	g_exit_status;
-
 	*in = 1;
 }
 
