@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:53:36 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/24 18:34:32 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:22:30 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ void	split_args3_follow2(t_token *temp, t_args **args, int *in)
 	extern int	g_exit_status;
 
 	*in = 1;
-	// if ((*args)->infile == -1)
-	// {
-	// 	perror(temp->next->data);
-	// 	g_exit_status = 1;
-	// }
 }
 
 void	split_args3_follow(t_token *temp, t_args **args, int *out)
