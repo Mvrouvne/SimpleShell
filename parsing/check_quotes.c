@@ -6,7 +6,7 @@
 /*   By: machaiba <machaiba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:31 by machaiba          #+#    #+#             */
-/*   Updated: 2023/06/25 15:53:01 by machaiba         ###   ########.fr       */
+/*   Updated: 2023/06/28 13:32:42 by machaiba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 void	check_quotes5(t_var *var, t_token *lst, char *str)
 {
 	t_token	*temp;
-	int		check;
 	int		x;
 
-	check = 0;
 	x = 0;
 	while (str[x])
 	{
